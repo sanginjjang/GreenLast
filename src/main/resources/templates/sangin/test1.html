@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Page without Aside</title>
+</head>
+<body>
+<!-- aside (비워둠) -->
+<th:block layout:fragment="aside">
+    <!-- aside가 없는 경우 -->
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content">
+    <h1>문제 발생...</h1>
+</div>
+
+</body>
+<div layout:fragment="scripts">
+    <script>
+    </script>
+</div>
+</html>
