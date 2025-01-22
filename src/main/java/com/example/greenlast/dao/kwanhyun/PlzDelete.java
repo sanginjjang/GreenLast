@@ -1,4 +1,4 @@
-package com.example.greenlast.controllers.api.dongha;
+package com.example.greenlast.dao.kwanhyun;
 
 /**
  * Created on 2025-01-21 by 한상인
