@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/sangin/test")
-public class TestController {
+public class SanginController {
 
     @GetMapping("/0")
     @ResponseBody

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/css/sangin/registUserForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+<div id="regist_section">
+    <div style="width: 390px;">
+        <div id="section_top">
+            <div id="top_text1">회원가입</div>
+            <div id="top_text2">Mazayo에서 학습한 역량을 펼쳐보세요.</div>
+        </div>
+        <div id="section_id">
+            <div class="just_text">아이디</div>
+            <div id="id_input_box">
+                <input type="text" id="inputId">
+                <div id="id_check">중복검사</div>
+            </div>
+        </div>
+        <div id="section_pw">
+            <div class="just_text">비밀번호</div>
+            <input type="text" id="inputPw1">
+            <div id="pw_description">
+                <span><i class="fa-solid fa-check"></i>영문/숫자/특수문자 중, 2가지 이상 포함</span>
+                <span><i class="fa-solid fa-check"></i>8자 이상 32자 이하 입력(공백 제외)</span>
+                <span><i class="fa-solid fa-check"></i>연속 3자 이상 동일한 문자/숫자 제외</span>
+            </div>
+            <div class="just_text" style="margin-top: 10px;">비밀번호 확인</div>
+            <input type="text" id="inputPw2">
+        </div>
+        <div id="section_name_gender">
+            <div id="name_gender_text">
+                <div class="just_text" style="margin-right: 270px;">이름</div>
+                <div class="just_text">성별</div>
+            </div>
+            <div id="name_gender_box">
+                <input type="text" id="inputName" placeholder="이름을 입력하세요">
+                <select id="inputGender">
+                    <option value="">선택</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+            </div>
+        </div>
+        <div id="section_birth">
+            <div class="just_text">생년월일</div>
+            <div id="birth_section">
+                <select name="" id="inputYear" class="inputBirth"></select>
+                <select name="" id="inputMonth" class="inputBirth"></select>
+                <select name="" id="inputDay" class="inputBirth"></select>
+            </div>
+        </div>
+        <div id="section_email">
+            <div class="just_text">이메일</div>
+            <input type="text" id="inputEmail">
+        </div>
+        <div id="section_phone">
+            <div class="just_text">휴대전화</div>
+            <input type="text" id="inputPhone">
+        </div>
+        <button id="regist_btn">가입하기</button>
+        <div id="section_agree">
+            <div id="agree_text">[필수] 서비스 이용 약관 및 개인정보 처리방침에 동의합니다.
+            </div>
+            <input type="checkbox" id="agree_check">
+        </div>
+        <div id="section_simple_regist">제로어쓰</div>
+    </div>
+</div>
+</body>
+<script src="/js/sangin/registUserForm.js">
+
+</script>
+
+</html>
