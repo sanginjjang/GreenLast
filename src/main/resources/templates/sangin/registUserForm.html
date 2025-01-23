@@ -6,6 +6,7 @@
     <title>회원가입</title>
     <link rel="stylesheet" href="/css/sangin/registUserForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -18,13 +19,15 @@
         <div id="section_id">
             <div class="just_text">아이디</div>
             <div id="id_input_box">
-                <input type="text" id="inputId">
-                <div id="id_check">중복검사</div>
+                <input type="text" id="inputId" name="userId" oninput="checkUserId()">
+                <div id="id_check" onclick="checkDuplicateId()">중복검사</div>
             </div>
+            <div id="id_error_message" style="color: red; font-size: 0.9em;"></div> <!-- 에러 메시지 표시 -->
         </div>
+
         <div id="section_pw">
             <div class="just_text">비밀번호</div>
-            <input type="text" id="inputPw1">
+            <input type="text" id="inputPw1" name="password">
             <div id="pw_description">
                 <span><i class="fa-solid fa-check"></i>영문/숫자/특수문자 중, 2가지 이상 포함</span>
                 <span><i class="fa-solid fa-check"></i>8자 이상 32자 이하 입력(공백 제외)</span>
@@ -39,8 +42,8 @@
                 <div class="just_text">성별</div>
             </div>
             <div id="name_gender_box">
-                <input type="text" id="inputName" placeholder="이름을 입력하세요">
-                <select id="inputGender">
+                <input type="text" id="inputName" placeholder="이름을 입력하세요" name="name">
+                <select id="inputGender" name="gender">
                     <option value="">선택</option>
                     <option value="male">남성</option>
                     <option value="female">여성</option>
@@ -50,18 +53,18 @@
         <div id="section_birth">
             <div class="just_text">생년월일</div>
             <div id="birth_section">
-                <select name="" id="inputYear" class="inputBirth"></select>
-                <select name="" id="inputMonth" class="inputBirth"></select>
-                <select name="" id="inputDay" class="inputBirth"></select>
+                <select name="year" id="inputYear" class="inputBirth"></select>
+                <select name="month" id="inputMonth" class="inputBirth"></select>
+                <select name="day" id="inputDay" class="inputBirth"></select>
             </div>
         </div>
         <div id="section_email">
             <div class="just_text">이메일</div>
-            <input type="text" id="inputEmail">
+            <input type="text" id="inputEmail" name="email">
         </div>
         <div id="section_phone">
             <div class="just_text">휴대전화</div>
-            <input type="text" id="inputPhone">
+            <input type="text" id="inputPhone" name="phoneNumber">
         </div>
         <button id="regist_btn">가입하기</button>
         <div id="section_agree">
@@ -74,7 +77,5 @@
 </div>
 </body>
 <script src="/js/sangin/registUserForm.js">
-
 </script>
-
 </html>
