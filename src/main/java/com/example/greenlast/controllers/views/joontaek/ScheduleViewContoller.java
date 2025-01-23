@@ -10,6 +10,8 @@ public class ScheduleViewContoller {
 
     @RequestMapping("/")
     public String index() {
+
+
         return "/joontaek/schedule";
     }
 }

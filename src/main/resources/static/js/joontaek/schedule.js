@@ -1,145 +1,224 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//     var calendarEl = document.getElementById('calendar');
-//     var calendar = new FullCalendar.Calendar(calendarEl, {
-//         initialView: 'dayGridMonth',
-//         selectable: true,
-//         events: [
-//             {
-//                 title: '물주기',
-//                 start: '2025-01-01'
-//             },
-//             {
-//                 title: '뚜껑 닫기',
-//                 start: '2025-01-03',
-//                 end: '2025-01-05'
-//             }
-//         ],
-//
-//
-//         select: function(info) {
-//             let title = prompt('일정 제목을 입력하세요:');
-//             if (title) {
-//
-//                 console.log("상준씨 왜이래요?");
-//                 console.log(info);
-//                 console.log("ㅋㅋ");
-//                 let newEvent = {
-//                     title: title,
-//                     startDate: info.startStr,  // ISO 형식 "2025-01-01T00:00:00"
-//                     endDate: info.endStr || info.startStr,
-//                     content : "김상준의 스케쥴"// 끝 날짜가 없으면 시작 날짜로 설정
-//                 };
-//
-//
-//
-//                 //-------------------------------
-//                 //-------------------------------//-------------------------------
-//                 //-------------------------------
-//
-//
-//                 axios.post('/api/schedule/save', newEvent, {
-//                     headers: {
-//
-//                         'Content-Type': 'application/json'
-//                     }
-//
-//                 })
-//
-//                     .then(function(response) {
-//                         if(response.data.success) {
-//                             calendar.addEvent(newEvent);
-//                             alert('일정이 추가되었습니다!');
-//                         } else {
-//                             alert('일정 추가 실패!');
-//                         }
-//                     })
-//                     .catch(function(error) {
-//                         console.error('서버 오류 발생:', error);
-//                         alert('서버 오류 발생!');
-//                     });
-//             }
-//
-//             calendar.unselect();
-//         }
-//     });
-//
-//     calendar.render();
-// });
-//
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',  // 기본 월별 보기
-        selectable: true,             // 날짜 선택 가능
+        initialView: 'dayGridMonth',
+        headerToolbar:{
+            left:'prev',
+            center:'title',
+            right:'next',
 
-        // 서버에서 일정 가져오기 (페이지 로드 시 자동 실행)
-        events: function(fetchInfo, successCallback, failureCallback) {
+        },
+        selectable: true,
+        editable: true,  // 일정 드래그 및 크기 조절 가능
+        locale: 'ko',  // 한국어 설정
+        buttonText: {
+            today: '오늘',
+            month: '월',
+            week: '주',
+            day: '일',
+            list: '목록'
+        },
+        // 서버에서 일정 불러오기
+        events: function (fetchInfo, successCallback, failureCallback) {
             axios.get('/api/schedule/list')
-                .then(function(response) {
-                    successCallback(response.data);
+                .then(response => {
+                    console.log(response.data);
+                    let events = response.data.map(event => ({
+                        id: event.scheduleId,
+                        title: event.title,
+                        start: event.startDate,
+                        end: event.endDate,
+                        backgroundColor: event.color || '#3788d8',
+                        extendedProps: { content: event.content }
+                    }));
+                    successCallback(events);
                 })
-                .catch(function(error) {
+                .catch(error => {
                     console.error('일정 불러오기 실패:', error);
                     failureCallback(error);
                 });
         },
 
-        // 일정 추가 기능
-        select: function(info) {
-            let title = prompt('일정 제목을 입력하세요:');
-            let content = prompt('일정 내용을 입력하세요:');
+        // 일정 클릭 시 상세 모달 표시
+        eventClick: function (info) {
+            document.getElementById('scheduleTitle').value = info.event.title;
+            document.getElementById('scheduleContent').value = info.event.extendedProps.content || '';
+            document.getElementById('scheduleStart').value = formatDateToLocalISOString(info.event.start);
+            document.getElementById('scheduleEnd').value = info.event.end ? formatDateToLocalISOString(info.event.end) : formatDateToLocalISOString(info.event.start);
+            document.getElementById('scheduleColor').value = info.event.backgroundColor;
+            document.getElementById('scheduleId').value = info.event.id;
+            document.getElementById('deleteScheduleBtn').style.display = 'block';
 
-            if (title && content) {
-                console.log("일정 추가 정보:", info);
-
-                let newEvent = {
-                    title: title,
-                    content: content,  // 일정 내용 추가
-                    startDate: info.startStr,  // ISO 형식 "2025-01-01T00:00:00"
-                    endDate: info.endStr || info.startStr  // 종료 날짜가 없으면 시작 날짜로 설정
-                };
-
-                // 서버로 일정 전송
-                axios.post('/api/schedule/save', newEvent, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(function(response) {
-                        if (response.data.success) {
-                            newEvent.id = response.data.id;  // 서버에서 받은 ID 할당
-                            calendar.addEvent(newEvent);  // 캘린더에 즉시 추가
-                            alert('일정이 추가되었습니다!');
-                        } else {
-                            alert('일정 추가 실패!');
-                        }
-                    })
-                    .catch(function(error) {
-                        console.error('서버 오류 발생:', error);
-                        alert('서버 오류 발생!');
-                    });
-            }
-
-            calendar.unselect();  // 선택 해제
+            var scheduleModal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+            scheduleModal.show();
         },
 
-        // 일정 클릭 시 삭제 기능
-        eventClick: function(info) {
-            if (confirm(`'${info.event.title}' 일정을 삭제하시겠습니까?`)) {
-                axios.delete(`/api/schedule/delete/${info.event.id}`)
-                    .then(response => {
-                        if (response.data.success) {
-                            info.event.remove();  // 캘린더에서 즉시 삭제
-                            alert('일정이 삭제되었습니다!');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('일정 삭제 오류:', error);
-                        alert('일정 삭제 실패!');
-                    });
-            }
+        // 일정 드래그(이동) 시 자동 저장
+        eventDrop: function (info) {
+            let movedEvent = {
+                scheduleId: info.event.id,
+                title: info.event.title,
+                content: info.event.extendedProps.content || '',
+                startDate: formatDateToLocalISOString(info.event.start),
+                endDate: info.event.end ? formatDateToLocalISOString(info.event.end) : formatDateToLocalISOString(info.event.start),
+                color: info.event.backgroundColor
+            };
+
+            axios.put('/api/schedule/update', movedEvent)
+                .then(response => {
+                    if (response.data.success) {
+                        alert('일정이 이동되었습니다!');
+                    } else {
+                        alert('일정 이동 실패!');
+                    }
+                })
+                .catch(error => {
+                    console.error('일정 이동 오류:', error);
+                    alert('서버 오류 발생!');
+                });
+        },
+
+        // 일정 크기 조절 시 자동 저장
+        eventResize: function (info) {
+            let updatedEvent = {
+                scheduleId: info.event.id,
+                title: info.event.title,
+                content: info.event.extendedProps.content || '',
+                startDate: formatDateToLocalISOString(info.event.start),
+                endDate: formatDateToLocalISOString(info.event.end),
+                color: info.event.backgroundColor
+            };
+
+            axios.put('/api/schedule/update', updatedEvent)
+                .then(response => {
+                    if (response.data.success) {
+                        alert('일정이 수정되었습니다!');
+                    } else {
+                        alert('일정 수정 실패!');
+                    }
+                })
+                .catch(error => {
+                    console.error('일정 수정 오류:', error);
+                    alert('서버 오류 발생!');
+                });
+        },
+
+        // 날짜 클릭 시 일정 추가 모달 표시
+        select: function (info) {
+            document.getElementById('scheduleForm').reset();
+            document.getElementById('scheduleStart').value = info.startStr;
+            document.getElementById('scheduleEnd').value = info.endStr || info.startStr;
+            document.getElementById('scheduleId').value = '';
+            document.getElementById('deleteScheduleBtn').style.display = 'none';
+
+            var scheduleModal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+            scheduleModal.show();
         }
     });
 
     calendar.render();
+
+    // 일정 저장 처리
+    document.getElementById('saveScheduleBtn').addEventListener('click', function () {
+        let id = document.getElementById('scheduleId').value;
+        let title = document.getElementById('scheduleTitle').value;
+        let content = document.getElementById('scheduleContent').value;
+        let start = document.getElementById('scheduleStart').value;
+        let end = document.getElementById('scheduleEnd').value;
+        let color = document.getElementById('scheduleColor').value;
+
+        let scheduleData = {
+            title: title,
+            content: content,
+            startDate: start,
+            endDate: end,
+            color: color
+        };
+
+        if (id) {
+            scheduleData.scheduleId = id;
+            axios.put('/api/schedule/update', scheduleData)
+                .then(response => {
+                    if (response.data.success) {
+                        let event = calendar.getEventById(id);
+                        event.setProp('title', title);
+                        event.setExtendedProp('content', content);
+                        event.setProp('backgroundColor', color);
+                        alert('일정이 수정되었습니다!');
+                    }
+                });
+        } else {
+            axios.post('/api/schedule/save', scheduleData)
+                .then(response => {
+                    if (response.data.success) {
+                        calendar.addEvent({
+                            id: response.data.id,
+                            title: title,
+                            start: start,
+                            end: end,
+                            backgroundColor: color,
+                            extendedProps: { content: content }
+                        });
+                        alert('일정이 추가되었습니다!');
+                    }
+                });
+        }
+
+        bootstrap.Modal.getInstance(document.getElementById('scheduleModal')).hide();
+    });
+
+    // 일정 삭제 처리
+    document.getElementById('deleteScheduleBtn').addEventListener('click', function () {
+        let id = document.getElementById('scheduleId').value;
+
+        if (!id) {
+            alert("일정 ID가 없습니다. 다시 시도해주세요!");
+            return;
+        }
+
+        if (confirm("정말 삭제하시겠습니까?")) {
+            axios.delete(`/api/schedule/delete/${id}`)
+                .then(response => {
+                    if (response.data.success) {
+                        calendar.getEventById(id).remove();
+                        alert('일정이 삭제되었습니다!');
+                    } else {
+                        alert('일정 삭제 실패!');
+                    }
+                })
+                .catch(error => {
+                    console.error('일정 삭제 오류:', error);
+                    alert('서버 오류 발생!');
+                });
+        }
+
+        bootstrap.Modal.getInstance(document.getElementById('scheduleModal')).hide();
+    });
+
+    // 날짜 포맷 조정 함수 (로컬 시간 처리)
+    function formatDateToLocalISOString(date) {
+        let localDate = new Date(date);
+        localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
+        return localDate.toISOString().slice(0, 10);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const colorOptions = document.querySelectorAll('.color-option');
+    const scheduleColorInput = document.getElementById('scheduleColor');
+
+    colorOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            const selectedColor = this.getAttribute('data-color');
+
+            // 색상 변경
+            scheduleColorInput.value = selectedColor;
+
+            // 이전 선택된 색상 제거
+            colorOptions.forEach(opt => opt.classList.remove('selected'));
+
+            // 선택된 색상 강조
+            this.classList.add('selected');
+        });
+    });
 });
