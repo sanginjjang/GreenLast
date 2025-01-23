@@ -4,7 +4,35 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.greenlast.dao.joontaek.ScheduleDao">
     <insert id="insertSchedule">
-        INSERT INTO schedule (user_id, title, content, start_date, end_date)
-        VALUES (#{userId}, #{title} ,#{content}, #{startDate}, #{endDate})
+        INSERT INTO schedule (user_id, title, content, color ,start_date, end_date)
+        VALUES (#{userId}, #{title} ,#{content},#{color}, #{startDate}, #{endDate})
     </insert>
+
+    <select id="getSchedule" resultType="com.example.greenlast.dto.ScheduleDTO">
+        SELECT schedule_id AS scheduleId, user_id , title, content, color, start_date AS startDate, end_date AS endDate
+        FROM schedule
+        WHERE user_id = #{userId}
+    </select>
+
+    <delete id="deleteSchedule">
+        DELETE FROM schedule WHERE schedule_id = #{scheduleId}
+    </delete>
+
+    <select id="getScheduleByDate" resultType="com.example.greenlast.dto.ScheduleDTO">
+        SELECT schedule_id AS scheduleId, title, content, start_date AS startDate, end_date AS endDate
+        FROM schedule
+        WHERE DATE(start_date) = #{date}
+    </select>
+
+    <update id="updateSchedule" parameterType="com.example.greenlast.dto.ScheduleDTO">
+        UPDATE schedule
+        SET
+        title = #{title},
+        content = #{content},
+        start_date = #{startDate},
+        end_date = #{endDate},
+        color = #{color}
+        WHERE schedule_id = #{scheduleId}
+    </update>
+
 </mapper>
