@@ -26,12 +26,22 @@ import java.util.List;
 public class ViewAdminController {
     private final AdminService adminService;
 
-    @GetMapping("/chart")
+    @GetMapping("/chartView")
     public String chart(Model model) {
         model.addAttribute("daily", adminService.getDailyUsers());
         model.addAttribute("ageGroup", adminService.getAgeGroups());
         model.addAttribute("gender", adminService.getGenders());
-        return "/dongha/adminChart";
+        return "/dongha/chartView";
+    }
+
+    @GetMapping("/classView")
+    public String classView(Model model) {
+        return null;
+    }
+
+    @GetMapping("/userView")
+    public String userView(Model model) {
+        return "/dongha/userView";
     }
 
 }
