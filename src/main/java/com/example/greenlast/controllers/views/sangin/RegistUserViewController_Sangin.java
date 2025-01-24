@@ -11,12 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/view")
 public class RegistUserViewController_Sangin {
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // 생성자 주입으로 BCryptPasswordEncoder 주입
-    public RegistUserViewController_Sangin(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
 
     @GetMapping("/registUserForm")
     public String registUserForm() {

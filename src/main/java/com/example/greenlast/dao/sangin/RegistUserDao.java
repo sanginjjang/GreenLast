@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface RegistUserDao {
-    public void registUser(UserDTO user);
+    public int registUser(UserDTO user);
     public Boolean checkUserId(String userId);
+    public Boolean checkUserPhoneNumber(String phoneNumber);
+    public Boolean checkUserEmail(String email);
 }

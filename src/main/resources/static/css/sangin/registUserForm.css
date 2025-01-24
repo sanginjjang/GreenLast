@@ -55,14 +55,14 @@ input {
 }
 
 #top_text1 {
-    font-size: 25px;
+    font-size: 35px;
     font-weight: bold;
 }
 
 /* id */
 
 #section_id {
-    margin-top: 30px;
+    margin-top: 45px;
 }
 
 .just_text {
@@ -94,6 +94,7 @@ input {
     height: 45px;
     border-left: 1px #ddd solid;
     border-radius: 10px;
+    border: none;
     max-width: 90px;
     background-color: #0092ff;
     color: white;
@@ -157,7 +158,9 @@ input {
     max-width: 90px;
     min-width: 90px;
     border-radius: 10px;
-    color: gray;
+    color: rgba(0, 0, 0, 0.91);
+    font-weight: bold;
+
 }
 
 /* birth */

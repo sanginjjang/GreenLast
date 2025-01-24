@@ -25,11 +25,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/login", "/logout").permitAll()
-//                        .anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                                .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**").permitAll()
+                                .anyRequest().authenticated()
+//                                .anyRequest().permitAll()
                 )
                 .formLogin(form -> form // 기본 로그인 폼 활성화
+//                        .loginPage("/view/loginForm")
+                        .defaultSuccessUrl("/")
                         .permitAll() // 로그인 페이지 접근 허용
                 )
                 .addFilterBefore(
