@@ -20,4 +20,5 @@ public class ClassDTO {
     private String classPermit;
     private String classRecom;
     private String classLevel;
+    private String thumbNail;
 }
