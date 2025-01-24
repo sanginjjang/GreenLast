@@ -13,13 +13,12 @@
     </select>
 
     <select id="findAgeGroup" resultType="com.example.greenlast.dto.AgeGroupDTO">
-        SELECT
-        CASE
-        WHEN (YEAR(CURRENT_DATE) - (birth DIV 10000)) &lt; 20 THEN 'Under 20'
-        WHEN (YEAR(CURRENT_DATE) - (birth DIV 10000)) BETWEEN 20 AND 29 THEN '20-29'
-        WHEN (YEAR(CURRENT_DATE) - (birth DIV 10000)) BETWEEN 30 AND 39 THEN '30-39'
-        WHEN (YEAR(CURRENT_DATE) - (birth DIV 10000)) BETWEEN 40 AND 49 THEN '40-49'
-        ELSE '50+'
+        SELECT CASE
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) &lt; 20 THEN '20세 이하'
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) BETWEEN 20 AND 29 THEN '20세-29세'
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) BETWEEN 30 AND 39 THEN '30세-39세'
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) BETWEEN 40 AND 49 THEN '40세-49세'
+        ELSE '50세 이상'
         END AS ageGroup,
         COUNT(user_id) AS count
         FROM user
@@ -28,5 +27,9 @@
 
     <select id="findGender" resultType="com.example.greenlast.dto.GenderDTO">
         SELECT gender, COUNT(user_id) AS count FROM user GROUP BY gender ORDER BY gender DESC
+    </select>
+
+    <select id="findUser" resultType="com.example.greenlast.dto.UserDTO">
+        SELECT user_id, PASSWORD, NAME, phone_number, email, birth, gender, created_at FROM user;
     </select>
 </mapper>
