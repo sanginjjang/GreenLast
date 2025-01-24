@@ -3,6 +3,7 @@ package com.example.greenlast.controllers.api.dongha;
 import com.example.greenlast.dto.AgeGroupDTO;
 import com.example.greenlast.dto.DailyUserDTO;
 import com.example.greenlast.dto.GenderDTO;
+import com.example.greenlast.dto.UserDTO;
 import com.example.greenlast.service.dongha.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,16 +33,18 @@ public class AdminController {
         List<DailyUserDTO> daily = adminService.getDailyUsers();
         return ResponseEntity.ok(daily);
     }
-
     @GetMapping("/age-group")
     public ResponseEntity<List<AgeGroupDTO>> getAgeGroups() {
         List<AgeGroupDTO> ageGroups = adminService.getAgeGroups();
         return ResponseEntity.ok(ageGroups);
     }
-
     @GetMapping("/gender")
     public ResponseEntity<List<GenderDTO>> getGenders() {
         List<GenderDTO> genders = adminService.getGenders();
         return ResponseEntity.ok(genders);
     }
+//    @GetMapping("/joinUser")
+//    public ResponseEntity<List<UserDTO>> getUsers() {
+//        List
+//    }
 }
