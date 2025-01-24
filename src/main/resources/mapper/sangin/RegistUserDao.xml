@@ -6,4 +6,35 @@
     <select id="checkUserId">
         select * from user where user_id = #{userId}
     </select>
+    <select id="checkUserEmail">
+        select * from user where email = #{email}
+    </select>
+    <select id="checkUserPhoneNumber">
+        select * from user where phone_number = #{phoneNumber}
+    </select>
+    <insert id="registUser">
+        INSERT INTO user (
+        user_id,
+        password,
+        name,
+        phone_number,
+        email,
+        birth,
+        gender,
+        role,
+        created_at,
+        user_image
+        ) VALUES (
+        #{userId},
+        #{password},
+        #{name},
+        #{phoneNumber},
+        #{email},
+        #{birth},
+        #{gender},
+        "ROLE_USER",
+        NOW(),
+        NULL
+        )
+    </insert>
 </mapper>

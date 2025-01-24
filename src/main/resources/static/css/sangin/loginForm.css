@@ -74,6 +74,7 @@ body {
     background-color: #0092ff;
     color: white;
     font-weight: bold;
+    cursor: pointer;
 }
 
 #find_userDetails {
