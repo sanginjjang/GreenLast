@@ -26,8 +26,8 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**").permitAll()
-                                .anyRequest().authenticated()
-//                                .anyRequest().permitAll()
+//                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .formLogin(form -> form // 기본 로그인 폼 활성화
 //                        .loginPage("/view/loginForm")
