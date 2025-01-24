@@ -36,7 +36,7 @@ public class ViewAdminController {
 
     @GetMapping("/classView")
     public String classView(Model model) {
-        return null;
+        return "/dongha/classView";
     }
 
     @GetMapping("/userView")
