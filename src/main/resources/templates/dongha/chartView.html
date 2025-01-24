@@ -8,9 +8,34 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .chart-container {
-            text-align: center; /* 차트를 가운데로 정렬 */
-            margin: 0 auto; /* 자동으로 양옆 여백 추가 */
-            width: 80%; /* 차트 크기 조정 */
+            text-align: center;
+            width: 100%;
+        }
+        #dailyChart{
+            margin-bottom: 50px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 8px 4px 8px 4px rgb(204, 204, 204);
+        }
+        .chart-row {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+        .age, .gender {
+            width: 45%;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 8px 4px 8px 4px rgb(204, 204, 204);
+        }
+        .divider{
+            width: 2px;
+            height: 400px;
         }
     </style>
 </head>
@@ -28,11 +53,19 @@
 <!-- content -->
 <div layout:fragment="content" class="chart-container">
     <h2>일별 가입자 수</h2>
-    <canvas id="dailyChart" width="1100" height="400"></canvas>
-    <h2>나이별</h2>
-    <canvas id="ageGroupChart" width="1100" height="400"></canvas>
-    <H2>성별</H2>
-    <canvas id="genderChart" width="1100" height="400"></canvas>
+    <canvas id="dailyChart" width="1100" height="400"></canvas><hr>
+    <div class="chart-row">
+        <div class="age">
+            <h2>나이별</h2>
+            <canvas id="ageGroupChart" width="500" height="400"></canvas>
+        </div>
+        <div class="divider"></div>
+        <div class="gender">
+            <H2>성별</H2>
+            <canvas id="genderChart" width="500" height="400"></canvas>
+        </div>
+    </div>
+
 </div>
 </body>
 
@@ -41,12 +74,10 @@
     <script>
         axios.get('/admin-api/daily')
             .then(response => {
-                console.log(response.data);
                 const data = response.data;
                 const dates = data.map(item => item.date);
                 const counts = data.map(item => item.count);
 
-                // Chart.js 막대 그래프
                 new Chart(document.getElementById("dailyChart"), {
                     type: 'bar',
                     data: {
@@ -62,8 +93,28 @@
                         scales: {
                             y: {
                                 ticks: {
-                                    stepSize: 1  // 눈금 간격을 1로 설정
+                                    stepSize: 1
                                 }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                align: 'center',
+                                labels: {
+                                    boxWidth: 20,
+                                    padding: 20,
+                                    font: {
+                                        size: 20
+                                    }
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: 20,
+                                right: 50
                             }
                         }
                     }
@@ -77,6 +128,9 @@
                 const labels = data.map(item => item.ageGroup);
                 const counts = data.map(item => item.count);
 
+                console.log(labels);
+                console.log(counts);
+
                 new Chart(document.getElementById("ageGroupChart"), {
                     type: 'pie',
                     data: {
@@ -88,6 +142,26 @@
                     options: {
                         responsive: false,
                         maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                align: 'center',
+                                labels: {
+                                    boxWidth: 20,
+                                    padding: 20,
+                                    font: {
+                                        size: 20
+                                    }
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: 20,
+                                right: 50
+                            }
+                        }
                     }
                 });
             })
@@ -110,6 +184,26 @@
                     options: {
                         responsive: false,
                         maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                align: 'center',
+                                labels: {
+                                    boxWidth: 20,
+                                    padding: 20,
+                                    font: {
+                                        size: 20
+                                    }
+                                }
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                left: 20,
+                                right: 50
+                            }
+                        }
                     }
                 });
             })
