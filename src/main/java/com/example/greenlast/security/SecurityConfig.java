@@ -23,11 +23,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("Security Filter Chain");
+        System.out.println("시큐리티 필터 체인 작동~~");
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
+//                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .defaultSuccessUrl("/") // 성공 후 리다이렉트 URL
