@@ -8,6 +8,7 @@ public class CookieUtil {
 
     // JWT를 쿠키에 추가하는 메서드
     public static void addTokenToCookie(HttpServletResponse response, String token) {
+        System.out.println("쿠키 발급!!");
         Cookie cookie = new Cookie("mazayotoken", token); // "mazayotoken" 이름으로 JWT 저장
         cookie.setHttpOnly(true); // JavaScript에서 접근 불가능 (XSS 방지)
         cookie.setSecure(true);   // HTTPS에서만 전송

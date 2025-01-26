@@ -23,16 +23,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        System.out.println("Security Filter Chain");
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**").permitAll()
-                                .anyRequest().authenticated()
-//                                .anyRequest().permitAll()
+                        .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(form -> form // 기본 로그인 폼 활성화
-//                        .loginPage("/view/loginForm")
-                        .defaultSuccessUrl("/")
-                        .permitAll() // 로그인 페이지 접근 허용
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/") // 성공 후 리다이렉트 URL
+                        .successHandler(new CustomAuthenticationSuccessHandler(jwtTokenProvider)) // 커스텀 성공 핸들러 등록
+                        .permitAll()
                 )
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtTokenProvider, "mazayotoken"),

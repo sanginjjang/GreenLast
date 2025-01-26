@@ -18,6 +18,7 @@ public class JwtTokenProvider {
 
     // JWT 생성
     public String createToken(String userId, String role) {
+        System.out.println("jwtTokenProvider 토큰 생성..");
         Date now = new Date();
         Date validity = new Date(now.getTime() + expiration);
 
