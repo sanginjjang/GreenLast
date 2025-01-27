@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="/css/sangin/loginForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<form action="/login" method="post">
+    <div id="section_login">
+        <div id="login_box">
+            <div id="close_section_login"><i class="fa-solid fa-x"></i></div>
+            <div id="login_logo">LOGO</div>
+            <input type="text" id="login_inputId" name="username" placeholder="아이디" required>
+            <input type="password" id="login_inputPw" name="password" placeholder="비밀번호" required>
+            <button type="submit" id="login_btn">로그인하기</button>
+            <div id="find_userDetails">
+                <div>아이디 찾기</div>
+                <div style="border-right:1px solid gray; border-left: 1px solid gray;">회원가입</div>
+                <div>비밀번호 찾기</div>
+            </div>
+            <div id="simple_login">
+                <div class="deco_border"></div>
+                <div id="simple_loginText">간편로그인</div>
+                <div class="deco_border"></div>
+            </div>
+            <div id="login_0auth">
+                <span>카카오톡</span>
+                <span>구글</span>
+                <span>네이버</span>
+            </div>
+        </div>
+    </div>
+
+</form>
+</body>
+<script src="/js/sangin/loginForm.js"></script>
+
+</html>

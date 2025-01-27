@@ -14,7 +14,7 @@
 
 <!-- content -->
 <div layout:fragment="content">
-    <h1>문제 발생...</h1>
+    <div th:if="id != null" th:text="${id}"></div>
 </div>
 
 </body>
