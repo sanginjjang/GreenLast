@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>마이 페이지</title>
+    <link rel="stylesheet" href="/css/sangin/myPageAside.css">
+    <link rel="stylesheet" href="/css/sangin/myPage_writtenReviewForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<!-- aside (사용 버전) -->
+<th:block layout:fragment="aside">
+    <!--<aside> 태그는 *꼭* 남겨두시고 안에서 작업하시면 됩니다 // 절대 지우시면 안돼요-->
+    <aside>
+        <div id="aside_section1">
+            <div id="aside_img">
+                <img th:src="@{/images/test.webp}" id="aside_img_img">
+                <i class="fa-solid fa-pen-to-square" id="aside_img_btn"></i>
+            </div>
+            <div id="aside_name">한상인</div>
+            <div id="aside_infos">
+                <div class="aside_info">
+                    <div>수강생수</div>
+                    <div>-</div>
+                </div>
+                <div class="aside_info">
+                    <div>잘생김수</div>
+                    <div>-</div>
+                </div>
+                <div class="aside_info">
+                    <div>뭐적지수</div>
+                    <div>-</div>
+                </div>
+            </div>
+        </div>
+        <div id="aside_section2">
+            <ul id="aside_menu_list">
+                <li><a href="/view/mypage/infoForm">개인정보 조회</a></li>
+                <li><a href="/view/mypage/writtenBoardForm">작성한 게시글</a></li>
+                <li><a href="/view/mypage/writtenCommentForm">작성한 댓글</a></li>
+                <li><a href="/view/mypage/writtenReviewForm" style="color: black; font-weight: bold;">작성한 수강평</a></li>
+                <li><a href="/view/mypage/purchaseHistoryForm">구매 내역</a></li>
+                <li><a href="/view/mypage/refundHistoryForm">환불 기록</a></li>
+            </ul>
+        </div>
+    </aside>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content">
+    <div id="content_container">
+        <div id="content_section1">
+            <div class="section1_category"><a href="/view/mypage/writtenBoardForm">게시글</a></div>
+            <div class="section1_category"><a href="/view/mypage/writtenCommentForm">댓글</a></div>
+            <div class="section1_category"><a href="/view/mypage/writtenReviewForm">수강평</a></div>
+        </div>
+        <div id="content_section2">
+            <div class="section2_box">
+                <div class="section2_main">
+                    <div class="section2_category">Q&A</div>
+                    <div class="section2_title">제목</div>
+                    <div class="section2_content">내용</div>
+                </div>
+                <div class="section2_footer">
+                    <div class="section2_footer_left">몇 초 전</div>
+                    <div class="section2_footer_right">
+                        <span><i class="fa-regular fa-thumbs-up"></i>좋아요수</span>
+                        <span><i class="fa-regular fa-eye"></i>조회수</span>
+                        <span><i class="fa-regular fa-message"></i>댓글수</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<!--이거밖에서 스크립트 작성하면 안돌아갑니다...-->
+<div layout:fragment="scripts">
+    <script>
+        <!--스크립트 여기 안에서 작성하시면 돼요~-->
+    </script>
+</div>
+</html>

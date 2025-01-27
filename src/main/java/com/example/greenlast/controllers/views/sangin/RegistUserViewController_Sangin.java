@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/view")
 public class RegistUserViewController_Sangin {
 
-
     @GetMapping("/registUserForm")
     public String registUserForm() {
         System.out.println("view/registUserForm...");
@@ -24,5 +23,5 @@ public class RegistUserViewController_Sangin {
         System.out.println("view/loginForm...");
         return "/sangin/loginForm";
     }
-    
+
 }
