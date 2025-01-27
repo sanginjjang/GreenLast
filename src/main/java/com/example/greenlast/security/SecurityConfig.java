@@ -27,8 +27,8 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**").permitAll()
-                        .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
+//                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .defaultSuccessUrl("/") // 성공 후 리다이렉트 URL
