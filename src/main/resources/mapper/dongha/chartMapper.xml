@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.dongha.IAdminDao">
+    <select id="findDailyUser" resultType="com.example.greenlast.dto.DailyUserDTO">
+        SELECT
+        DATE(created_at) AS date,
+        COUNT(user_id) AS count
+        FROM user
+        GROUP BY DATE(created_at)
+        ORDER BY DATE(created_at) ASC
+    </select>
+
+    <select id="findAgeGroup" resultType="com.example.greenlast.dto.AgeGroupDTO">
+        SELECT CASE
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) &lt; 20 THEN '20세 이하'
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) BETWEEN 20 AND 29 THEN '20세-29세'
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) BETWEEN 30 AND 39 THEN '30세-39세'
+        WHEN (YEAR(CURRENT_DATE) - LEFT(birth, 4)) BETWEEN 40 AND 49 THEN '40세-49세'
+        ELSE '50세 이상'
+        END AS ageGroup,
+        COUNT(user_id) AS count
+        FROM user
+        GROUP BY ageGroup
+    </select>
+
+    <select id="findGender" resultType="com.example.greenlast.dto.GenderDTO">
+        SELECT gender, COUNT(user_id) AS count FROM user GROUP BY gender ORDER BY gender DESC
+    </select>
+
+    <select id="findUser" resultType="com.example.greenlast.dto.UserDTO">
+        SELECT user_id, PASSWORD, NAME, phone_number, email, birth, gender, created_at FROM user;
+    </select>
+</mapper>
