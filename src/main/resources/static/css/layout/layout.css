@@ -4,6 +4,9 @@ body {
     padding: 0;
 }
 /* i */
+*{
+    box-sizing: border-box;
+}
 i {
     margin-right: 10px;
 }
@@ -113,14 +116,12 @@ main{
     display: flex;
     position: relative;
     width: 1400px;
-    gap: 5px;
 }
 /* common_main_content */
 /* aside (고정) */
 aside {
     position: fixed;
     box-sizing: border-box;
-    width: 295px;
     min-height: 500px;
 }
 
