@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ClassReviewDTO {
     private int reviewId;
-    private int userId;
+    private String userId;
     private int classId;
     private double rating;
     private String content;

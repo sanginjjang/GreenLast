@@ -30,6 +30,9 @@
     </select>
 
     <select id="findUser" resultType="com.example.greenlast.dto.UserDTO">
-        SELECT user_id, PASSWORD, NAME, phone_number, email, birth, gender, created_at FROM user;
+        SELECT
+        user_id AS userId, PASSWORD, NAME, phone_number AS phoneNumber, email, birth, gender, created_at AS createdAt
+        FROM user
+        ORDER BY created_at ASC
     </select>
 </mapper>
