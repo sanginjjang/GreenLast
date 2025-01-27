@@ -1,4 +1,4 @@
-package com.example.greenlast.controllers.api.joontaek;
+package com.example.greenlast.dao.joontaek;
 
 /**
  * Created on 2025-01-21 by 한상인
