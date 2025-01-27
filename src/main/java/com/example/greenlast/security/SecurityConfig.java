@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,17 +28,27 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**").permitAll()
-//                        .anyRequest().authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
+//                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
+                        .loginPage("/view/loginForm")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/") // 성공 후 리다이렉트 URL
                         .successHandler(new CustomAuthenticationSuccessHandler(jwtTokenProvider)) // 커스텀 성공 핸들러 등록
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // 로그아웃 URL
+                        .logoutSuccessHandler(new CustomLogoutSuccessHandler()) // 커스텀 로그아웃 성공 핸들러
                         .permitAll()
                 )
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtTokenProvider, "mazayotoken"),
                         UsernamePasswordAuthenticationFilter.class
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 Stateless로 설정
                 )
                 .build();
     }
