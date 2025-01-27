@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ScheduleDTO {
     private int scheduleId;
-    private int userId;
+    private String userId;
     private String title;
     private String description;
     private String startDate;
