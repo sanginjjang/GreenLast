@@ -4,23 +4,18 @@
       layout:decorate="~{/layout/layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Class</title>
+    <title>Home</title>
 </head>
 <body>
-<!-- aside (사용 버전) -->
+<!-- aside (비워둠 버전) -->
 <th:block layout:fragment="aside">
-    <!--<aside> 태그는 *꼭* 남겨두시고 안에서 작업하시면 됩니다 // 절대 지우시면 안돼요-->
-    <aside>
-        <h1><a th:href="@{/admin/chartView}">통계조회</a></h1><br>
-        <h1><a th:href="@{/admin/classView}">강의검토</a></h1><br>
-        <h1><a th:href="@{/admin/userView}">사용자 목록</a></h1><br>
-    </aside>
+    <!-- aside가 없는 경우 지우지말고 fragment aside 지우지 말고 가만두세요 -->
 </th:block>
 
 <!-- content -->
 <div layout:fragment="content">
     <!--스타일은 크기를 보여주기 위함입니다 지우시고 작업하시면 됩니다-->
-    <h1>강의 검토 페이지</h1>
+
 </div>
 </body>
 

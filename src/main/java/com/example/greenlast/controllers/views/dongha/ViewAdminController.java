@@ -7,8 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
 /**
  * packageName    : com.example.greenlast.controllers.views.dongha
  * fileName       : ViewAdminController
@@ -41,6 +39,7 @@ public class ViewAdminController {
 
     @GetMapping("/userView")
     public String userView(Model model) {
+        model.addAttribute("user", adminService.getUsers());
         return "/dongha/userView";
     }
 

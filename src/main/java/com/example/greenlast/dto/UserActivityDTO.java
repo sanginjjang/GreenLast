@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class UserActivityDTO {
     private int activityId;
-    private int userId;
+    private String userId;
     private Integer targetId;
     private String activityType;
     private String activityDate;
