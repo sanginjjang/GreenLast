@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/css/sangin/registUserForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<div id="regist_section">
+    <div style="width: 390px;">
+        <div id="section_top">
+            <div id="top_text1">회원가입</div>
+            <div id="top_text2">Mazayo에서 학습한 역량을 펼쳐보세요.</div>
+        </div>
+        <div id="section_id">
+            <div class="just_text">아이디</div>
+            <div id="id_input_box">
+                <input type="text" id="inputId" name="userId" oninput="checkUserId()" maxlength="20" placeholder="아이디">
+                <button id="id_check" onclick="checkDuplicateId()">중복검사</button>
+            </div>
+            <div id="id_error_message" style="font-size: 0.9em;"></div> <!-- 에러 메시지 표시 -->
+        </div>
+
+        <div id="section_pw">
+            <div class="just_text">비밀번호</div>
+            <input type="text" id="inputPw1" name="password" oninput="validateUserPw(),checkUserPw2()" maxlength="20" placeholder="비밀번호">
+            <div id="pw_error_message" style="font-size: 0.9em;"></div> <!-- 에러 메시지 표시 -->
+            <div id="pw_description">
+                <span id="checkLen"><i class="fa-solid fa-check"></i>8자 이상 20자 이하 입력(공백 제외)</span>
+                <span id="checkEng"><i class="fa-solid fa-check"></i>영문/숫자/특수문자 중, 2가지 이상 포함</span>
+                <span id="checkSeq"><i class="fa-solid fa-check"></i>연속 3자 이상 동일한 문자/숫자 제외</span>
+            </div>
+            <div class="just_text" style="margin-top: 10px;">비밀번호 확인</div>
+            <input type="text" id="inputPw2" oninput="checkUserPw2()" placeholder="비밀번호 확인">
+            <div id="pw_error_message2" style="font-size: 0.9em;"></div> <!-- 에러 메시지 표시 -->
+        </div>
+        <div id="section_name_gender">
+            <div id="name_gender_text">
+                <div class="just_text" style="margin-right: 270px;">이름</div>
+                <div class="just_text">성별</div>
+            </div>
+            <div id="name_gender_box">
+                <input type="text" id="inputName" placeholder="이름을 입력하세요" name="name" oninput="checkUserName()">
+                <select id="inputGender" name="gender" onchange="checkGender()">
+                    <option value="">선택</option>
+                    <option value="M">남성</option>
+                    <option value="F">여성</option>
+                </select>
+            </div>
+            <div id="name_error_message" style="font-size: 0.9em;"></div> <!-- 에러 메시지 표시 -->
+        </div>
+        <div id="section_birth">
+            <div class="just_text">생년월일</div>
+            <div id="birth_section">
+                <select name="year" id="inputYear" class="inputBirth" onchange="setBirth()"></select>
+                <select name="month" id="inputMonth" class="inputBirth" onchange="setBirth()"></select>
+                <select name="day" id="inputDay" class="inputBirth" onchange="setBirth()"></select>
+            </div>
+        </div>
+        <div id="section_email">
+            <div class="just_text">이메일</div>
+            <input type="text" id="inputEmail" name="email" placeholder="이메일" oninput="checkUserEmail()">
+            <div id="email_error_message" style="font-size: 0.9em;"></div> <!-- 에러 메시지 표시 -->
+        </div>
+        <div id="section_phone">
+            <div class="just_text">휴대전화</div>
+            <input type="text" id="inputPhone" name="phoneNumber" placeholder="' - '를 제외하고 입력하세요." oninput="checkUserPhone()">
+            <div id="phone_error_message" style="font-size: 0.9em;"></div> <!-- 에러 메시지 표시 -->
+        </div>
+        <button id="regist_btn" onclick="checkRegistInfo()">가입하기</button>
+        <div id="section_agree">
+            <div id="agree_text">[필수] 서비스 이용 약관 및 개인정보 처리방침에 동의합니다.
+            </div>
+            <input type="checkbox" id="agree_check">
+        </div>
+        <div id="section_simple_regist">제로어쓰</div>
+    </div>
+</div>
+</body>
+<script src="/js/sangin/registUserForm.js">
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제목을 넣으세요</title>
+    <!-- 공통 CSS -->
+    <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <!--    jquery api-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!--    axios api-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--    icon api-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!--    script-->
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{/layout/fragments/header :: header}"></div>
+
+<!-- Nav -->
+<div th:replace="~{/layout/fragments/nav :: nav}"></div>
+
+<!-- Main Content -->
+<div>
+    <!--1400 px 안쓰실거면 이 템플릿에서 작업하시면 됩니다-->
+</div>
+
+<!-- Footer -->
+<div th:replace="~{/layout/fragments/footer :: footer}"></div>
+
+</body>
+</html>
