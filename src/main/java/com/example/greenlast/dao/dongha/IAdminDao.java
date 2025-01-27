@@ -3,6 +3,7 @@ package com.example.greenlast.dao.dongha;
 import com.example.greenlast.dto.AgeGroupDTO;
 import com.example.greenlast.dto.DailyUserDTO;
 import com.example.greenlast.dto.GenderDTO;
+import com.example.greenlast.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface IAdminDao {
     List<DailyUserDTO> findDailyUser();
     List<AgeGroupDTO> findAgeGroup();
     List<GenderDTO> findGender();
+    List<UserDTO> findUser();
 }

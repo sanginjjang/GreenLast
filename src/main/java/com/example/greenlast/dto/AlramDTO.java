@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class AlramDTO {
     private int alramId;
-    private int userId;
+    private String userId;
     private String alramContent;
     private boolean readStatus;
     private String alramDate;

@@ -6,7 +6,7 @@ package com.example.greenlast.dto;
 import lombok.*;
 @Data
 public class UserDTO {
-    private int userId;
+    private String userId;
     private String password;
     private String name;
     private String phoneNumber;

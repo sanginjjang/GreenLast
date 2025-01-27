@@ -4,6 +4,7 @@ import com.example.greenlast.dao.dongha.IAdminDao;
 import com.example.greenlast.dto.AgeGroupDTO;
 import com.example.greenlast.dto.DailyUserDTO;
 import com.example.greenlast.dto.GenderDTO;
+import com.example.greenlast.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,8 @@ public class AdminService {
     }
     public List<GenderDTO> getGenders() {
         return adminDao.findGender();
+    }
+    public List<UserDTO> getUsers() {
+        return adminDao.findUser();
     }
 }
