@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ClassDTO {
     private int classId;
-    private int userId;
+    private String userId;
     private String classTitle;
     private String classCapsule;
     private String classSubtitle;
