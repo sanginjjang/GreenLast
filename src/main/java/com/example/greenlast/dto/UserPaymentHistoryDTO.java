@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class UserPaymentHistoryDTO {
     private int paymentId;
-    private int userId;
+    private String userId;
     private int classId;
     private String paymentDate;
     private double amount;

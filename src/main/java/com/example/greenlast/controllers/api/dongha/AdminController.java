@@ -43,8 +43,9 @@ public class AdminController {
         List<GenderDTO> genders = adminService.getGenders();
         return ResponseEntity.ok(genders);
     }
-//    @GetMapping("/joinUser")
-//    public ResponseEntity<List<UserDTO>> getUsers() {
-//        List
-//    }
+    @GetMapping("/joinUser")
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        List<UserDTO> users = adminService.getUsers();
+        return ResponseEntity.ok(users);
+    }
 }

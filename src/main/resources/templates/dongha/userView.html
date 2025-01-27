@@ -4,7 +4,27 @@
       layout:decorate="~{/layout/layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Page with Aside</title>
+    <title>User View</title>
+    <style>
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+        .user-table thead {
+            background-color: #0092ff;
+            color: #ffffff;
+        }
+
+        .user-table th, .user-table td {
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
 <!-- aside (사용 버전) -->
@@ -19,7 +39,31 @@
 
 <!-- content -->
 <div layout:fragment="content">
-    <h1>사용자 목록</h1>
+    <h1>사용자 목록</h1><Br>
+    <table border="1" class="user-table">
+        <thead>
+        <tr>
+            <th>이름</th>
+            <th>사용자아이디</th>
+            <th>전화번호</th>
+            <th>이메일</th>
+            <th>생년월일</th>
+            <th>성별</th>
+            <th>계정 생성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${user}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.phoneNumber}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.birth}"></td>
+                <td th:text="${user.gender}"></td>
+                <td th:text="${user.createdAt}"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 
