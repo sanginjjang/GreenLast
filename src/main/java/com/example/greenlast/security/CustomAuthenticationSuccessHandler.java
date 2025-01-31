@@ -28,8 +28,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // JWT를 쿠키에 추가
             CookieUtil.addTokenToCookie(response, token);
 
-            // 로그인 성공 후 "/"로 리다이렉트
-            response.sendRedirect("/"); // 원하는 URL로 리다이렉트
+            // 로그인 성공 후 "특정 페이지"로 리다이렉트
+            response.sendRedirect("/view/mypage/infoForm"); // 원하는 URL로 리다이렉트 //나중에 수정예정
         } catch (Exception e) {
             e.printStackTrace();
         }
