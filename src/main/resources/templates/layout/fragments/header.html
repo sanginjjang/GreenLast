@@ -55,7 +55,13 @@
                         <div><i class="fa-solid fa-gear"></i><a href="/view/설정">설정(링크)</a></div>
                     </div>
                     <div id="header_profile_detail_section3">
-                        <a href="/logout">로그아웃</a>
+                        <div th:if="${user != null}">
+                            <a href="/logout">로그아웃</a>
+                        </div>
+                        <div th:if="${user == null}">
+                            <a href="/view/loginForm">로그인</a>
+                        </div>
+
                         <a href="/view/고객센터">고객센터(링크)</a>
                     </div>
                 </div>

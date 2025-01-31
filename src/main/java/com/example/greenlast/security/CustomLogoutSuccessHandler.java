@@ -14,6 +14,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        System.out.println("로그아웃 핸들러 작동!!");
         // 쿠키 삭제 로직
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -27,7 +28,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setStatus(HttpServletResponse.SC_OK);
 
         try {
-            response.sendRedirect("/view/메인"); // 리다이렉트 경로
+            response.sendRedirect("/view/mypage/infoForm"); // 리다이렉트 경로 // 나중에 수정 예정
         } catch (IOException e) {
             e.printStackTrace(); // 예외 처리
         }

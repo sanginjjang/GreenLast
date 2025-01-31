@@ -261,7 +261,7 @@ footer {
     border: 1px solid #ccc;
     border-radius: 15px;
     background-color: white;
-    /*display: none;*/
+    display: none;
     z-index: 1000;
 }
 
