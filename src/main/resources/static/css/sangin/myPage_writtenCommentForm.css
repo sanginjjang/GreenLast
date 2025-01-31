@@ -64,8 +64,9 @@
     height: 60px;
     overflow: hidden;
 }
-.section2_box{
+.section2_box {
     width: 100%;
+    margin-bottom: 20px;
 }
 .section2_main{
     width: 100%;

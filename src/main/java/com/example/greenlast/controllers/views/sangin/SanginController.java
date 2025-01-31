@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/sangin/test")
 public class SanginController {
 
-
     @GetMapping("/0")
     @ResponseBody
     public String test() {

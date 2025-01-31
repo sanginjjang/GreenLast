@@ -40,14 +40,15 @@
 
 }
 .section2_category{
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
-    width: 50px;
     border-radius: 5px;
     background-color: #ddd;
     font-weight: bold;
-    padding: 2px;
+    padding: 2px 5px;
+    max-width: 90px;
+    min-width: 50px;
 }
 .section2_title{
     margin-top: 13px;
@@ -66,6 +67,7 @@
 }
 .section2_box{
     width: 100%;
+    margin-bottom: 20px;
 }
 .section2_main{
     width: 100%;
