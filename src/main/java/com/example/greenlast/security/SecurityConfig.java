@@ -17,6 +17,7 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+
     // JwtTokenProvider를 주입받아 필터에 사용
     public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
