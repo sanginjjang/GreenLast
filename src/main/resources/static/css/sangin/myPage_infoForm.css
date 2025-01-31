@@ -1,59 +1,73 @@
-*{
+* {
     box-sizing: border-box;
 }
-#content_container{
+
+#content_container {
     border-radius: 8px;
-    min-height:500px;
+    min-height: 500px;
     padding: 20px 20px 60px 20px;
 
 }
-#first_text{
+
+#first_text {
     font-size: 33px;
     font-weight: bold;
 }
-#content_index_text1{
+
+#content_index_text1 {
     margin-top: 30px;
     margin-bottom: 15px;
     font-weight: bold;
 
 }
-#content_index_text2{
+
+#content_index_text2 {
     margin-top: 30px;
     margin-bottom: 15px;
     font-weight: bold;
 }
+
 /*content section1*/
-#content_section1{
+#content_section1 {
     border-radius: 8px;
     border: 1px #ddd solid;
     width: 80%;
 }
-#content_name{
+
+#content_name {
     display: flex;
 }
-#content_birth{
+
+#content_birth {
     border-bottom: 1px #ddd solid;
     border-top: 1px #ddd solid;
     display: flex;
 }
-#content_gender{
+
+#content_gender {
     display: flex;
 }
+
 /*content secion2*/
-#content_section2{
+#content_section2 {
     border-radius: 8px;
     border: 1px #ddd solid;
     width: 80%;
 }
-#content_phone{
+
+#content_phone {
     display: flex;
+    align-items: center;
 }
-#content_email{
+
+#content_email {
     border-top: 1px #ddd solid;
     display: flex;
+    align-items: center;
 }
+
 /*in info*/
-.column{
+.column {
     display: flex;
     align-items: center;
     height: 80px;
@@ -62,28 +76,59 @@
     font-weight: bold;
     color: grey;
 }
-.value{
+
+.value {
     font-weight: bold;
     display: flex;
     align-items: center;
     height: 80px;
-    padding-left: 30px;
     width: 65%;
+    font-size: 18px;
 }
-.modify_btn_box{
+
+input.value {
+    border: 1px gray solid;
+    height: 50px;
+    border-radius: 10px;
+    padding-left: 10px;
+    line-height: 1.2px;
+}
+
+#modify_box {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80px;
-    width: 15%;
+    margin-top: 20px;
+    width: 80%;
+    gap: 30px;
 }
-.modify_btn{
+
+#modify_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 40px;
     width: 60px;
-    border: 1px #373737 solid;
-    border-radius: 3px;
-    background-color: white;
-    color: #373737;
+    background-color: #0092ff;
+    color: white;
     cursor: pointer;
     font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    font-size: 15px;
+}
+
+#back_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 60px;
+    border: 1px solid gray;
+    color: gray;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
 }

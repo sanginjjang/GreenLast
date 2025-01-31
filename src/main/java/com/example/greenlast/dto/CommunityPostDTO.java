@@ -14,4 +14,6 @@ public class CommunityPostDTO {
     private String content;
     private String createdAt;
     private String category;
+    private int views;
+    private int commentCount;
 }
