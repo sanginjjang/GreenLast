@@ -44,7 +44,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
+    min-width: 50px;
+    max-width: 65px;
     border-radius: 5px;
     background-color: #ddd;
     font-weight: bold;
@@ -67,6 +68,7 @@
 }
 .section2_box{
     width: 100%;
+    margin-bottom: 20px;
 }
 .section2_main{
     width: 100%;

@@ -21,6 +21,11 @@ public class MyPageViewController_Sangin {
         System.out.println("/view/myPage/infoForm...");
         return "/sangin/myPage_infoForm";
     }
+    @GetMapping("/infoModifyForm")
+    public String infoModifyForm() {
+        System.out.println("/view/myPage/infoModifyForm...");
+        return "/sangin/myPage_infoModifyForm";
+    }
 
     @GetMapping("/purchaseHistoryForm")
     public String purchaseHistoryForm() {
