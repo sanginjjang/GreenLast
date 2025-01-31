@@ -5,6 +5,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+        .category-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .filter-container{
+            margin-bottom: 30px;
+        }
+        .class-card {
+            width: 235px;
+            height: 360px;
+            padding: 15px;
+            text-align: left;
+            border-radius: 10px;
+            border: 1px black solid;
+        }
+
+        .class-grid {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
 <!-- aside (비워둠 버전) -->
@@ -15,7 +42,24 @@
 <!-- content -->
 <div layout:fragment="content">
     <!--스타일은 크기를 보여주기 위함입니다 지우시고 작업하시면 됩니다-->
-
+    <div class="category-container">
+        <div class="filter-container">
+            <button class="btn btn-light">전체</button>
+            <button class="btn btn-light">개발 (컴퓨터 사진)</button>
+            <button class="btn btn-light">게임개발 (로봇 사진)</button>
+            <button class="btn btn-light">하드웨어 (회로)</button>
+            <button class="btn btn-light">보안 (방패 사진)</button>
+            <button class="btn btn-light">인공지능 (AI 사진)</button>
+        </div>
+    </div>
+        <div class="class-grid">
+            <div class="class-card" th:each="class : ${class}">
+                <img th:src="${class.thumbNail}" alt="강의 썸네일" style="width: 100%; height: auto; border-radius: 10px;" />
+                <p th:text="${class.classTitle}">강의 제목</p>
+                <p th:text="${class.userId}">강사명</p>
+                <p th:text="${class.classPrice} + '원'">가격</p>
+            </div>
+        </div>
 </div>
 </body>
 

@@ -1,6 +1,7 @@
 package com.example.greenlast.controllers.api.dongha;
 
 import com.example.greenlast.dto.ClassDTO;
+import com.example.greenlast.dto.ClassMainDTO;
 import com.example.greenlast.service.dongha.ClassMainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class ClassMainController {
     private final ClassMainService classMainService;
 
     @GetMapping("/class")
-    public ResponseEntity<List<ClassDTO>> classMain() {
-        List<ClassDTO> classMain = classMainService.getClassMain();
+    public ResponseEntity<List<ClassMainDTO>> classMain() {
+        List<ClassMainDTO> classMain = classMainService.getClassMain();
         return ResponseEntity.ok(classMain);
     }
 
