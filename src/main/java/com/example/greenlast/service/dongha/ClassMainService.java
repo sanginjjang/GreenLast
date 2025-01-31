@@ -2,6 +2,7 @@ package com.example.greenlast.service.dongha;
 
 import com.example.greenlast.dao.dongha.IClassMainDao;
 import com.example.greenlast.dto.ClassDTO;
+import com.example.greenlast.dto.ClassMainDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ import java.util.List;
 public class ClassMainService {
     private final IClassMainDao classMainDao;
 
-    public List<ClassDTO> getClassMain(){
+    public List<ClassMainDTO> getClassMain(){
         return classMainDao.findClassMain();
     }
 }

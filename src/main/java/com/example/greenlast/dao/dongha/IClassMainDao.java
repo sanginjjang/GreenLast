@@ -1,6 +1,7 @@
 package com.example.greenlast.dao.dongha;
 
 import com.example.greenlast.dto.ClassDTO;
+import com.example.greenlast.dto.ClassMainDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,5 +19,5 @@ import java.util.List;
  */
 @Mapper
 public interface IClassMainDao {
-    List<ClassDTO> findClassMain();
+    List<ClassMainDTO> findClassMain();
 }
