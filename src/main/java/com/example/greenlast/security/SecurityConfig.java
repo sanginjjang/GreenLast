@@ -17,6 +17,7 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+
     // JwtTokenProvider를 주입받아 필터에 사용
     public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -34,7 +35,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/view/loginForm")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/") // 성공 후 리다이렉트 URL
+                        .defaultSuccessUrl("/sangin/test/1") // 성공 후 리다이렉트 URL
                         .successHandler(new CustomAuthenticationSuccessHandler(jwtTokenProvider)) // 커스텀 성공 핸들러 등록
                         .permitAll()
                 )

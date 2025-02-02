@@ -3,9 +3,21 @@ body {
     margin: 0;
     padding: 0;
 }
+
 /* i */
-i {
-    margin-right: 10px;
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+input {
+    border: inherit;
+    outline: none;
+    box-shadow: none;
 }
 
 /* header */
@@ -41,13 +53,19 @@ header {
 }
 
 #header_center input {
-    padding: 10px 300px;
+    width: 700px;
+    height: 40px;
+    padding-left: 15px;
     border: 3px #0092ff solid;
     border-radius: 10px;
 }
 
 #header_btn {
-    padding: 8px 14px;
+    height: 40px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 3px #0092ff solid;
     font-weight: bold;
     border-radius: 10px;
@@ -61,7 +79,9 @@ header {
 
 #header_right i {
     font-size: 22px;
+    cursor: pointer;
 }
+
 /* nav */
 nav {
     display: flex;
@@ -103,24 +123,25 @@ nav {
     color: white;
     font-weight: bold;
 }
+
 /* main */
-main{
+main {
     display: flex;
     min-height: 700px;
     justify-content: center;
 }
-#main_container{
+
+#main_container {
     display: flex;
     position: relative;
     width: 1400px;
-    gap: 5px;
 }
+
 /* common_main_content */
 /* aside (고정) */
 aside {
     position: fixed;
     box-sizing: border-box;
-    width: 295px;
     min-height: 500px;
 }
 
@@ -141,11 +162,12 @@ aside {
 }
 
 /* footer */
-footer{
+footer {
     height: 150px;
     width: 100%;
 }
-#footer_container{
+
+#footer_container {
     height: 100%;
     background-color: #0092ff;
     display: flex;
@@ -154,7 +176,111 @@ footer{
     align-items: center;
     gap: 5px;
 }
-#footer_container > div{
+
+#footer_container > div {
     color: white;
     font-weight: bold;
 }
+
+/* 헤더 드롭 다운 */
+#header_profile_icon {
+    position: relative;
+}
+
+#header_profile_detail {
+    position: absolute;
+    top: 55px;
+    width: 250px;
+    right: 250px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: white;
+    display: none;
+    z-index: 1000;
+}
+
+#header_profile_detail_section1 {
+    display: flex;
+    padding: 15px;
+    align-items: center;
+}
+
+#header_profile_img {
+    min-height: 60px;
+    max-height: 60px;
+    min-width: 60px;
+    max-width: 60px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+}
+
+#header_profile_detail_section2 {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: #efefef;
+    gap: 15px;
+}
+
+#header_profile_detail_section2 div i {
+    color: #474747;
+}
+
+#header_profile_detail_section2 div a {
+    margin-left: 10px;
+    vertical-align: top;
+    color: #474747;
+}
+
+#header_profile_detail_section3 {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+#header_profile_detail_section3 {
+    font-size: 14px;
+    color: #7c7c7c;
+}
+
+
+
+/*(관현)header bell 여기가 알림영역이에요 형님~~ */
+#header_bell {
+    position: relative;
+}
+
+#header_bell_detail {
+    position: absolute;
+    top: 55px;
+    width: 230px;
+    right: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: white;
+    display: none;
+    z-index: 1000;
+}
+
+#header_bell_section1 {
+    padding: 15px;
+    font-weight: bold;
+}
+
+#header_bell_section2 {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: #efefef;
+    gap: 15px;
+    font-size: 14px;
+    color: #2c2c2c;
+}
+
+#header_bell_section3 {
+    padding: 15px;
+}
+

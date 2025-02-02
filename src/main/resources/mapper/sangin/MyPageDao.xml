@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.sangin.MyPageDao_sangin">
+    <!--infoForm-->
+    <select id="getUserById">
+        select * from user where user_id = #{userId}
+    </select>
+    <update id="modifyUser">
+        UPDATE user
+        SET phone_number = #{phoneNumber}, email = #{email}
+        WHERE user_id = #{userId};
+    </update>
+    <select id="getCommunityPostByUserId">
+        SELECT p.*,
+        COUNT(c.comment_id) AS commentCount
+        FROM community_post p
+        LEFT JOIN community_comment c ON p.post_id = c.post_id
+        WHERE p.user_id = #{userId}
+        AND p.category = 'U'
+        GROUP BY p.post_id;
+    </select>
+    <select id="getWrittenCommentByUserId">
+        select *
+        from community_comment where user_id = #{userId}
+    </select>
+    <select id="getWrittenReviewByUserId">
+        select *
+        from class_review where user_id = #{userId}
+    </select>
+</mapper>

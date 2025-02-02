@@ -1,8 +1,5 @@
 package com.example.greenlast.security;
 
-/**
- * Created on 2025-01-27 by 한상인
- */
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,11 +7,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        System.out.println("로그아웃 핸들러 작동!!");
         // 쿠키 삭제 로직
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -25,8 +25,12 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
             }
         }
 
-        // 로그아웃 후 리다이렉트
         response.setStatus(HttpServletResponse.SC_OK);
-        response.setHeader("Location", "/view/loginForm"); // 리다이렉트 경로
+
+        try {
+            response.sendRedirect("/view/mypage/infoForm"); // 리다이렉트 경로 // 나중에 수정 예정
+        } catch (IOException e) {
+            e.printStackTrace(); // 예외 처리
+        }
     }
 }
