@@ -1,0 +1,148 @@
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+#find_text {
+    width: 1000px;
+    display: flex;
+    margin-top: 80px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#section_find {
+    margin-top: 30px;
+    width: 1000px;
+}
+
+#section1 {
+    display: flex;
+}
+
+#section1>div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0;
+}
+
+#section1_box2 {
+    border-top: 1px black solid;
+    border-right: 1px black solid;
+    border-left: 1px black solid;
+    font-weight: bold;
+}
+
+#section1_box1 {
+    border-top: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-bottom: 1px black solid;
+    background-color: rgba(248, 246, 246, 0.356);
+    color: rgb(99, 95, 95);
+}
+
+#section2 {
+    /* 섹션투 */
+    max-width: 100%;
+    border-left: 1px black solid;
+    border-right: 1px black solid;
+    border-bottom: 1px black solid;
+    padding: 120px 80px 50px 80px;
+}
+
+#index_text {
+    /* 지표 */
+    font-weight: bold;
+}
+
+#section2_container {
+    /* 부모 */
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+#section2_container> :nth-child(2) {
+    border-top: 1px solid #ddd;
+}
+
+#section2_container> :nth-child(3) {
+    border-top: 1px solid #ddd;
+}
+
+
+.section2_input_box {
+    /* 부모 */
+    display: flex;
+    align-items: center;
+}
+
+.section2_input_box>input:focus {
+    outline: none;
+    border: 1px solid #ddd;
+}
+
+
+.section2_input_box>div {
+    /* 글자 */
+    background-color: #eeeeee;
+    padding: 25px 140px 25px 30px;
+    font-weight: bold;
+    max-width: 200px;
+    color: #808080;
+    white-space: nowrap;
+}
+
+.section2_input_box>input {
+    height: 50px;
+    width: 400px;
+    margin: 0 15px;
+    border: 1px #c3c3c3 solid;
+    font-size: 16px;
+    line-height: 1.2em;
+    padding-left: 10px;
+}
+
+#auth_number_send_btn {
+    height: 50px;
+    width: 140px;
+    background-color: rgb(159, 158, 158);
+    border: none;
+    color: white;
+}
+
+#authenticationCheck_btn {
+    /* 인증확인버튼 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: #0092ff;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    width: 200px;
+    height: 60px;
+    margin-top: 40px;
+}
+#toHome {
+    border: 1px black solid;
+    padding: 10px;
+    background-color: #d9d9d9;
+    color: black;
+    font-weight: bold;
+    margin-top: 20px;
+}
