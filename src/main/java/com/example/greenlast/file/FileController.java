@@ -31,11 +31,12 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<FileEntity> uploadFile(@RequestParam("file") MultipartFile file,
-                                                 @RequestParam("fileGubnCode") String fileGubnCode,
-                                                 @RequestParam("fileRefNo") String fileRefNo) throws IOException {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
+                                             @RequestParam("fileGubnCode") String fileGubnCode,
+                                             @RequestParam("fileRefNo") String fileRefNo) throws IOException {
+
         FileEntity savedFile = fileService.saveFile(file, fileGubnCode, fileRefNo);
-        return ResponseEntity.ok(savedFile);
+        return ResponseEntity.ok("파일 업로드 성공! 저장된 경로: " + savedFile.getFileUrl());
     }
 
     @GetMapping("/{fileNo}")
