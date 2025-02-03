@@ -23,11 +23,11 @@ public class FileEntity {
     @Column(name = "file_no")
     private int fileNo;
 
-    @Column(name = "file_gubn_code")
-    private String fileGubnCode;
+    @Column(name = "file_type")
+    private String fileType;
 
     @Column(name = "file_ref_no")
-    private String fileRefNo;
+    private int fileRefNo;
 
     @Column(name = "file_old_name")
     private String fileOldName;
