@@ -14,8 +14,7 @@
             birth,
             gender,
             created_at AS createdAt,
-            role,
-            user_image AS userImage
+            role
         FROM user
         WHERE user_id = #{userId}
     </select>

@@ -28,6 +28,9 @@ public class ClassMainService {
     public List<ClassMainDTO> getClassMain(){
         return classMainDao.findClassMain();
     }
+    public List<ClassMainDTO> getClassMainByKeyword(String keyword){
+        return classMainDao.findClassMainByKeyword(keyword);
+    }
 
     public ClassDetailDTO getClassDetail(Long id){
         return classMainDao.findClassDetail(id);

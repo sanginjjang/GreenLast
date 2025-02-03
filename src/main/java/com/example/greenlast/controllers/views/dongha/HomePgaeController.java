@@ -1,5 +1,6 @@
 package com.example.greenlast.controllers.views.dongha;
 
+import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.dongha.ClassMainService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.bcel.ClassPathManager;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * packageName    : com.example.greenlast.controllers.views.dongha
@@ -27,14 +29,23 @@ public class HomePgaeController {
     private final ClassMainService classMainService;
 
     @GetMapping("/homepage")
-    public String homepage(Model model) {
-        model.addAttribute("class", classMainService.getClassMain());
+    public String homepage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
+        // keyword 값이 null일 수 있으므로 필요한 로직 추가 가능
+        if (keyword != null) {
+            System.out.println("home/homepage?keyword=" + keyword);
+            model.addAttribute("class", classMainService.getClassMainByKeyword(keyword));
+        } else {
+            model.addAttribute("class", classMainService.getClassMain());
+        }
         return "/dongha/home";
     }
+
 
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
         model.addAttribute("classDetail", classMainService.getClassDetail(id));
         return "/dongha/classDetail";
     }
+
+
 }
