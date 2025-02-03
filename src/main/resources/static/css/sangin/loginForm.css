@@ -1,0 +1,115 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+#section_login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#login_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 17px;
+    border: 1px #ddd solid;
+    border-radius: 10px;
+    width: 400px;
+    padding: 25px;
+    height: auto;
+    margin-top: 100px;
+}
+
+#close_section_login {
+    display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+#login_logo {
+    width: auto;
+    height: 100px;
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+#login_inputId,
+#login_inputPw {
+    padding-left: 10px;
+    height: 45px;
+    width: 350px;
+}
+
+#login_inputId:focus,
+#login_inputPw:focus {
+    border: inherit;
+    outline: none;
+    box-shadow: none;
+}
+
+#login_inputId,
+#login_inputPw,
+#login_btn {
+    font-size: 16px;
+    line-height: 1.2;
+    border-radius: 10px;
+    border: 1px #ddd solid;
+}
+
+
+#login_btn {
+    height: 45px;
+    width: 350px;
+    background-color: #0092ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#find_userDetails {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#find_userDetails>div {
+    padding: 0 10px;
+    color: gray;
+}
+
+#simple_login {
+    display: flex;
+    width: 100%;
+}
+#simple_loginText{
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gray;
+    font-weight: bold;
+}
+
+.deco_border {
+    width: 100%;
+    margin-top: 10px;
+    border-top: 1px #ddd solid;
+}
+/* 0auth */
+#login_0auth{
+    display: flex;
+    gap: 30px;
+}
