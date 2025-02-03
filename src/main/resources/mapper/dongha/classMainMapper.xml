@@ -3,7 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.greenlast.dao.dongha.IClassMainDao">
-    <select id="findClassMain" resultType="com.example.greenlast.dto.ClassDTO">
-        SELECT class_title AS classTitle, user_id AS userId, class_price AS classPrice FROM class
+    <select id="findClassMain" resultType="com.example.greenlast.dto.ClassMainDTO">
+    SELECT
+        c.class_id AS classId,
+        f.file_url AS thumbNail,
+        c.user_id AS userId,
+        c.class_title AS classTitle,
+        c.class_price AS classPrice
+    FROM class c
+    LEFT JOIN file f ON c.class_id = f.file_ref_no
+    </select>
+
+    <select id="findClassDetail" parameterType="java.lang.Long" resultType="com.example.greenlast.dto.ClassDetailDTO">
+        SELECT
+        c.class_id AS classId,
+        c.class_title AS title,
+        c.user_id AS instructor,
+        c.class_price AS price,
+        f.file_url AS thumbnail,
+        c.description AS description,
+        c.class_capsule AS classCapsule,
+        c.class_subtitle AS classSubtitle,
+        c.class_category AS classCategory,
+        c.class_recom AS classRecom,
+        c.class_level AS classLevel
+        FROM class c
+        LEFT JOIN file f ON c.class_id = f.file_ref_no
+        WHERE c.class_id = #{id}
     </select>
 </mapper>
