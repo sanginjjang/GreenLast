@@ -286,4 +286,7 @@ footer {
 #header_bell_section3 {
     padding: 15px;
 }
+#myPageAsideModalSection {
+    display: none;
+}
 

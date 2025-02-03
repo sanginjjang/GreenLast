@@ -17,6 +17,8 @@
     <script src="/js/layout/headerSearch.js"></script>
 </head>
 <body>
+<!-- MyPageAsideModal-->
+<div th:replace="~{/sangin/myPageAsideModal :: modal}"></div>
 <!-- Header -->
 <div th:replace="~{/layout/fragments/header :: header}"></div>
 
@@ -37,8 +39,6 @@
         </div>
     </div>
 </main>
-<!-- MyPageAsideModal-->
-<div th:replace="~{/sangin/myPageAsideModal :: modal}"></div>
 
 <!-- Footer -->
 <div th:replace="~{/layout/fragments/footer :: footer}"></div>
