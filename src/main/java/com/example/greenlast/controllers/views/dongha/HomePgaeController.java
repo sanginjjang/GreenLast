@@ -2,9 +2,11 @@ package com.example.greenlast.controllers.views.dongha;
 
 import com.example.greenlast.service.dongha.ClassMainService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.bcel.ClassPathManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -28,5 +30,11 @@ public class HomePgaeController {
     public String homepage(Model model) {
         model.addAttribute("class", classMainService.getClassMain());
         return "/dongha/home";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("classDetail", classMainService.getClassDetail(id));
+        return "/dongha/classDetail";
     }
 }

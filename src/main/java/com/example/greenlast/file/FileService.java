@@ -1,6 +1,7 @@
 package com.example.greenlast.file;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,11 +26,14 @@ import java.util.UUID;
 public class FileService {
     private final FileRepository fileRepository;
 
+    @Value("${file.upload.path}")  // application.properties 에서 경로 가져오기
+    private String uploadPath;
+
     public FileEntity saveFile(MultipartFile multipartFile, String fileGubnCode, String fileRefNo) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileExt = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         String newFileName = UUID.randomUUID().toString() + "." + fileExt;
-        String fileUrl = "/uploads/" + newFileName;
+        String fileUrl = "/uploads/" + newFileName;  // 💡 DB에 저장되는 경로
 
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFileGubnCode(fileGubnCode);
@@ -41,7 +45,14 @@ public class FileService {
         fileEntity.setFileUrl(fileUrl);
         fileEntity.setFileSeq(1);
 
-        File file = new File("C:\\projectfile\\" + newFileName);
+        // 📌 파일이 실제로 저장되는 경로 확인!
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        // 📌 파일 저장 경로 확인
+        File file = new File(uploadPath + "/" + newFileName);
         multipartFile.transferTo(file);
 
         return fileRepository.save(fileEntity);

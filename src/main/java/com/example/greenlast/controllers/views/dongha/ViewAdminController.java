@@ -42,5 +42,4 @@ public class ViewAdminController {
         model.addAttribute("user", adminService.getUsers());
         return "/dongha/userView";
     }
-
 }
