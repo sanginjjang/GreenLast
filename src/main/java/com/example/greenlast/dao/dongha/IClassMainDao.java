@@ -21,5 +21,6 @@ import java.util.List;
 @Mapper
 public interface IClassMainDao {
     List<ClassMainDTO> findClassMain();
+    List<ClassMainDTO> findClassMainByKeyword(@Param("keyword") String keyword);
     ClassDetailDTO findClassDetail(@Param("id") Long id);
 }
