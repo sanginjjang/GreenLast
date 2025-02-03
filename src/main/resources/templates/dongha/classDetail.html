@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 상세 페이지</title>
+    <style>
+        aside {
+            position: fixed;
+            right: 300px;
+            top: 150px;
+            width: 340px;
+            padding: 20px;
+            background-color: #fff; /* 배경 흰색 */
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .class-thumbnail {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .class-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 10px 0;
+        }
+
+        .discount-price {
+            font-size: 18px;
+            color: #777;
+            text-decoration: line-through;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background-color: #0092ff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            color: black;
+        }
+
+        .class-detail-container {
+            margin-right: 380px;
+        }
+    </style>
+    <script src="https://js.bootpay.co.kr/bootpay-4.3.0.min.js"></script>
+</head>
+<body>
+
+<!-- aside (사용 버전) -->
+<th:block layout:fragment="aside">
+    <aside>
+        <img th:src="@{${classDetail.thumbnail}}" class="class-thumbnail" alt="강의 썸네일"/>
+        <p class="class-price"><span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + 원"></span></p>
+        <button class="btn btn-primary"
+                th:onclick="|location.href='/cart?classId=' + ${classDetail.classId}|">
+            수강 신청하기
+        </button>
+        <button class="btn btn-secondary">바구니에 담기</button>
+        <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
+        <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
+    </aside>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content">
+    <div class="class-detail-container">
+        <img th:src="@{${classDetail.thumbnail}}" class="class-thumbnail" alt="강의 썸네일"/>
+        <h1 class="class-title" th:text="${classDetail.title}">강의 제목</h1>
+        <p class="class-instructor" th:text="'강사: ' + ${classDetail.instructor}">강사명</p>
+        <p class="class-description" th:text="${classDetail.description}">강의 설명</p>
+        <p th:text="${classDetail.description}"></p>
+        <p th:text="${classDetail.classCapsule}"></p>
+        <p th:text="${classDetail.classSubtitle}"></p>
+        <p th:text="${classDetail.classCategory}"></p>
+        <p th:text="${classDetail.classRecom}"></p>
+    </div>
+</div>
+</body>
+</html>

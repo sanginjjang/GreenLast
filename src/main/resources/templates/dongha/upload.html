@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+<h2>파일 업로드</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+    <label for="file">파일 선택:</label>
+    <input type="file" name="file" id="file" required><br>
+
+    <label for="fileGubnCode">파일 구분 코드:</label>
+    <input type="text" name="fileGubnCode" id="fileGubnCode" required><br>
+
+    <label for="fileRefNo">파일 참조 번호:</label>
+    <input type="text" name="fileRefNo" id="fileRefNo" required><br>
+
+    <button type="button" onclick="uploadFile()">업로드</button>
+</form>
+
+<script>
+    function uploadFile() {
+        let formData = new FormData();
+        formData.append("file", document.getElementById("file").files[0]);
+        formData.append("fileGubnCode", document.getElementById("fileGubnCode").value);
+        formData.append("fileRefNo", document.getElementById("fileRefNo").value);
+
+        axios.post('/file-api/upload', formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        }).then(response => {
+            alert("파일 업로드 성공! 경로: " + response.data);
+        }).catch(error => {
+            alert("업로드 실패: " + error.response.data);
+        });
+    }
+</script>
+
+</body>
+</html>
