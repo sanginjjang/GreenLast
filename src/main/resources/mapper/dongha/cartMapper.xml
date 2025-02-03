@@ -8,7 +8,7 @@
         VALUES (#{userId}, #{classId}, 1)
     </insert>
 
-    <select id="getCartItems" resultType="com.example.domain.Cart">
+    <select id="getCartItems" resultType="com.example.greenlast.dto.CartDTO">
         SELECT c.cart_id, c.user_id, c.class_id, c.quantity, c.created_at,
         cl.classTitle AS classTitle, cl.classPrice AS classPrice
         FROM cart c
