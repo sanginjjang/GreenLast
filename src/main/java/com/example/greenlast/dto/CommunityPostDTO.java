@@ -9,9 +9,11 @@ import lombok.Data;
 public class CommunityPostDTO {
     private int postId;
     private Integer classId;
-    private int userId;
+    private String userId;
     private String title;
     private String content;
     private String createdAt;
     private String category;
+    private int views;
+    private int commentCount;
 }
