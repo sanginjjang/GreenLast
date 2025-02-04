@@ -20,17 +20,20 @@ public class CommunityService {
     @Autowired
     CommunityDao communityDao;
 
-    public List<CommunityPostDTO> CommunityPostList() {
-        List<CommunityPostDTO> communitynoticeList = communityDao.getCommunityNoticeList();
-        communitynoticeList.addAll(communityDao.getCommunityPostList());
+    public List<CommunityPostDTO> CommunityPostList(int page) {
+        int limit = 10;
+        int offset = (page - 1) * limit;
+        List<CommunityPostDTO> communityNoticeList = communityDao.getCommunityNoticeList();
+        List<CommunityPostDTO> communityPostList = communityDao.getCommunityPostList(offset, limit);
+        communityNoticeList.addAll(communityPostList);
 
-        if (communitynoticeList.isEmpty()) {
+        if (communityNoticeList.isEmpty()) {
             log.info("게시글이 존재하지 않습니다.");
             return null;
         }
-        System.out.println(communitynoticeList);
+        System.out.println(communityNoticeList);
 
-        return communitynoticeList;
+        return communityNoticeList;
     }
 
     public CommunityPostDTO getCommunityPost(int postId) {
@@ -44,8 +47,13 @@ public class CommunityService {
         return communityPostDetail;
     }
 
-    public CommunityPostDTO registCommunityPost(CommunityPostDTO communityPostDto) {
+    public CommunityPostDTO regCommunityPost(CommunityPostDTO communityPostDto) {
         CommunityPostDTO communityPostDTO = communityDao.regCommunityPost(communityPostDto);
-        return communityPostDTO;
+        return null;
     }
+
+    public int getTotalPostCount() {
+        return communityDao.getTotalPostCount();
+    }
+
 }

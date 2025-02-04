@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,15 +27,22 @@ public class CommunityController {
     private CommunityService communityService;
 
     @GetMapping("/CommunityMain")
-    public String communityMain(Model model) {
-        List<CommunityPostDTO> communityPostList = communityService.CommunityPostList();
-        model.addAttribute("communitypostList", communityPostList);
+    public String communityMain(@RequestParam(defaultValue = "1") int page, Model model) {
+        List<CommunityPostDTO> communityPostList = communityService.CommunityPostList(page);
+
+        int totalPosts = communityService.getTotalPostCount();
+        int totalPages = (int) Math.ceil((double) totalPosts / 10);
+
+        if (totalPages < 1) totalPages = 1;
+
+        model.addAttribute("communityPostList", communityPostList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         return "kwanhyun/CommunityMain";
     }
 
     @GetMapping("/CommunityRegist")
     public String communityRegist() {
-
         return "kwanhyun/CommunityRegist";
     }
 
