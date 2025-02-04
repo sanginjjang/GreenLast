@@ -28,7 +28,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setStatus(HttpServletResponse.SC_OK);
 
         try {
-            response.sendRedirect("/view/mypage/infoForm"); // 리다이렉트 경로 // 나중에 수정 예정
+            response.sendRedirect("/"); // 리다이렉트 경로 // 나중에 수정 예정
         } catch (IOException e) {
             e.printStackTrace(); // 예외 처리
         }
