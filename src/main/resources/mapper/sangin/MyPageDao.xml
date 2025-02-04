@@ -7,7 +7,7 @@
     <select id="getUserById">
         SELECT
         u.*,
-        f.file_url
+        f.file_url as fileUrl
         FROM
         user u
         LEFT JOIN

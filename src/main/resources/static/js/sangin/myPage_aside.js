@@ -2,20 +2,17 @@ document.addEventListener('DOMContentLoaded', function () {
     axios.get('/api/mypage/getUserById')
         .then(response => {
             const user = response.data;
-            alert('test' + user.fileUrl);
-            // 이름 표시
-            document.getElementById('aside_name').innerText = user.name || 'N/A';
+            alert("user.userId = " + user.userId);
 
-            // ✅ 프로필 이미지 처리
             const profileImg = document.getElementById('aside_img_img');
             if (user.fileUrl) {
                 profileImg.src = user.fileUrl;
+                alert("이미지 경로1:" + profileImg.src);
+                // 로컬 호스트로 출력
+                alert("이미지 경로2:" + user.fileUrl);
+                // db 저장된 값으로 출력
             }
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
         });
-
 
     const modal = document.querySelector("#myPageAsideModalSection");
     const btn = document.querySelector("#aside_img_btn");

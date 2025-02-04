@@ -10,5 +10,6 @@ public class ClassIntroduceDTO {
     private int introduceId;
     private int classId;
     private String introText;
-    private String introImage;
+    private String fileNo;
+    private String fileUrl;
 }
