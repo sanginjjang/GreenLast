@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>커뮤니티 게시글 작성</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js"></script>
+    <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -106,7 +106,7 @@
         var oEditors = [];
 
         smartEditor = function() {
-            console.log("Naver SmartEditor")
+            console.log("Naver SmartEditor");
             nhn.husky.EZCreator.createInIFrame({
                 oAppRef: oEditors,
                 elPlaceHolder: "editorTxt",
@@ -131,7 +131,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/kwanhyun/api/community/post", // REST API 서버 URL
+                url: "http://localhost:8080/kwanhyun/api/community/posts", // REST API 서버 URL
                 contentType: "application/json",
                 data: JSON.stringify({
                     title: title,
@@ -147,9 +147,6 @@
                 }
             });
         });
-
-
-
     </script>
 </div>
 </html>

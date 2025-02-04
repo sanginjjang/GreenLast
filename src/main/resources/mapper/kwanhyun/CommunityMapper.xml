@@ -6,9 +6,9 @@
 <mapper namespace="com.example.greenlast.dao.kwanhyun.CommunityDao">
     <insert id="regCommunityPost" parameterType="com.example.greenlast.dto.CommunityPostDTO">
         INSERT INTO community_post
-        (class_id, user_id, title, content, created_at, category)
+        (class_id, user_id, title, content, category)
         VALUES
-        (#{classId}, #{userId}, #{title}, #{content}, #{createdAt}, #{category})
+        (#{classId}, #{userId}, #{title}, #{content}, #{category})
     </insert>
 
     <select id="getCommunityPost">
@@ -39,6 +39,7 @@
         ON cp.user_id = u.user_id
         WHERE category = 'U'
         ORDER BY post_id DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <select id="searchCommunityPost" resultType="com.example.greenlast.dao.kwanhyun.CommunityDao">
@@ -62,5 +63,8 @@
         </trim>
     </select>
 
+    <select id="getTotalPostCount" resultType="int">
+        SELECT COUNT(*) FROM community_post WHERE category = 'U';
+    </select>
 
 </mapper>
