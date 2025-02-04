@@ -13,12 +13,13 @@ public class ClassDTO {
     private String classCapsule;
     private String classSubtitle;
     private String description;
-    private double classPrice;
+    private int classPrice;
     private String classCategory;
     private String classCreateDate;
     private String classTerm;
     private String classPermit;
     private String classRecom;
     private String classLevel;
-    private String thumbNail;
+    private String fileNo;
+    private String fileUrl;
 }

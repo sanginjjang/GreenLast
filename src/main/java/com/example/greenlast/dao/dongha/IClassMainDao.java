@@ -1,7 +1,9 @@
 package com.example.greenlast.dao.dongha;
 
-import com.example.greenlast.dto.ClassDTO;
+import com.example.greenlast.dto.ClassDetailDTO;
+import com.example.greenlast.dto.ClassMainDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -18,5 +20,7 @@ import java.util.List;
  */
 @Mapper
 public interface IClassMainDao {
-    List<ClassDTO> findClassMain();
+    List<ClassMainDTO> findClassMain();
+    List<ClassMainDTO> findClassMainByKeyword(@Param("keyword") String keyword);
+    ClassDetailDTO findClassDetail(@Param("id") Long id);
 }

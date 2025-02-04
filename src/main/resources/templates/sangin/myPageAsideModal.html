@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="modal" id="myPageAsideModalSection" style="display: none;">
+    <div id="myPageAsideModal">
+        <img id="myPageAsideModal_img">
+        <div style="display: flex; gap: 30px;">
+            <div id="myPageAsideModal_modify" style="cursor: pointer;">수정</div>
+            <div id="myPageAsideModal_cancel" style="cursor: pointer;">취소</div>
+        </div>
+        <!-- ✅ 숨겨진 파일 입력 -->
+        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+    </div>
+</div>
