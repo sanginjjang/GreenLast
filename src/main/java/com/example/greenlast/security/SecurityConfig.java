@@ -12,7 +12,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -30,9 +29,28 @@ public class SecurityConfig {
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ CORS 설정 적용
                 .csrf(csrf -> csrf.disable()) // ✅ CSRF 비활성화
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.disable()) // ✅ Iframe 허용
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("frame-src *; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline';")) // ✅ CSP 정책 적용
+                )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/view/loginForm", "/login", "/logout", "/css/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**", "/api/file/upload").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/view/loginForm",
+                                "/view/findIdByPhoneForm",
+                                "/view/findIdByEmailForm",
+                                "/view/findPwByPhoneForm",
+                                "/view/findPwByEmailForm",
+                                "/login",
+                                "/logout",
+                                "/css/**",
+                                "/static/**",
+                                "/mapper/**",
+                                "/fonts/**",
+                                "/images/**",
+                                "/js/**",
+                                "/api/file/upload"
+                        ).permitAll()
+                        .anyRequest().permitAll() // ✅ 모든 요청 허용 (테스트용)
                 )
                 .formLogin(form -> form
                         .loginPage("/view/loginForm")
