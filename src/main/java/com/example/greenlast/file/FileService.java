@@ -1,5 +1,6 @@
 package com.example.greenlast.file;
 
+import com.example.greenlast.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,34 +11,43 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * packageName    : com.example.greenlast.service.dongha
- * fileName       : FileService
- * author         : 이동하
- * date           : 25. 1. 27.
- * description    :
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 25. 1. 27.        이동하       최초 생성
- */
 @Service
 @RequiredArgsConstructor
 public class FileService {
     private final FileRepository fileRepository;
+    private final FileDao_Sangin fileDao;
 
-    @Value("${file.upload.path}")  // application.properties 에서 경로 가져오기
+    @Value("${file.upload.path}")
     private String uploadPath;
 
-    public FileEntity saveFile(MultipartFile multipartFile, String fileGubnCode, String fileRefNo) throws IOException {
+    public FileEntity saveFile(MultipartFile multipartFile, String fileType, int id) throws IOException {
+        System.out.println("fileService...");
         String originalFilename = multipartFile.getOriginalFilename();
         String fileExt = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         String newFileName = UUID.randomUUID().toString() + "." + fileExt;
-        String fileUrl = "/uploads/" + newFileName;  // 💡 DB에 저장되는 경로
 
+        String subFolder = switch (fileType) {
+            case "introduce" -> "introduce";
+            case "post" -> "post";
+            case "profile" -> "profile";
+            case "thumbnail" -> "thumbnail";
+            default -> "others";
+        };
+
+        String fileDir = uploadPath + "/" + subFolder;
+        String fileUrl = "/uploads/" + subFolder + "/" + newFileName;
+
+        File uploadDir = new File(fileDir);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        File file = new File(fileDir, newFileName);
+        multipartFile.transferTo(file);
+
+        // ✅ 파일 메타데이터 저장
         FileEntity fileEntity = new FileEntity();
-        fileEntity.setFileGubnCode(fileGubnCode);
-        fileEntity.setFileRefNo(fileRefNo);
+        fileEntity.setFileType(fileType);
         fileEntity.setFileOldName(originalFilename);
         fileEntity.setFileNewName(newFileName);
         fileEntity.setFileExt(fileExt);
@@ -45,21 +55,39 @@ public class FileService {
         fileEntity.setFileUrl(fileUrl);
         fileEntity.setFileSeq(1);
 
-        // 📌 파일이 실제로 저장되는 경로 확인!
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+        FileEntity savedFile = fileRepository.save(fileEntity);
+        int refNo = savedFile.getFileNo();
+
+        savedFile.setFileRefNo(refNo);
+        fileRepository.save(savedFile);
+
+        // ✅ Upsert 처리 (Update 실패 시 Insert 수행)
+        switch (fileType) {
+            case "introduce" -> {
+                if (fileDao.updateIntroduce((Integer) id, refNo) == 0) {
+                    fileDao.insertIntroduce((Integer) id, refNo);
+                }
+            }
+            case "post" -> {
+                if (fileDao.updatePostFile((Integer) id, refNo) == 0) {
+                    fileDao.insertPostFile((Integer) id, refNo);
+                }
+            }
+            case "thumbnail" -> {
+                if (fileDao.updateThumbnail(id, refNo) == 0) {
+                    fileDao.insertThumbnail(id, refNo);
+                }
+            }
+
+            case "profile" -> fileDao.updateProfile(SecurityUtil.getCurrentUserId(), refNo);
         }
 
-        // 📌 파일 저장 경로 확인
-        File file = new File(uploadPath + "/" + newFileName);
-        multipartFile.transferTo(file);
-
-        return fileRepository.save(fileEntity);
+        return savedFile;
     }
 
     public FileEntity getFileById(int fileNo) {
-        return fileRepository.findById(fileNo).orElseThrow(() -> new IllegalArgumentException("파일이 존재하지 않습니다."));
+        return fileRepository.findById(fileNo)
+                .orElseThrow(() -> new IllegalArgumentException("파일이 존재하지 않습니다."));
     }
 
     public List<FileEntity> getAllFiles() {
@@ -68,11 +96,13 @@ public class FileService {
 
     public void deleteFile(int fileNo) {
         FileEntity fileEntity = getFileById(fileNo);
-        File file = new File("C:/upload-dir/" + fileEntity.getFileNewName());
+        String fullFilePath = uploadPath + fileEntity.getFileUrl().replace("/uploads", "");
+
+        File file = new File(fullFilePath);
         if (file.exists()) {
             file.delete();
         }
+
         fileRepository.deleteById(fileNo);
     }
-
 }
