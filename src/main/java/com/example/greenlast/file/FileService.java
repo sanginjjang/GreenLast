@@ -58,7 +58,6 @@ public class FileService {
         FileEntity savedFile = fileRepository.save(fileEntity);
         int refNo = savedFile.getFileNo();
 
-        savedFile.setFileRefNo(refNo);
         fileRepository.save(savedFile);
 
         // ✅ Upsert 처리 (Update 실패 시 Insert 수행)
