@@ -39,9 +39,9 @@
         let formData = new FormData();
         formData.append("file", document.getElementById("file").files[0]);
         // ★★★ 1. 클래스 고유 아이디, 게시글 고유 아이디를 입력하셔야 합니다. ★★★
-        // formData.append("id", document.getElementById("id").value);
+        formData.append("id", document.getElementById("id").value);
         // ★★★ 2. fileType 를 선택해서 formData 에 추가해주시면 됩니다 ★★★
-        // formData.append("fileType", document.getElementById("fileType").value);
+        formData.append("fileType", document.getElementById("fileType").value);
         // formData.append("fileType", "profile");
         // formData.append("fileType", "post");
         // formData.append("fileType", "introduce");
