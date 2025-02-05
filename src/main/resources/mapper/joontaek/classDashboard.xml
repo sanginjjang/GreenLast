@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.joontaek.ClassDashboardDao">
+
+    <select id="allStudentCnt" resultType="_int">
+        SELECT COUNT(cs.status_id)
+        FROM class c
+        INNER JOIN class_status cs
+        ON c.class_id = cs.class_id
+        WHERE c.user_id = #{userId}
+    </select>
+
+    <select id="allClassCnt" resultType="_int">
+        SELECT COUNT(*) FROM class where user_id = #{userId};
+    </select>
+
+    <select id="allRevenue" resultType="String">
+        SELECT FORMAT(SUM(c.class_price), 0) AS formatted_price
+        FROM class c
+        INNER JOIN class_status cs ON c.class_id = cs.class_id
+        WHERE c.user_id = "이동하"
+    </select>
+
+    <select id="newStudentCnt" resultType="_int">
+        SELECT COUNT(*)
+        FROM class_status cs
+        JOIN class c ON c.class_id = cs.class_id
+        WHERE c.user_id = #{userId} AND cs.reg_date >= CURDATE() - INTERVAL 7 day
+    </select>
+
+    <select id="ratingAvg" resultType="double">
+        SELECT ROUND(AVG(cr.rating), 1)
+        FROM class_review cr
+        JOIN class c ON c.class_id = cr.class_id
+        WHERE c.user_id = #{userId}
+    </select>
+
+
+    <!-- REST 용 @@@ REST 용 @@@ REST 용 @@@ REST 용 @@@ REST 용 @@@  !-->
+    <select id="getRevenueGraph" resultType="com.example.greenlast.dto.RevenueGraphDTO">
+        SELECT c.class_id, c.class_title, SUM(c.class_price) AS total_price
+        FROM class c
+        JOIN class_status cs ON c.class_id = cs.class_id
+        WHERE c.user_id = #{userId}
+        GROUP BY c.class_id, c.class_title;
+    </select>
+
+    <select id="getAgeGraph" resultType="com.example.greenlast.dto.AgeGraphDTO">
+        SELECT
+        CASE
+        WHEN YEAR(CURDATE()) - FLOOR(u.birth / 10000) &lt; 20 THEN '10대'
+        WHEN YEAR(CURDATE()) - FLOOR(u.birth / 10000) BETWEEN 20 AND 29 THEN '20대'
+        WHEN YEAR(CURDATE()) - FLOOR(u.birth / 10000) BETWEEN 30 AND 39 THEN '30대'
+        WHEN YEAR(CURDATE()) - FLOOR(u.birth / 10000) BETWEEN 40 AND 49 THEN '40대'
+        ELSE '50대 이상'
+        END AS ageGroup,
+        COUNT(*) AS count
+        FROM class_status cs
+        JOIN class c ON c.class_id = cs.class_id
+        JOIN user u ON u.user_id = cs.user_id
+        WHERE c.user_id = #{userId}
+        GROUP BY ageGroup
+        ORDER BY FIELD(ageGroup, '10대', '20대', '30대', '40대', '50대 이상');
+    </select>
+
+
+
+</mapper>

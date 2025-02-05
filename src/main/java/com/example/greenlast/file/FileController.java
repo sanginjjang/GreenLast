@@ -25,37 +25,43 @@ import java.util.List;
  * 25. 1. 27.        이동하       최초 생성
  */
 @RestController
-@RequestMapping("/file-api")
+@RequestMapping("/api/file")
 @RequiredArgsConstructor
 public class FileController {
     private final FileService fileService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
-                                             @RequestParam("fileGubnCode") String fileGubnCode,
-                                             @RequestParam("fileRefNo") String fileRefNo) throws IOException {
+                                             @RequestParam("fileType") String fileType,
+                                             @RequestParam(value = "id", required = false) int id
 
-        FileEntity savedFile = fileService.saveFile(file, fileGubnCode, fileRefNo);
+    ) throws IOException {
+        System.out.println(file.getOriginalFilename());
+        FileEntity savedFile = fileService.saveFile(file, fileType, id);
         return ResponseEntity.ok("파일 업로드 성공! 저장된 경로: " + savedFile.getFileUrl());
     }
 
+    //파일 넘버 얻기
     @GetMapping("/{fileNo}")
     public ResponseEntity<FileEntity> getFile(@PathVariable int fileNo) {
         FileEntity file = fileService.getFileById(fileNo);
         return ResponseEntity.ok(file);
     }
 
+    // 모든 파일 얻기
     @GetMapping
     public ResponseEntity<List<FileEntity>> getAllFiles() {
         return ResponseEntity.ok(fileService.getAllFiles());
     }
 
+    // 삭제
     @DeleteMapping("/{fileNo}")
     public ResponseEntity<String> deleteFile(@PathVariable int fileNo) {
         fileService.deleteFile(fileNo);
         return ResponseEntity.ok("파일이 성공적으로 삭제되었습니다.");
     }
 
+    // 다운로드
     @GetMapping("/download/{fileNo}")
     public ResponseEntity<Resource> downloadFile(@PathVariable int fileNo) throws MalformedURLException {
         FileEntity file = fileService.getFileById(fileNo);
