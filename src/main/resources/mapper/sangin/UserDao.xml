@@ -5,20 +5,47 @@
 
     <!-- 사용자 정보를 username으로 조회 -->
     <select id="findByUserId" resultType="com.example.greenlast.security.CustomUserDetails">
-        SELECT
-            user_id AS userId,
-            password,
-            name,
-            phone_number AS phoneNumber,
-            email,
-            birth,
-            gender,
-            created_at AS createdAt,
-            role,
-            user_image AS userImage
+        SELECT user_id      AS userId,
+               password,
+               name,
+               phone_number AS phoneNumber,
+               email,
+               birth,
+               gender,
+               created_at   AS createdAt,
+               role
         FROM user
         WHERE user_id = #{userId}
     </select>
 
+    <!-- ✅ 아이디 찾기 -->
+    <select id="existsByNameAndEmail" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM user
+        WHERE name = #{name} AND email = #{email}
+    </select>
+
+    <select id="getUserByNameAndEmail" resultType="com.example.greenlast.dto.UserDTO">
+        SELECT * FROM user
+        WHERE name = #{name} AND email = #{email}
+    </select>
+
+    <!-- ✅ 비밀번호 찾기 -->
+    <select id="existsByIdAndEmail" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM user
+        WHERE user_id = #{userId} AND name = #{name} AND email = #{email}
+    </select>
+
+    <select id="getUserByIdAndEmail" resultType="com.example.greenlast.dto.UserDTO">
+        SELECT * FROM user
+        WHERE user_id = #{userId} AND name = #{name} AND email = #{email}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE user
+        SET password = #{password}
+        WHERE user_id = #{userId}
+    </update>
 
 </mapper>

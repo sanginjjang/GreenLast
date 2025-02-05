@@ -18,7 +18,7 @@
     <aside>
         <div id="aside_section1">
             <div id="aside_img">
-                <img th:src="@{/images/test.webp}" id="aside_img_img">
+                <img id="aside_img_img">
                 <i class="fa-solid fa-pen-to-square" id="aside_img_btn"></i>
             </div>
             <div id="aside_name">&nbsp;</div>
@@ -54,6 +54,31 @@
 <div layout:fragment="content">
     <div id="content_container">
         <div id="first_text">구매 내역</div>
+        <div id="content_section1">
+            <div class="pur_box">
+                <img th:src="@{/images/test.webp}" class="pur_box_left">
+                <div class="pur_box_center">
+                    <div class="pur_center_title">스프링으로 윈터를 꼬시는 방법에 관하여..</div>
+                    <div class="pur_center_term">(수강기한 : 무제한)</div>
+                </div>
+                <div class="pur_box_right">
+                    <div class="pur_right_money">₩40,700</div>
+                    <div class="pur_right_delete">내역삭제</div>
+                    <div class="pur_right_refund">환불신청</div>
+                </div>
+            </div><div class="pur_box">
+                <img th:src="@{/images/test.webp}" class="pur_box_left">
+                <div class="pur_box_center">
+                    <div class="pur_center_title">스프링으로 윈터를 꼬시는 방법에 관하여..</div>
+                    <div class="pur_center_term">(수강기한 : 무제한)</div>
+                </div>
+                <div class="pur_box_right">
+                    <div class="pur_right_money">₩40,700</div>
+                    <div class="pur_right_delete">내역삭제</div>
+                    <div class="pur_right_refund">환불신청</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
