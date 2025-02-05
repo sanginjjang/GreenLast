@@ -18,43 +18,47 @@
             </a>
         </div>
         <div id="section1_box2">
-                이메일 주소로 찾기
+            이메일 주소로 찾기
         </div>
     </div>
-    <div id="section2">
-        <div id="index_text">
-            회원정보에 등록된 정보로 비밀번호를 찾을 수 있습니다.
+    <form id="findForm">
+        <div id="section2">
+            <div id="index_text">
+                회원정보에 등록된 정보로 비밀번호를 찾을 수 있습니다.
+            </div>
+            <div id="section2_container">
+                <div class="section2_input_box">
+                    <div>아이디</div>
+                    <input type="text" name="userId">
+                </div>
+                <div class="section2_input_box">
+                    <div>이름</div>
+                    <input type="text" name="name">
+                </div>
+                <!--            <div class="section2_input_box">-->
+                <!--                <div>생년월일</div>-->
+                <!--                <input type="text" name="name">-->
+                <!--            </div>-->
+                <div class="section2_input_box">
+                    <div>이메일 번호</div>
+                    <input type="text" name="email">
+                    <button type="button" id="auth_number_send_btn">인증번호 발송</button>
+                </div>
+                <div class="section2_input_box">
+                    <div>인증번호</div>
+                    <input type="text" name="authCode">
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <button type="button" id="authenticationCheck_btn" onclick="submitAuthCodePw()">인증확인</button>
+            </div>
         </div>
-        <div id="section2_container">
-            <div class="section2_input_box">
-                <div>아이디</div>
-                <input type="text" name="name">
-            </div>
-            <div class="section2_input_box">
-                <div>이름</div>
-                <input type="text" name="name">
-            </div>
-            <div class="section2_input_box">
-                <div>생년월일</div>
-                <input type="text" name="name">
-            </div>
-            <div class="section2_input_box">
-                <div>이메일 번호</div>
-                <input type="text" name="name">
-                <button id="auth_number_send_btn">인증번호 발송</button>
-            </div>
-            <div class="section2_input_box">
-                <div>인증번호</div>
-                <input type="text" name="name">
-            </div>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: center;">
-            <button id="authenticationCheck_btn">인증확인</button>
-        </div>
-    </div>
+    </form>
 </div>
-<div style="width: 1000px; display: flex; justify-content: center;">
-    <span id="toHome">홈으로</span>
+<div style="width: 1000px; display: flex; gap: 30px; justify-content: center;">
+    <a href="/home/homepage" class="bottomBtn">홈으로</a>
+    <a href="/view/findIdByPhoneForm" class="bottomBtn">아이디 찾기</a>
 </div>
+<script src="/js/sangin/findPwByEmail.js"></script>
 </body>
 </html>

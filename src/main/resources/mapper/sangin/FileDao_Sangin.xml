@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.file.FileDao_Sangin">
+
+    <!-- ✅ 프로필 이미지 Upsert -->
+    <update id="updateProfile">
+        UPDATE user
+        SET file_no = #{refNo}
+        WHERE user_id = #{userId}
+    </update>
+
+    <!-- ✅ 게시글 이미지 Upsert (post_file 중간 테이블) -->
+    <update id="updatePostFile">
+        UPDATE post_file
+        SET file_no = #{refNo}
+        WHERE post_id = #{postId}
+    </update>
+
+    <insert id="insertPostFile" useGeneratedKeys="true">
+        INSERT INTO post_file (post_id, file_no)
+        VALUES (#{postId}, #{refNo})
+    </insert>
+
+    <!-- ✅ 썸네일 이미지 Upsert -->
+    <update id="updateThumbnail">
+        UPDATE class
+        SET file_no = #{refNo}
+        WHERE class_id = #{classId}
+    </update>
+
+    <!-- ✅ 소개 이미지 Upsert -->
+    <update id="updateIntroduce">
+        UPDATE class_introduce
+        SET file_no = #{refNo}
+        WHERE introduce_id = #{introduceId}
+    </update>
+
+    <insert id="insertIntroduce" useGeneratedKeys="true">
+        INSERT INTO class_introduce (introduce_id, file_no)
+        VALUES (#{introduceId}, #{refNo})
+    </insert>
+
+    <update id="deleteIntroduceRef">
+        UPDATE class_introduce
+        SET file_no = NULL
+        WHERE file_no = #{fileNo}
+    </update>
+
+    <!-- ✅ 게시글(Post) 참조 삭제 -->
+    <update id="deletePostRef">
+        UPDATE post_file
+        SET file_no = NULL
+        WHERE file_no = #{fileNo}
+    </update>
+
+    <!-- ✅ 썸네일(Thumbnail) 참조 삭제 -->
+    <update id="deleteThumbnailRef">
+        UPDATE class
+        SET file_no = NULL
+        WHERE file_no = #{fileNo}
+    </update>
+
+    <!-- ✅ 프로필(Profile) 참조 삭제 -->
+    <update id="deleteProfileRef">
+        UPDATE user
+        SET file_no = NULL
+        WHERE file_no = #{fileNo}
+    </update>
+
+</mapper>

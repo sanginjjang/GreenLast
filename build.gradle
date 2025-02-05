@@ -27,6 +27,9 @@ dependencies {
     // Thymeleaf layout용 디펜던시
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
 
+    //이메일 센더
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     // Spring Boot 기본 디펜던시
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

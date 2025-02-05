@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class FileDTO {
     private int fileNo;
-    private String fileGubnCode;
+    private String fileType;
     private String fileRefNo;
     private String fileOldName;
     private String fileNewName;

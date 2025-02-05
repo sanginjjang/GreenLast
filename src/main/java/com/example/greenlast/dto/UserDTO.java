@@ -15,6 +15,7 @@ public class UserDTO {
     private String gender;
     private String createdAt;
     private String role;
-    private String user_image;
+    private String fileNo;
+    private String fileUrl;
 }
 
