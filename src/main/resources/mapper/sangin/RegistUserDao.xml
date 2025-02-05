@@ -23,7 +23,7 @@
         gender,
         role,
         created_at,
-        user_image
+        file_no
         ) VALUES (
         #{userId},
         #{password},
