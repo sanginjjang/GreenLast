@@ -10,7 +10,8 @@ public class ScheduleDTO {
     private int scheduleId;
     private String userId;
     private String title;
-    private String description;
+    private String content;
+    private String color;
     private String startDate;
     private String endDate;
 }

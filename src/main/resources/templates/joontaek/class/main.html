@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대시보드</title>
+    <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <link rel="stylesheet" href="/css/joontaek/classDashboard.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script> <!-- date-fns만 사용 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{/layout/fragments/header :: header}"></div>
+
+<!-- Nav -->
+<div th:replace="~{/layout/fragments/nav :: nav}"></div>
+
+<!-- 대시보드 배경 -->
+<!--<div class="dashboard-header">-->
+<!--    <h2>대시보드</h2>-->
+<!--</div>-->
+
+<!-- Aside (사이드바) -->
+<aside>
+    <p>대시보드</p>
+    <ul>
+        <li><a href="#"><b>대시보드</b></a></li>
+    </ul>
+    <p>새 강의 만들기</p>
+    <ul>
+        <li><a href="#"><b>새 강의 만들기</b></a></li>
+    </ul>
+    <p>강의 관리</p>
+    <ul>
+        <li><a href="#"><b>강의 관리</b></a></li>
+        <li><a href="#"><b>수강평 조회</b></a></li>
+    </ul>
+</aside>
+
+<!-- Main Content -->
+<div class="dashboard-container">
+    <div class="dashboard-cards">
+
+        <div class="card">
+            <p>총 수강생 수</p>
+            <p class="main-value" th:text="${studentCnt} + '명'"></p>
+        </div>
+        <div class="card">
+            <p>총 강의 수</p>
+            <p class="main-value" th:text="${classCnt} + '개'"></p>
+        </div>
+        <div class="card">
+            <p>강의 총 수익</p>
+            <p class="main-value" th:text="${allRevenue} + '원'"></p>
+        </div>
+        <div class="card">
+            <p>신규 수강생 수</p>
+            <p class="main-value" th:text="${newStudentCnt} + '명'"></p>
+        </div>
+        <div class="card">
+            <p>평점</p>
+            <p class="main-value" th:text="${ratingAvg} + '점'"></p>
+        </div>
+    </div>
+
+
+
+
+    <div class="graphBox">
+        <div class="graph">
+            <h3>판매 수익</h3>
+            <canvas id="revenueGraph"></canvas>
+        </div>
+
+        <div class="graph">
+            <h3>수강학생 연령대</h3>
+            <canvas id="ageGraph"></canvas>
+        </div>
+        <div class="graph">
+            <h3>완강률 상태</h3>
+            <canvas id="stateGraph"></canvas>
+        </div>
+    </div>
+
+
+
+
+    <div class="lineGraph">
+        <div class="graph">
+            <h3>수익 종합 차트</h3>
+            <canvas id="allRevenueGraph"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{/layout/fragments/footer :: footer}"></div>
+
+
+<script>
+    function getRandomColor() {
+        // 16진수 색상 코드로 랜덤 색상 생성
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // 데이터 길이에 맞춰 랜덤 색상 배열 생성
+    function generateRandomColors(dataLength) {
+        let colors = [];
+        for (let i = 0; i < dataLength; i++) {
+            colors.push(getRandomColor());
+        }
+        return colors;
+    }
+
+    axios.get('/api/class/revenueGraph')
+        .then(response => {
+            // 서버에서 받아온 데이터를 기반으로 labels와 data를 추출
+            const labelsFromServer = response.data.map(item => item.classTitle);
+            const dataFromServer = response.data.map(item => item.totalPrice);
+            const backgroundColors = generateRandomColors(labelsFromServer.length);
+
+            console.log(dataFromServer);
+            // Chart.js로 차트를 생성하면서, 위에서 추출한 데이터를 사용
+            new Chart(document.getElementById("revenueGraph"), {
+                type: 'doughnut',
+                data: {
+                    labels: labelsFromServer, // 서버에서 받아온 classTitle 리스트
+                    datasets: [
+                        {
+                            backgroundColor: backgroundColors,
+                            data: dataFromServer // 서버에서 받아온 classPrice 리스트
+                        }
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        responsive: false,
+                        text: 'COUNT'
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error("데이터 불러오기 실패:", error);
+        });
+
+
+    axios.get('/api/class/ageGraph')
+        .then(response => {
+            // 서버에서 받아온 데이터를 기반으로 labels와 data를 추출
+            const labelsAge = response.data.map(item => item.ageGroup);
+            const ageData = response.data.map(item => item.count);
+            const backgroundColors = generateRandomColors(labelsAge.length);
+
+            console.log(labelsAge);
+            // Chart.js로 차트를 생성하면서, 위에서 추출한 데이터를 사용
+            new Chart(document.getElementById("ageGraph"), {
+                type: 'doughnut',
+                data: {
+                    labels: labelsAge, // 서버에서 받아온 classTitle 리스트
+                    datasets: [
+                        {
+                            backgroundColor: backgroundColors,
+                            data: ageData // 서버에서 받아온 classPrice 리스트
+                        }
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        responsive: false,
+                        text: 'COUNT'
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error("데이터 불러오기 실패:", error);
+        });
+
+    //
+    // new Chart(document.getElementById("stateGraph"), {
+    //     type: 'doughnut',
+    //     data: {
+    //         labels: ["1강의", "2강의", "3강의"],
+    //         datasets: [
+    //             {
+    //                 backgroundColor: ["yellow", "pink","beige"],
+    //                 data: [48,10,39]
+    //             }
+    //         ]
+    //     },
+    //     options: {
+    //         title: {
+    //
+    //             display:true,
+    //             responsive: false,
+    //             text: 'COUNT'
+    //         }
+    //     }
+    // });
+    //
+    // new Chart(document.getElementById("allRevenueGraph"), {
+    //     type: 'line',
+    //     data: {
+    //         labels: ["1강의", "2강의", "3강의","4강의"],
+    //         datasets: [
+    //             {
+    //                 data: [127,48,79,72,71,68,186,451,367,218,714,175]
+    //             }
+    //         ]
+    //     },
+    //     options: {
+    //         title: {
+    //
+    //             display:true,
+    //             responsive: false,
+    //             text: 'COUNT'
+    //         }
+    //     }
+    // });
+
+
+
+</script>
+</body>
+</html>
