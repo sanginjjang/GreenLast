@@ -30,15 +30,27 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ CORS 설정 적용
                 .csrf(csrf -> csrf.disable()) // ✅ CSRF 비활성화
                 .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions.sameOrigin()) // ✅ iframe 허용 (SmartEditor 정상 작동)
+                        .frameOptions(frame -> frame.disable()) // ✅ Iframe 허용
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("frame-src *; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline';")) // ✅ CSP 정책 적용
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/view/loginForm", "/login", "/logout",
-                                "/css/**", "/static/**", "/mapper/**", "/fonts/**", "/images/**", "/js/**",
-                                "/api/file/upload", "/smarteditor/**" // ✅ SmartEditor 관련 파일 접근 허용
+                                "/view/loginForm",
+                                "/view/findIdByPhoneForm",
+                                "/view/findIdByEmailForm",
+                                "/view/findPwByPhoneForm",
+                                "/view/findPwByEmailForm",
+                                "/login",
+                                "/logout",
+                                "/css/**",
+                                "/static/**",
+                                "/mapper/**",
+                                "/fonts/**",
+                                "/images/**",
+                                "/js/**",
+                                "/api/file/upload"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() // ✅ 모든 요청 허용 (테스트용)
                 )
                 .formLogin(form -> form
                         .loginPage("/view/loginForm")
@@ -61,6 +73,7 @@ public class SecurityConfig {
                 )
                 .build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
