@@ -37,7 +37,7 @@ public class ScheduleController {
         String userId = "박준택";
         List<ScheduleDTO> schedules = scheduleDao.getSchedule(userId);
 
-        System.out.println("리스트조회@@@@@@@@@@@@@");
+
         System.err.println(schedules);
 
         return ResponseEntity.ok(schedules);
