@@ -12,7 +12,7 @@
             top: 150px;
             width: 340px;
             padding: 20px;
-            background-color: #fff; /* 배경 흰색 */
+            background-color: #fff;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -28,12 +28,6 @@
             font-weight: bold;
             color: #d9534f;
             margin: 10px 0;
-        }
-
-        .discount-price {
-            font-size: 18px;
-            color: #777;
-            text-decoration: line-through;
         }
 
         .btn {
@@ -62,38 +56,67 @@
             margin-right: 380px;
         }
     </style>
-    <script src="https://js.bootpay.co.kr/bootpay-4.3.0.min.js"></script>
 </head>
 <body>
 
-<!-- aside (사용 버전) -->
 <th:block layout:fragment="aside">
     <aside>
         <img th:src="@{${classDetail.thumbnail}}" class="class-thumbnail" alt="강의 썸네일"/>
-        <p class="class-price"><span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + 원"></span></p>
-        <button class="btn btn-primary"
-                th:onclick="|location.href='/cart?classId=' + ${classDetail.classId}|">
-            수강 신청하기
-        </button>
-        <button class="btn btn-secondary">바구니에 담기</button>
+        <p class="class-price">
+            <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
+        </p>
+
+        <th:block th:if="${isAuthenticated}">
+            <button class="btn btn-primary" id="addToCartButton"
+                    th:data-class-id="${classDetail.classId}" onclick="addToCart()">
+                수강 신청하기
+            </button>
+        </th:block>
+        <th:block th:unless="${isAuthenticated}">
+            <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
+                수강 신청하기
+            </button>
+        </th:block>
+
         <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
         <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
     </aside>
 </th:block>
 
-<!-- content -->
 <div layout:fragment="content">
     <div class="class-detail-container">
-        <img th:src="@{${classDetail.thumbnail}}" class="class-thumbnail" alt="강의 썸네일"/>
         <h1 class="class-title" th:text="${classDetail.title}">강의 제목</h1>
-        <p class="class-instructor" th:text="'강사: ' + ${classDetail.instructor}">강사명</p>
         <p class="class-description" th:text="${classDetail.description}">강의 설명</p>
-        <p th:text="${classDetail.description}"></p>
         <p th:text="${classDetail.classCapsule}"></p>
         <p th:text="${classDetail.classSubtitle}"></p>
         <p th:text="${classDetail.classCategory}"></p>
         <p th:text="${classDetail.classRecom}"></p>
     </div>
+</div>
+
+<div layout:fragment="scripts">
+    <script>
+        function addToCart() {
+            const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
+
+            console.log("📌 장바구니 추가 - classId:", classId);
+
+            fetch('/cart-api/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ classId: classId })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("📌 서버 응답:", data);
+                    alert(data.message);
+                    if (data.success) {
+                        window.location.href = "/cart"; // 최신 데이터 반영
+                    }
+                })
+                .catch(error => console.error("🚨 API 요청 실패:", error));
+        }
+    </script>
 </div>
 </body>
 </html>

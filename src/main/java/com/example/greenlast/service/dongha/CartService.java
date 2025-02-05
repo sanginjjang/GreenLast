@@ -23,15 +23,32 @@ import java.util.List;
 public class CartService {
     private final ICartDao cartDao;
 
-    public void addCart(int userId, int classId){
+    public void addCart(String userId, int classId) {
+        System.out.println("🛒 [CartService] 장바구니 추가 - userId: " + userId + ", classId: " + classId);
         cartDao.addCart(userId, classId);
+        System.out.println("🛒 [CartService] 장바구니 추가 완료!");
     }
 
-    public List<CartDTO> getCartList(int userId){
-        return cartDao.getCartItems(userId);
+    public List<CartDTO> getCartListByUserId(String userId) {
+        System.out.println("📌 [CartService] DB 조회 - userId: " + userId);
+
+        List<CartDTO> cartList = cartDao.getCartItems(userId);  // ✅ userId로 장바구니 조회
+
+        for (CartDTO item : cartList) {
+            System.out.println("📌 [CartService] 가져온 아이템 - classId: " + item.getClassId() +
+                    ", title: " + item.getClassTitle() +
+                    ", price: " + item.getCartPrice() +
+                    ", userName: " + item.getUserName());
+        }
+
+        return cartList;
     }
 
-    public void removeCart(int userId){
-        cartDao.deleteCart(userId);
+    public void removeCart(String userId, int classId) {
+        cartDao.removeFromCart(userId, classId);
+    }
+
+    public boolean isItemInCart(String userId, int classId) {
+        return cartDao.checkCartItemExists(userId, classId) > 0;
     }
 }

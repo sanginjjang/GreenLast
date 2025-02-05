@@ -19,7 +19,8 @@ import java.util.List;
  */
 @Mapper
 public interface ICartDao {
-    void addCart(@Param("userId") int userId, @Param("classId") int classId);
-    List<CartDTO> getCartItems(@Param("userId") int userId);
-    void deleteCart(@Param("cartId") int cartId);
+    void addCart(@Param("userId") String userId, @Param("classId") int classId);
+    List<CartDTO> getCartItems(@Param("userId") String userId);
+    void removeFromCart(@Param("userId") String userId, @Param("classId") int classId);
+    int checkCartItemExists(@Param("userId") String userId, @Param("classId") int classId);
 }
