@@ -61,7 +61,7 @@
 
 <th:block layout:fragment="aside">
     <aside>
-        <img th:src="@{${classDetail.thumbnail}}" class="class-thumbnail" alt="강의 썸네일"/>
+        <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
         <p class="class-price">
             <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
         </p>
@@ -111,7 +111,7 @@
                     console.log("📌 서버 응답:", data);
                     alert(data.message);
                     if (data.success) {
-                        window.location.href = "/cart"; // 최신 데이터 반영
+                        window.location.href = "/cart";
                     }
                 })
                 .catch(error => console.error("🚨 API 요청 실패:", error));
