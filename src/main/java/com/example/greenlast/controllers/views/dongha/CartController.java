@@ -35,11 +35,12 @@ public class CartController {
     @GetMapping
     public String showCart(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
         if (userDetails == null) {
-            return "redirect:/login";  // ✅ 로그인하지 않은 경우 리디렉트
+            return "redirect:/login";
         }
 
-        String userId = userDetails.getUserId();  // ✅ userId 가져오기
-        List<CartDTO> cart = cartService.getCartListByUserId(userId);  // ✅ userId로 장바구니 조회
+        String userId = userDetails.getUserId();
+        String userName = userDetails.getUsername();
+        List<CartDTO> cart = cartService.getCartListByUserId(userId);
 
         System.out.println("📌 [CartController] 사용자 ID: " + userId);
         System.out.println("📌 [CartController] 장바구니 개수: " + cart.size());
@@ -47,6 +48,7 @@ public class CartController {
         int totalPrice = cart.stream().mapToInt(item -> item.getCartPrice() * item.getQuantity()).sum();
         model.addAttribute("cart", cart);
         model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("userName", userName);
         return "dongha/cart";
     }
 

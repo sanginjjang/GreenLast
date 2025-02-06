@@ -24,14 +24,10 @@ public class CartService {
     private final ICartDao cartDao;
 
     public void addCart(String userId, int classId) {
-        System.out.println("🛒 [CartService] 장바구니 추가 - userId: " + userId + ", classId: " + classId);
         cartDao.addCart(userId, classId);
-        System.out.println("🛒 [CartService] 장바구니 추가 완료!");
     }
 
     public List<CartDTO> getCartListByUserId(String userId) {
-        System.out.println("📌 [CartService] DB 조회 - userId: " + userId);
-
         List<CartDTO> cartList = cartDao.getCartItems(userId);  // ✅ userId로 장바구니 조회
 
         for (CartDTO item : cartList) {
@@ -50,5 +46,11 @@ public class CartService {
 
     public boolean isItemInCart(String userId, int classId) {
         return cartDao.checkCartItemExists(userId, classId) > 0;
+    }
+
+    public void removePurchasedItems(String userId, List<Integer> purchasedItems) {
+        for (int classId : purchasedItems) {
+            cartDao.removeFromCart(userId, classId);
+        }
     }
 }
