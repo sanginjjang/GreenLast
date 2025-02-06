@@ -28,21 +28,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
-            // 요청에서 JWT 토큰을 추출
             System.out.println("필터 토큰 추출 실시");
             String token = resolveToken(request);
             System.out.println("토큰: " + token);
 
-            // 토큰이 유효하다면 사용자 정보를 설정
             if (token != null && jwtTokenProvider.validateToken(token)) {
-                String userId = jwtTokenProvider.getUserIdFromToken(token); // 토큰에서 사용자 이름 추출
-                String role = jwtTokenProvider.getRoleFromToken(token); // 토큰에서 역할 추출
+                String userId = jwtTokenProvider.getUserIdFromToken(token);
+                String role = jwtTokenProvider.getRoleFromToken(token);
 
-                System.out.println("jwtAuthenticationFilter: " + userId);
-                System.out.println("jwtAuthenticationFilter: " + role);
+                System.out.println("🟢 jwtAuthenticationFilter - userId: " + userId);
+                System.out.println("🟢 jwtAuthenticationFilter - role: " + role);
 
-                // 사용자 정보를 담은 CustomUserDetails 객체 생성
-                CustomUserDetails userDetails = new CustomUserDetails(userId,null, role);
+                // ✅ CustomUserDetails 생성 (role 포함)
+                CustomUserDetails userDetails = new CustomUserDetails(userId, null, role);
 
                 // ✅ Spring Security에 Authentication 객체 생성
                 UsernamePasswordAuthenticationToken authentication =
@@ -53,13 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println("🟢 SecurityContextHolder - 인증 저장 완료");
             }
         } catch (Exception e) {
-            // JWT 검증 중 발생한 예외 처리 (필요 시 로그 출력)
             logger.error("JWT 인증 중 오류 발생: " + e.getMessage());
         }
 
-        // 다음 필터로 요청을 넘김
         filterChain.doFilter(request, response);
     }
+
 
     // 요청에서 쿠키를 통해 JWT 토큰을 추출하는 메서드
     private String resolveToken(HttpServletRequest request) {
