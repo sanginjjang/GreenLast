@@ -1,9 +1,11 @@
 package com.example.greenlast.controllers.views.dongha;
 
+import com.example.greenlast.security.CustomUserDetails;
 import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.dongha.ClassMainService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.bcel.ClassPathManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +44,18 @@ public class HomePgaeController {
 
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") Long id, Model model) {
+    public String classDetail(@PathVariable Long id, Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         model.addAttribute("classDetail", classMainService.getClassDetail(id));
-        return "/dongha/classDetail";
+
+        if (userDetails != null) {
+            model.addAttribute("isAuthenticated", true);
+            model.addAttribute("userId", userDetails.getUsername()); // ✅ userId 추가 전달
+        } else {
+            model.addAttribute("isAuthenticated", false);
+            model.addAttribute("userId", null);
+        }
+
+        return "dongha/classDetail";
     }
 
 

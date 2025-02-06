@@ -48,4 +48,10 @@
         LEFT JOIN file f ON c.class_id = f.file_ref_no
         WHERE c.class_id = #{id}
     </select>
+
+    <select id="getClassTitleById" resultType="String">
+        SELECT class_title
+        FROM class
+        WHERE class_id = #{classId}
+    </select>
 </mapper>

@@ -23,4 +23,5 @@ public interface IClassMainDao {
     List<ClassMainDTO> findClassMain();
     List<ClassMainDTO> findClassMainByKeyword(@Param("keyword") String keyword);
     ClassDetailDTO findClassDetail(@Param("id") Long id);
+    String getClassTitleById(@Param("classId") int classId);
 }
