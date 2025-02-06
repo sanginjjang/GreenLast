@@ -35,15 +35,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 토큰이 유효하다면 사용자 정보를 설정
             if (token != null && jwtTokenProvider.validateToken(token)) {
-                String userId = jwtTokenProvider.getUserId(token); // 토큰에서 사용자 이름 추출
-                String role = jwtTokenProvider.getRole(token); // 토큰에서 역할 추출
+                String userId = jwtTokenProvider.getUserIdFromToken(token); // 토큰에서 사용자 이름 추출
+                String role = jwtTokenProvider.getRoleFromToken(token); // 토큰에서 역할 추출
+
+                System.out.println("jwtAuthenticationFilter: " + userId);
+                System.out.println("jwtAuthenticationFilter: " + role);
 
                 // 사용자 정보를 담은 CustomUserDetails 객체 생성
                 CustomUserDetails userDetails = new CustomUserDetails(userId,null, role);
 
-                // Spring Security에 사용자 인증 정보 설정
-                SecurityContextHolder.getContext().setAuthentication(
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
+                // ✅ Spring Security에 Authentication 객체 생성
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                // ✅ SecurityContextHolder에 저장
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("🟢 SecurityContextHolder - 인증 저장 완료");
             }
         } catch (Exception e) {
             // JWT 검증 중 발생한 예외 처리 (필요 시 로그 출력)

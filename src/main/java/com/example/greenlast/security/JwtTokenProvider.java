@@ -18,7 +18,7 @@ public class JwtTokenProvider {
 
     // JWT 생성
     public String createToken(String userId, String role) {
-        System.out.println("jwtTokenProvider 토큰 생성..");
+        System.out.println("jwtTokenProvider 토큰 생성.." + userId + "," + role);
         Date now = new Date();
         Date validity = new Date(now.getTime() + expiration);
 
@@ -42,21 +42,24 @@ public class JwtTokenProvider {
         }
     }
 
-    // JWT에서 사용자 이름 추출
-    public String getUserId(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    public String getUserIdFromToken(String token) {
+        Claims claims = parseClaims(token);
+        System.out.println("Claims from Token: " + claims);
+        return claims.getSubject(); // ✅ "sub" 값을 반환하도록 수정
     }
 
-    // JWT에서 사용자 역할(Role) 추출
-    public String getRole(String token) {
+    // ✅ JWT에서 역할(Role) 추출
+    public String getRoleFromToken(String token) {
+        Claims claims = parseClaims(token);
+        System.out.println("Role Claims: " + claims.get("role"));
+        return claims.get("role", String.class); // JWT payload의 "role" 클레임
+    }
+
+    // ✅ JWT 파싱 메서드 (공통 로직)
+    private Claims parseClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
-                .getBody()
-                .get("role", String.class);
+                .getBody();
     }
 }
