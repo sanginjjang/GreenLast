@@ -1,6 +1,7 @@
 package com.example.greenlast.security;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 // 쿠키를 생성, 삭제하는 유틸리티 클래스
@@ -26,5 +27,16 @@ public class CookieUtil {
         cookie.setPath("/");
         cookie.setMaxAge(0); // 즉시 만료
         response.addCookie(cookie); // 클라이언트에 쿠키 추가 (빈 값으로 대체)
+    }
+
+    public static String getTokenFromRequest(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("mazayotoken".equals(cookie.getName())) { // ✅ JWT 쿠키 이름
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }
