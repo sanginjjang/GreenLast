@@ -1,13 +1,8 @@
-// document.getElementById("loginForm").addEventListener("submit", function (event) {
-//     const inputId = document.getElementById('login_inputId').value;
-//     const inputPw = document.getElementById('login_inputPw').value;
-//
-//     if (!inputId || !inputPw) {
-//         alert("아이디와 비밀번호를 모두 입력하세요.");
-//         event.preventDefault(); // 기본 제출 동작 중단
-//         return;
-//     }
-//
-//     // 입력값이 올바르다면 폼을 서버로 전송
-//     // event.preventDefault();를 사용하지 않으므로 폼이 제출됩니다.
-// });
+document.getElementById("kakao-login-btn").addEventListener("click", () => {
+    const kakaoRestApiKey = 'a3f955836263dbc92dd134f11969510d'; // ✅ 카카오 REST API 키
+    const redirectUri = 'http://localhost:8080/oauth/kakao/callback'; // ✅ Redirect URI
+
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoRestApiKey}&redirect_uri=${redirectUri}`;
+
+    window.location.href = kakaoAuthUrl; // 카카오 로그인 페이지로 리디렉션
+});

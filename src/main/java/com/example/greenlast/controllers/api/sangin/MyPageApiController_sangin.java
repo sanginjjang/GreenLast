@@ -8,6 +8,8 @@ import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.sangin.MyPageService_sangin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +28,11 @@ public class MyPageApiController_sangin {
     public ResponseEntity<?> infoForm() {
         System.out.println("/api/mypage/infoForm");
         String userId = SecurityUtil.getCurrentUserId();
+        String role = SecurityUtil.getCurrentUserRole();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authentication: " + auth);
+        System.out.println("★ ★ ★ ★ ★ userId  : " + userId);
+        System.out.println("★ ★ ★ ★ ★ role : " + role);
         UserDTO user = myPageService.getUserById(userId);
         if(user != null) {
             System.out.println(user);

@@ -24,7 +24,7 @@ public class EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
         message.setSubject("✅ GreenLast 인증번호");
-        message.setText("인증번호는: " + verificationCode + " 입니다.");
+        message.setText("나이쓰~~ 기분 좋은 하루되세요 아하하핳ㅎㅎ 인증번호는: " + verificationCode + " 입니다.");
 
         mailSender.send(message); // 🚀 메일 전송
 
