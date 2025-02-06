@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.sangin.UserDao_sangin">
+    <!-- UserMapper.xml -->
+    <select id="findByEmail" resultType="com.example.greenlast.dto.UserDTO">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+
+    <insert id="insertUser" parameterType="com.example.greenlast.dto.UserDTO">
+        INSERT INTO user (user_id, name,email,password, gender, birth, phone_number, role, created_at, file_no)
+        VALUES (#{email}, #{name},#{email}, #{password},#{gender}, #{birth}, #{phoneNumber}, "ROLE_USER", NOW(), NULL)
+    </insert>
+
+</mapper>
