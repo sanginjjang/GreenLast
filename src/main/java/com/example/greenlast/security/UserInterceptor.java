@@ -25,8 +25,8 @@ public class UserInterceptor implements HandlerInterceptor {
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
             // JWT가 유효하다면 사용자 정보를 SecurityContext에 설정
-            String userId = jwtTokenProvider.getUserId(token); // 토큰에서 사용자 이름 추출
-            String role = jwtTokenProvider.getRole(token); // 토큰에서 역할 추출
+            String userId = jwtTokenProvider.getUserIdFromToken(token); // 토큰에서 사용자 이름 추출
+            String role = jwtTokenProvider.getRoleFromToken(token); // 토큰에서 역할 추출
 
             // 사용자 정보를 담은 CustomUserDetails 객체 생성
             CustomUserDetails userDetails = new CustomUserDetails(userId, null, role);

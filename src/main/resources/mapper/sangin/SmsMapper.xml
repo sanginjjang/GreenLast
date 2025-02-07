@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.greenlast.sms.SmsDao">
+
+    <!-- ✅ 이름과 휴대폰 번호로 사용자 존재 여부 확인 -->
+    <select id="existsByNameAndPhone" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM user
+        WHERE name = #{name}
+          AND phone_number = #{phone}
+    </select>
+
+    <!-- ✅ 이름과 휴대폰 번호로 사용자 정보 조회 -->
+    <select id="getUserByNameAndPhone" resultType="com.example.greenlast.dto.UserDTO">
+        SELECT *
+        FROM user
+        WHERE name = #{name}
+          AND phone_number = #{phone}
+    </select>
+
+</mapper>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Page without Aside</title>
+</head>
+<body>
+<!-- aside (비워둠 버전) -->
+<th:block layout:fragment="aside">
+    <!-- aside가 없는 경우 지우지말고 fragment aside 지우지 말고 가만두세요 -->
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content">
+    <!--스타일은 크기를 보여주기 위함입니다 지우시고 작업하시면 됩니다-->
+    <h1>결제 내역</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>강의 제목</th>
+            <th>결제 일시</th>
+            <th>결제 금액</th>
+            <th>환불 상태</th>
+        </tr>
+        </thead>
+        <tbody id="payment-table">
+        </tbody>
+    </table>
+</div>
+</body>
+
+<!--이거밖에서 스크립트 작성하면 안돌아갑니다...-->
+<div layout:fragment="scripts">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            axios.get("/payment-api/history")
+                .then(response => {
+                    let payments = response.data;
+                    let tableBody = document.getElementById("payment-table");
+
+                    payments.forEach(payment => {
+                        let row = `<tr>
+                    <td>${payment.classTitle}</td>
+                    <td>${payment.paymentDate}</td>
+                    <td>₩${payment.price.toLocaleString()}</td>
+                    <td>${payment.refundStatus}</td>
+                </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                })
+                .catch(error => {
+                    console.error("🚨 결제 내역 조회 실패:", error);
+                });
+        });
+    </script>
+</div>
+</html>

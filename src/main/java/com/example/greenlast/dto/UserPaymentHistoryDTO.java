@@ -11,6 +11,7 @@ public class UserPaymentHistoryDTO {
     private String userId;
     private int classId;
     private String paymentDate;
-    private double amount;
+    private int price;
     private String refundStatus;
+    private String classTitle;
 }

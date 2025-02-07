@@ -16,9 +16,9 @@ import lombok.Data;
 @Data
 public class CartDTO {
     private int cartId;
-    private int userId;
+    private String userName;
     private int classId;
     private String classTitle;
-    private int price;
+    private int cartPrice;
     private int quantity;
 }
