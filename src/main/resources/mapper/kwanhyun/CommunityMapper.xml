@@ -24,7 +24,7 @@
     </update>
 
     <delete id="deleteCommunityPost">
-
+        DELETE FROM community_post WHERE post_id = #{postId}
     </delete>
 
     <select id="getCommunityNoticeList" resultType="com.example.greenlast.dto.CommunityPostDTO">

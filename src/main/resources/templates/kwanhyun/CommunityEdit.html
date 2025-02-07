@@ -7,69 +7,150 @@
     <title>커뮤니티 게시글 수정</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f6f9;
+        }
+        .container {
+            max-width: 830px;
+            margin-top: 50px;
+            margin-left: 255px;
+            padding: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .input-title {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #f4f6f9;
+            border-radius: 5px;
+            background-color: #f4f6f9;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: block;
+            box-sizing: border-box;
+        }
+        .editor-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            min-height: 300px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .editor-container textarea {
+            width: 100%;
+            min-height: 250px;
+            border: none;
+            resize: vertical;
+            font-size: 16px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .file-upload {
+            margin-top: 15px;
+            width: 100%;
+        }
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .cancel, .submit {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .cancel {
+            background-color: #ccc;
+        }
+        .submit {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
 </head>
 <body>
+<th:block layout:fragment="aside">
+</th:block>
+
 <div layout:fragment="content">
     <div class="container">
-        <div class="title">게시글 수정</div>
-        <input type="text" id="editor-title" class="input-title" th:value="${communityPost.title}">
+        <div class="title">자유게시판 게시글 수정</div>
+        <input type="text" id="editor-title" class="input-title" th:value="${communityPost.title}" placeholder="제목에 핵심 내용을 요약해보세요.">
         <div class="editor-container">
             <textarea id="editorTxt" name="editorTxt" th:text="${communityPost.content}"></textarea>
         </div>
         <div class="buttons">
             <button class="cancel">취소</button>
-            <button class="submit">수정</button>
+            <button class="submit">수정 완료</button>
         </div>
     </div>
 </div>
+</body>
 
 <div layout:fragment="scripts">
     <script>
-    var oEditors = [];
+        var oEditors = [];
 
-    smartEditor = function () {
-        nhn.husky.EZCreator.createInIFrame({
-            oAppRef: oEditors,
-            elPlaceHolder: "editorTxt",
-            sSkinURI: "/smarteditor/SmartEditor2Skin.html",
-            fCreator: "createSEditor2"
-        });
-    }
-
-    $(document).ready(function () {
-        smartEditor();
-    });
-
-    $(".submit").click(function () {
-        oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
-        let title = $("#editor-title").val();
-        let content = $("#editorTxt").val();
-        let postId = [[${communityPost.postId}]];
-
-        if (!title || !content.trim()) {
-            alert("제목과 내용을 입력해주세요.");
-            return;
+        smartEditor = function() {
+            nhn.husky.EZCreator.createInIFrame({
+                oAppRef: oEditors,
+                elPlaceHolder: "editorTxt",
+                sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+                fCreator: "createSEditor2"
+            });
         }
 
-        $.ajax({
-            type: "PUT",
-            url: "http://localhost:8080/kwanhyun/api/community/post/" + postId,
-            contentType: "application/json",
-            data: JSON.stringify({
-                title: title,
-                content: content
-            }),
-            success: function (response) {
-                alert("게시글이 성공적으로 수정되었습니다.");
-                window.location.href = "/kwanhyun/community/CommunityDetail?postId=" + postId;
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-                alert("게시글 수정에 실패하였습니다.");
-            }
+        $(document).ready(function() {
+            smartEditor();
         });
-    });
+
+        $(".submit").click(function() {
+            oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
+            let title = $("#editor-title").val();
+            let content = $("#editorTxt").val();
+            let postId = [[${communityPost.postId}]];
+
+            if (!title || !content.trim()) {
+                alert("제목과 내용을 입력해주세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "PUT",
+                url: "/kwanhyun/api/community/post/" + postId,
+                contentType: "application/json",
+                data: JSON.stringify({
+                    title: title,
+                    content: content
+                }),
+                success: function(response) {
+                    alert("게시글이 성공적으로 수정되었습니다.");
+                    window.location.href = "/kwanhyun/community/CommunityDetail?postId=" + postId;
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert("게시글 수정에 실패하였습니다.");
+                }
+            });
+        });
+
+        $(".cancel").click(function() {
+            window.location.href = "/kwanhyun/community/CommunityDetail?postId=" + [[${communityPost.postId}]];
+        });
     </script>
 </div>
-</body>
 </html>
