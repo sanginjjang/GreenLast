@@ -42,9 +42,6 @@ public class CartController {
         String userName = userDetails.getUsername();
         List<CartDTO> cart = cartService.getCartListByUserId(userId);
 
-        System.out.println("📌 [CartController] 사용자 ID: " + userId);
-        System.out.println("📌 [CartController] 장바구니 개수: " + cart.size());
-
         int totalPrice = cart.stream().mapToInt(item -> item.getCartPrice() * item.getQuantity()).sum();
         model.addAttribute("cart", cart);
         model.addAttribute("totalPrice", totalPrice);
