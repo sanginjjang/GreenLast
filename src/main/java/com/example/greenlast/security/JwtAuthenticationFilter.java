@@ -36,8 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String userId = jwtTokenProvider.getUserIdFromToken(token);
                 String role = jwtTokenProvider.getRoleFromToken(token);
 
-                System.out.println("🟢 jwtAuthenticationFilter - userId: " + userId);
-                System.out.println("🟢 jwtAuthenticationFilter - role: " + role);
+                System.out.println("jwtAuthenticationFilter - userId: " + userId);
+                System.out.println("jwtAuthenticationFilter - role: " + role);
 
                 // ✅ CustomUserDetails 생성 (role 포함)
                 CustomUserDetails userDetails = new CustomUserDetails(userId, null, role);
@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 // ✅ SecurityContextHolder에 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("🟢 SecurityContextHolder - 인증 저장 완료");
+                System.out.println("SecurityContextHolder - 인증 저장 완료");
             }
         } catch (Exception e) {
             logger.error("JWT 인증 중 오류 발생: " + e.getMessage());

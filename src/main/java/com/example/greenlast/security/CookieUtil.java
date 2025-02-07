@@ -10,13 +10,24 @@ public class CookieUtil {
     // JWT를 쿠키에 추가하는 메서드
     public static void addTokenToCookie(HttpServletResponse response, String token) {
         System.out.println("쿠키 발급!!");
-        Cookie cookie = new Cookie("mazayotoken", token); // "mazayotoken" 이름으로 JWT 저장
-        cookie.setHttpOnly(true); // JavaScript에서 접근 불가능 (XSS 방지)
-        cookie.setSecure(true);   // HTTPS에서만 전송
-        cookie.setPath("/");      // 모든 경로에서 쿠키 유효
-        cookie.setMaxAge(60 * 60 * 24); // 쿠키 만료 시간: 1일 (단위: 초)
-        response.addCookie(cookie); // 클라이언트에 쿠키 추가
+        Cookie cookie = new Cookie("mazayotoken", token);
+        cookie.setHttpOnly(true); // JavaScript에서 접근 불가능
+
+        // ✅ HTTPS가 아닐 때 Secure 속성 해제 (테스트 환경)
+        boolean isLocal = isLocalEnvironment();
+        cookie.setSecure(!isLocal); // 로컬 환경에서는 Secure 설정 해제
+
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24); // 1일 (86400초)
+        response.addCookie(cookie);
     }
+
+    // ✅ 현재 환경이 로컬인지 판단하는 메서드
+    private static boolean isLocalEnvironment() {
+        String host = System.getenv("HOSTNAME");
+        return host == null || host.contains("localhost") || host.startsWith("192.168.") || host.startsWith("127.");
+    }
+
 
     // 쿠키에서 JWT를 삭제하는 메서드 (로그아웃 처리)
     public static void deleteCookie(HttpServletResponse response) {
