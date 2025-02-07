@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.greenlast.dao.kwanhyun.CommunityDao">
+    <insert id="regCommunityPost" parameterType="com.example.greenlast.dto.CommunityPostDTO">
+        INSERT INTO community_post
+        (class_id, user_id, title, content, category)
+        VALUES
+        (#{classId}, #{userId}, #{title}, #{content}, #{category})
+    </insert>
+
+    <select id="getCommunityPost">
+        SELECT * FROM community_post
+        WHERE post_id = #{postId}
+    </select>
+
+    <update id="updateCommunityPost" parameterType="com.example.greenlast.dto.CommunityPostDTO">
+        UPDATE community_post
+        SET title = #{title},
+        content = #{content}
+        WHERE post_id = #{postId}
+    </update>
+
+    <delete id="deleteCommunityPost">
+
+    </delete>
+
+    <select id="getCommunityNoticeList" resultType="com.example.greenlast.dto.CommunityPostDTO">
+        SELECT cp.post_id, cp.class_id, u.name as userId, cp.title, cp.content, DATE(cp.created_at) as createdAt, cp.category, cp.views
+        FROM community_post cp JOIN user u
+        ON cp.user_id = u.user_id
+        WHERE category = 'N'
+        ORDER BY post_id DESC
+        LIMIT 5
+    </select>
+
+    <select id="getCommunityPostList" resultType="com.example.greenlast.dto.CommunityPostDTO">
+        SELECT cp.post_id, cp.class_id, u.name as userId, cp.title, cp.content, DATE(cp.created_at) as createdAt, cp.category, cp.views
+        FROM community_post cp JOIN user u
+        ON cp.user_id = u.user_id
+        WHERE category = 'U'
+        ORDER BY post_id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="searchCommunityPost" resultType="com.example.greenlast.dao.kwanhyun.CommunityDao">
+        select * from community_post
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="search == 'title'">
+                AND TITLE LIKE '%'||#{keyword}||'%'
+            </if>
+            <if test="search == 'content'">
+                AND CONTENT LIKE '%'||#{keyword}||'%'
+            </if>
+            <if test="search == 'title_content'">
+                AND (TITLE LIKE '%'||#{keyword}||'%' OR CONTENT LIKE '%'||#{keyword}||'%')
+            </if>
+            <if test="search == 'all'">
+                AND (TITLE LIKE '%'||#{keyword}||'%'
+                OR CONTENT LIKE '%'||#{keyword}||'%'
+                OR CATEGORY LIKE '%'||#{keyword}||'%'
+                OR WRITER LIKE '%'||#{keyword}||'%')
+            </if>
+        </trim>
+    </select>
+
+    <select id="getTotalPostCount" resultType="int">
+        SELECT COUNT(*) FROM community_post WHERE category = 'U';
+    </select>
+
+</mapper>
