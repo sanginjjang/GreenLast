@@ -55,6 +55,9 @@ public class CommunityService {
         communityDao.updateCommunityPost(communityPostDto);
     }
 
+    public void deleteCommunityPost(int postId) {
+        communityDao.deleteCommunityPost(postId);
+    }
 
     public void regCommunityPost(CommunityPostDTO communityPostDto) {
         String cleanContent = Jsoup.parse(communityPostDto.getContent()).text();
