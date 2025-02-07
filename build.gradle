@@ -57,6 +57,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    // 네이버 스마트 에디터 <p>태그 제거
+    implementation 'org.jsoup:jsoup:1.15.3'
 }
 
 tasks.named('test') {

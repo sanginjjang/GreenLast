@@ -16,8 +16,11 @@
         WHERE post_id = #{postId}
     </select>
 
-    <update id="updateCommunityPost">
-
+    <update id="updateCommunityPost" parameterType="com.example.greenlast.dto.CommunityPostDTO">
+        UPDATE community_post
+        SET title = #{title},
+        content = #{content}
+        WHERE post_id = #{postId}
     </update>
 
     <delete id="deleteCommunityPost">

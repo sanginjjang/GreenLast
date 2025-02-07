@@ -20,7 +20,7 @@
 		$file->name = date("YmdHis").mt_rand().".".$filename_ext;
 		$file->content = file_get_contents("php://input");
 
-		$uploadDir = '../../upload/';
+		$uploadDir = '/api/file/upload';
 		if(!is_dir($uploadDir)){
 			mkdir($uploadDir, 0777);
 		}
