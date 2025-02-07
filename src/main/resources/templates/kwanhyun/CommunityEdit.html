@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>커뮤니티 게시글 수정</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="title">게시글 수정</div>
+        <input type="text" id="editor-title" class="input-title" th:value="${communityPost.title}">
+        <div class="editor-container">
+            <textarea id="editorTxt" name="editorTxt" th:text="${communityPost.content}"></textarea>
+        </div>
+        <div class="buttons">
+            <button class="cancel">취소</button>
+            <button class="submit">수정</button>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+    <script>
+    var oEditors = [];
+
+    smartEditor = function () {
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "editorTxt",
+            sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+            fCreator: "createSEditor2"
+        });
+    }
+
+    $(document).ready(function () {
+        smartEditor();
+    });
+
+    $(".submit").click(function () {
+        oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
+        let title = $("#editor-title").val();
+        let content = $("#editorTxt").val();
+        let postId = [[${communityPost.postId}]];
+
+        if (!title || !content.trim()) {
+            alert("제목과 내용을 입력해주세요.");
+            return;
+        }
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/kwanhyun/api/community/post/" + postId,
+            contentType: "application/json",
+            data: JSON.stringify({
+                title: title,
+                content: content
+            }),
+            success: function (response) {
+                alert("게시글이 성공적으로 수정되었습니다.");
+                window.location.href = "/kwanhyun/community/CommunityDetail?postId=" + postId;
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert("게시글 수정에 실패하였습니다.");
+            }
+        });
+    });
+    </script>
+</div>
+</body>
+</html>

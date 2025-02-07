@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/no_aside.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 보기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .detail-container {
+            width: 80%;
+            margin: 30px auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .detail-meta {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        .detail-content {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 20px 0;
+            text-align: right;
+        }
+
+        .back-btn a {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .back-btn a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<th:block layout:fragment="header"></th:block>
+
+<div layout:fragment="content">
+    <div class="detail-container">
+        <div class="detail-title" th:text="${communityPost.title}">게시글 제목</div>
+
+        <div class="detail-meta">
+            작성자: <span th:text="${communityPost.userId}">작성자명</span> |
+            등록일: <span th:text="${communityPost.createdAt}">작성일자</span> |
+            조회수: <span th:text="${communityPost.views}">조회수</span>
+        </div>
+
+        <div class="detail-content" th:text="${communityPost.content}">
+            게시글 내용
+        </div>
+
+        <div class="back-btn">
+            <a th:href="@{/kwanhyun/community/CommunityMain}">목록으로 돌아가기</a>
+            <a th:href="@{/kwanhyun/community/CommunityEdit(postId=${communityPost.postId})}" class="edit-btn">수정하기</a>
+        </div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="footer"></th:block>
+
+</body>
+</html>
