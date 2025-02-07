@@ -79,13 +79,8 @@ public class CartControllerBack {
     @PostMapping("/payment")
     public ResponseEntity<Map<String, Object>> processPayment(@RequestBody Map<String, Object> requestData) {
         String userId = SecurityUtil.getCurrentUserId();
-        System.out.println("✅ [CartControllerBack] userId: " + userId);
-
         Object purchasedItemsObj = requestData.get("purchasedItems");
-        System.out.println("✅ [CartControllerBack] Raw purchasedItems: " + purchasedItemsObj);
-
         if (!(purchasedItemsObj instanceof List<?>)) {
-            System.out.println("🚨 [CartControllerBack] purchasedItems가 리스트가 아님!!!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false, "message", "잘못된 데이터 형식"));
         }
 
@@ -95,16 +90,12 @@ public class CartControllerBack {
                     .map(item -> Integer.parseInt(item.toString())) // String을 Integer로 변환
                     .toList();
         } catch (NumberFormatException e) {
-            System.out.println("🚨 [CartControllerBack] purchasedItems 변환 실패!!!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false, "message", "잘못된 ID 형식"));
         }
 
         if (purchasedItems.isEmpty()) {
-            System.out.println("🚨 [CartControllerBack] 결제된 강의 목록이 비어있음!!!");
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", "결제된 강의 목록이 없습니다."));
         }
-
-        System.out.println("✅ [CartControllerBack] 변환된 purchasedItems: " + purchasedItems);
 
         int totalAmount = Integer.parseInt(requestData.get("amount").toString());
         for (int classId : purchasedItems) {
