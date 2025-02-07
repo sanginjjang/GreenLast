@@ -109,7 +109,6 @@ a{
     border-top: 1px #ddd solid;
 }
 /* 0auth */
-#login_0auth{
-    display: flex;
-    gap: 30px;
+#login_0auth img{
+    max-height: 50px;
 }

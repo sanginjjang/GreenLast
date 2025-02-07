@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.dongha.IPaymentDao">
+    <insert id="insertPayment">
+        INSERT INTO user_payment_history
+        (user_id, class_id, payment_date, price, refund_status)
+        VALUES (#{userId}, #{classId}, NOW(), #{price}, #{refundStatus})
+    </insert>
+
+    <select id="getUserPaymentHistory" resultType="com.example.greenlast.dto.UserPaymentHistoryDTO">
+        SELECT
+        uph.payment_id,
+        uph.user_id,
+        uph.class_id,
+        c.class_title,
+        DATE_FORMAT(uph.payment_date, '%Y-%m-%d %H:%i:%s') AS paymentDate,
+        uph.price,
+        uph.refund_status AS refundStatus
+        FROM
+        user_payment_history uph
+        JOIN
+        class c ON uph.class_id = c.class_id
+        WHERE
+        uph.user_id = #{userId}
+        ORDER BY
+        uph.payment_date DESC
+    </select>
+
+    <insert id="requestRefund">
+        INSERT INTO refund VALUES(null, #{paymentId}, #{userId}, #{refundReson}, now(), #{refundStatus})
+    </insert>
+
+    <update id="updateRefundStatus">
+        UPDATE user_payment_history SET refund_status = #{refundStatus} WHERE payment_id = #{paymentId}
+    </update>
+</mapper>
