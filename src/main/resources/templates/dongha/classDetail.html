@@ -99,8 +99,6 @@
         function addToCart() {
             const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
 
-            console.log("📌 장바구니 추가 - classId:", classId);
-
             fetch('/cart-api/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -108,13 +106,11 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("📌 서버 응답:", data);
                     alert(data.message);
                     if (data.success) {
                         window.location.href = "/cart";
                     }
                 })
-                .catch(error => console.error("🚨 API 요청 실패:", error));
         }
     </script>
 </div>

@@ -34,9 +34,9 @@ public class PaymentService {
         payment.setPrice(price);
         payment.setClassTitle(classTitle);
         payment.setRefundStatus("결제 완료");
-        System.out.println("✅ [PaymentService] 결제 내역 저장 요청 - userId: " + userId + ", classId: " + classId + ", price: " + price);
+
         paymentDao.insertPayment(payment);
-        System.out.println("✅ [PaymentService] 결제 내역 저장 완료!");
+
     }
 
     public List<UserPaymentHistoryDTO> getPaymentHistory(String userId){

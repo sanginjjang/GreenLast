@@ -39,8 +39,6 @@ public class PaymentControllerBack {
     public ResponseEntity<Map<String, Object>> processPayment(@RequestBody Map<String, Object> requestData){
         String userId = SecurityUtil.getCurrentUserId();
 
-        System.out.println("✅ [PaymentController] 받은 결제 데이터: " + requestData);
-
         List<Map<String, Object>> purchasedItems = (List<Map<String, Object>>) requestData.get("purchasedItems");
         if (purchasedItems == null || purchasedItems.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "결제 데이터 누락"));
@@ -49,9 +47,6 @@ public class PaymentControllerBack {
         for (Map<String, Object> item : purchasedItems) {
             int classId = Integer.parseInt(item.get("classId").toString());  // 🔥 형 변환 추가
             int price = Integer.parseInt(item.get("price").toString());
-
-            System.out.println("🛒 [PaymentController] 개별 아이템 - classId: " + classId + ", price: " + price);
-
             paymentService.savePayment(userId, classId, price);
         }
 
