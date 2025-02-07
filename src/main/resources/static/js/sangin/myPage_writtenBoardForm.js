@@ -22,9 +22,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 section2Box.innerHTML = `
                     <div class="section2_main">
-                        <div class="section2_category">자유게시판</div>
-                        <div class="section2_title">${board.title}</div>
-                        <div class="section2_content">${board.content}</div>
+                        <div class="section2_category">자유게시판
+                       
+                        </div>
+                        <div class="section2_title">
+                        <a href="/kwanhyun/community/CommunityDetail?postId=${board.postId}">${board.title}</a>
+                        </div>
+                        <div class="section2_content">
+                        <a href="/kwanhyun/community/CommunityDetail?postId=${board.postId}">${board.content}</a>
+                        </div>
                     </div>
                     <div class="section2_footer">
                         <div class="section2_footer_left">${formattedDate}</div> <!-- 날짜만 표시 -->

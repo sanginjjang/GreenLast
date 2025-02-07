@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 section2Box.innerHTML = `
                     <div class="section2_main">
                         <div class="section2_category">댓글</div>
-                        <div class="section2_title">${comment.title}</div>
-                        <div class="section2_content">${comment.content}</div>
+                        
+                        <div class="section2_title"><a href="/kwanhyun/community/CommunityDetail?postId=${comment.postId}">${comment.content}</a></div>
                     </div>
                     <div class="section2_footer">
                         <div class="section2_footer_left">${formattedDate}</div> <!-- 날짜만 표시 -->
