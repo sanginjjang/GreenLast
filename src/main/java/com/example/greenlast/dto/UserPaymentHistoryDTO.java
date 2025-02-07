@@ -14,4 +14,6 @@ public class UserPaymentHistoryDTO {
     private int price;
     private String refundStatus;
     private String classTitle;
+    private String term;
+    private String fileUrl;
 }
