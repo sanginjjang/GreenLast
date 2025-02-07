@@ -16,7 +16,7 @@
     <select id="getCartItems" resultType="com.example.greenlast.dto.CartDTO">
         SELECT
             c.cart_id AS cartId,
-            u.name AS userName,  <!-- ✅ user.name 가져오기 -->
+            u.name AS userName,
             c.class_id AS classId,
             c.quantity AS quantity,
             cl.class_title AS classTitle,
@@ -24,7 +24,7 @@
         FROM cart c
         JOIN class cl ON c.class_id = cl.class_id
         JOIN user u ON c.user_id = u.user_id
-        WHERE c.user_id = #{userId}  <!-- ✅ user.name이 아닌 userId로 조회 -->
+        WHERE c.user_id = #{userId}
     </select>
 
     <delete id="removeFromCart">
