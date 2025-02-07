@@ -47,10 +47,18 @@ public class CommunityController {
     }
 
     @GetMapping("/CommunityDetail")
-    public String communityDetail() {
+    public String communityDetail(@RequestParam("postId") int postId, Model model) {
+        model.addAttribute("communityPost", communityService.getCommunityPost(postId));
 
         return "kwanhyun/CommunityDetail";
     }
+
+    @GetMapping("/CommunityEdit")
+    public String communityEdit(@RequestParam("postId") int postId, Model model) {
+        model.addAttribute("communityPost", communityService.getCommunityPost(postId));
+        return "kwanhyun/CommunityEdit";
+    }
+
 
     @GetMapping("/CommunitySearch")
     public String communitySearch() {

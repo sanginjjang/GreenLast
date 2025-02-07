@@ -25,8 +25,14 @@ public class CommunityRestController {
 
     // 커뮤니티 게시글 목록 API
     @GetMapping("/posts")
-    public List<CommunityPostDTO> getCommunityPost(@RequestParam(defaultValue = "1") int page) {
+    public List<CommunityPostDTO> getCommunityPosts(@RequestParam(defaultValue = "1") int page) {
         return communityService.CommunityPostList(page);
+    }
+
+    // 커뮤니티 게시글 상세 API
+    @GetMapping("/post")
+    public CommunityPostDTO getCommunityPost(@RequestParam int postId) {
+        return communityService.getCommunityPost(postId);
     }
 
     // 커뮤니티 게시글 등록 API
@@ -36,8 +42,16 @@ public class CommunityRestController {
         communityPostDto.setCategory("U");
         communityService.regCommunityPost(communityPostDto);
 
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@restcontroller" + communityPostDto);
         return ResponseEntity.ok("게시글이 성공적으로 저장되었습니다.");
+    }
+
+    // 커뮤니티 게시글 수정 API
+    @PutMapping("/post/{postId}")
+    public ResponseEntity<String> updatePost(@PathVariable int postId, @RequestBody CommunityPostDTO communityPostDto) {
+        communityPostDto.setPostId(postId); // 게시글 ID 설정
+        communityService.updateCommunityPost(communityPostDto); // 서비스 호출
+
+        return ResponseEntity.ok("게시글이 성공적으로 수정되었습니다.");
     }
 
     // 특정 게시글 조회 API

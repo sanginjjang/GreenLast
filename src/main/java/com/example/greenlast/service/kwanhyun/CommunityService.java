@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.jsoup.Jsoup;
 
 import java.util.List;
 
@@ -47,9 +48,19 @@ public class CommunityService {
         return communityPostDetail;
     }
 
-    public CommunityPostDTO regCommunityPost(CommunityPostDTO communityPostDto) {
-        CommunityPostDTO communityPostDTO = communityDao.regCommunityPost(communityPostDto);
-        return null;
+    public void updateCommunityPost(CommunityPostDTO communityPostDto) {
+        String cleanContent = Jsoup.parse(communityPostDto.getContent()).text();
+        communityPostDto.setContent(cleanContent);
+
+        communityDao.updateCommunityPost(communityPostDto);
+    }
+
+
+    public void regCommunityPost(CommunityPostDTO communityPostDto) {
+        String cleanContent = Jsoup.parse(communityPostDto.getContent()).text();
+        communityPostDto.setContent(cleanContent);
+
+        communityDao.regCommunityPost(communityPostDto);
     }
 
     public int getTotalPostCount() {
