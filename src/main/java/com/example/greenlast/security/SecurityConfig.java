@@ -78,15 +78,25 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*"); // 모든 도메인 허용
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
-        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
-        configuration.setAllowCredentials(true); // 인증 정보 허용
+
+        // ✅ 허용할 도메인 명확히 지정 (192.168.0.2:8080 추가)
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:8080",
+                "http://192.168.0.2:8080"
+        ));
+
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+
+        // ✅ credentials 허용 (쿠키 사용 가능)
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // 모든 요청에 대해 적용
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
