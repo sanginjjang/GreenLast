@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let contentSection = document.getElementById("content_section1");
 
             contentSection.innerHTML = '';
+            // alert("잘됐나??");
             paymentHistory.forEach(history => {
 
                 contentSection.innerHTML += `

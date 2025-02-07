@@ -11,21 +11,24 @@
 
     <select id="getUserPaymentHistory" resultType="com.example.greenlast.dto.UserPaymentHistoryDTO">
         SELECT
-        uph.payment_id as paymentId,
-        uph.user_id as userId,
-        uph.class_id as classId,
-        c.class_title as classTitle,
+        uph.payment_id AS paymentId,
+        uph.user_id AS userId,
+        uph.class_id AS classId,
+        c.class_title AS classTitle,
         uph.price,
-        uph.refund_status AS refundStatus
+        uph.refund_status AS refundStatus,
+        f.file_url AS fileUrl
         FROM
         user_payment_history uph
         JOIN
         class c ON uph.class_id = c.class_id
-        JOIN file f ON file.file_no = class.file_no
+        JOIN
+        file f ON f.file_no = c.file_no
         WHERE
         uph.user_id = #{userId}
         ORDER BY
         uph.payment_date DESC
+
     </select>
 
     <insert id="requestRefund">

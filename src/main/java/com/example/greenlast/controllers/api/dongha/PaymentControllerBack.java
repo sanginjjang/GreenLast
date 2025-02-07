@@ -31,7 +31,9 @@ public class PaymentControllerBack {
     @GetMapping("/history")
     public ResponseEntity<List<UserPaymentHistoryDTO>> getHistory() {
         String userId = SecurityUtil.getCurrentUserId();
+//        System.out.println("\uD83D\uDFE2 userId = " + userId 이상 무);
         List<UserPaymentHistoryDTO> paymentHistory = paymentService.getPaymentHistory(userId);
+        System.out.println("\uD83D\uDFE2 paymentHistory = " + paymentHistory);
         return ResponseEntity.ok(paymentHistory);
     }
 
