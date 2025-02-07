@@ -10,7 +10,11 @@
             <div id="header_btn"><i class="fa-solid fa-magnifying-glass"></i>검색</div>
         </div>
         <div id="header_right">
-            <div class="header_icon"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="header_icon">
+                <a href="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </div>
 
 
             <!--관현이형 여기부터-->
@@ -46,13 +50,14 @@
                         <div style="display: flex; flex-direction: column;">
                             <a href="/view/mypage/infoForm"><i class="fa fa-home"></i>&nbsp;<span
                                     style="font-weight: bold;vertical-align: top;" id="header_profile_name">Guest</span></a>
-                            <a href="/view/지식공유방" style="color: blueviolet; font-weight: bold;">지식공유방(링크)</a>
+                            <a href="/view/class/main" style="color: blueviolet; font-weight: bold;">지식공유방</a>
                         </div>
                     </div>
                     <div id="header_profile_detail_section2">
-                        <div><i class="fa fa-shopping-cart"></i><a href="/view/구매내역">구매내역(링크)</a></div>
-                        <div><i class="fa-solid fa-heart"></i><a href="/view/좋아요">좋아요(링크)</a></div>
-                        <div><i class="fa-solid fa-gear"></i><a href="/view/설정">설정(링크)</a></div>
+                        <div><i class="fa fa-shopping-cart"></i><a href="/view/mypage/purchaseHistoryForm">구매내역</a>
+                        </div>
+                        <div><i class="fa-solid fa-heart"></i><a href="/view/좋아요">좋아요(아직)</a></div>
+                        <div><i class="fa-solid fa-gear"></i><a href="/view/설정">설정(아직)</a></div>
                     </div>
                     <div id="header_profile_detail_section3">
                         <div th:if="${user != null}">
@@ -62,7 +67,7 @@
                             <a href="/view/loginForm">로그인</a>
                         </div>
 
-                        <a href="/view/고객센터">고객센터(링크)</a>
+                        <a href="/view/고객센터">고객센터(아직)</a>
                     </div>
                 </div>
             </div>

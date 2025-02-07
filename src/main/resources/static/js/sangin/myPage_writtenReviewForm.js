@@ -23,8 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 section2Box.innerHTML = `
                     <div class="section2_main">
                         <div class="section2_category">수강평</div>
-                        <div class="section2_title">${review.title}</div>
-                        <div class="section2_content">${review.content}</div>
+                        <div class="section2_title">${review.content}</div>
                     </div>
                     <div class="section2_footer">
                         <div class="section2_footer_left">${formattedDate}</div> <!-- 날짜만 표시 -->

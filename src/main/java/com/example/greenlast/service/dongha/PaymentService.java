@@ -40,7 +40,9 @@ public class PaymentService {
     }
 
     public List<UserPaymentHistoryDTO> getPaymentHistory(String userId){
-        return paymentDao.getUserPaymentHistory(userId);
+        List<UserPaymentHistoryDTO> history = paymentDao.getUserPaymentHistory(userId);
+        System.out.println("history.size() : " + history.size());
+        return history;
     }
 
 }
