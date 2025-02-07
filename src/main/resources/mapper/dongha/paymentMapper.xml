@@ -22,12 +22,13 @@
         user_payment_history uph
         JOIN
         class c ON uph.class_id = c.class_id
-        JOIN
+        LEFT JOIN
         file f ON f.file_no = c.file_no
         WHERE
         uph.user_id = #{userId}
         ORDER BY
-        uph.payment_date DESC
+        uph.payment_date DESC;
+
 
     </select>
 
