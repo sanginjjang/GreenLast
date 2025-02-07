@@ -1,6 +1,7 @@
 package com.example.greenlast.controllers.views.kwanhyun;
 
 import com.example.greenlast.dto.CommunityPostDTO;
+import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.kwanhyun.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,16 +49,33 @@ public class CommunityController {
 
     @GetMapping("/CommunityDetail")
     public String communityDetail(@RequestParam("postId") int postId, Model model) {
-        model.addAttribute("communityPost", communityService.getCommunityPost(postId));
+        CommunityPostDTO post = communityService.getCommunityPost(postId);
+        String currentUserId = null;
+        try {
+            currentUserId = SecurityUtil.getCurrentUserId();
+        } catch (Exception e) {
+            log.info("로그인하지 않은 사용자 접근");
+        }
+
+        model.addAttribute("communityPost", post);
+        model.addAttribute("currentUserId", currentUserId);
 
         return "kwanhyun/CommunityDetail";
     }
 
     @GetMapping("/CommunityEdit")
     public String communityEdit(@RequestParam("postId") int postId, Model model) {
-        model.addAttribute("communityPost", communityService.getCommunityPost(postId));
+        CommunityPostDTO communityPost = communityService.getCommunityPost(postId);
+        String currentUserId = SecurityUtil.getCurrentUserId();
+
+        if (!communityPost.getUserId().equals(currentUserId)) {
+            return "redirect:/kwanhyun/community/CommunityMain?error=unauthorized";
+        }
+
+        model.addAttribute("communityPost", communityPost);
         return "kwanhyun/CommunityEdit";
     }
+
 
 
     @GetMapping("/CommunitySearch")
