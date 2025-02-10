@@ -52,6 +52,7 @@ public class HomePgaeController {
             model.addAttribute("isAuthenticated", false);
             model.addAttribute("userId", null);
         }
+        model.addAttribute("classId", id);
 
         return "dongha/classDetail";
     }
