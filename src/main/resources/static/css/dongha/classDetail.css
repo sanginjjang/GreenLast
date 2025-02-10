@@ -21,15 +21,23 @@
 #class-title {
     font-weight: bold;
     font-size: 30px;
-    max-height: 70px;
+    max-height: 80px;
     min-width: 600px;
     max-width: 600px;
     overflow: hidden;
 }
 
-#class-decription {
+#class-description {
+    padding: 10px;
+    border: 1px #ddd solid;
+    min-height: 200px;
+    max-height: 200px;
+    scrollbar-width: none;
+    border-radius: 5px;
+    overflow-y: scroll;
     margin-top: 20px;
-    font-size: 24px;
+    font-size: 18px;
+    color: #0d514c;
     height: auto;
     min-width: 600px;
     max-width: 600px;
@@ -55,10 +63,13 @@
 }
 
 #container1-box1-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-width: 200px;
-    max-width: 500px;
+    max-width: 300px;
     min-height: 200px;
-    max-height: 200px;
+    max-height: 300px;
 }
 
 /*class-container2*/
@@ -164,8 +175,20 @@
     width: 700px;
     border-radius: 10px;
     border: 1px #ddd solid;
-    gap: 20px;
     padding: 20px;
+}
+#average-rating-score{
+    font-size: 30px;
+    font-weight: bold;
+}
+#average-rating-stars{
+    font-size: 40px;
+    font-weight: bold;
+}
+#total-reviews-count{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 #detail-container-box8 {

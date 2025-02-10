@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 public class ClassMainDTO {
     private Long classId;
-    private String thumbNail;
+    private String fileUrl;
     private String userId;
     private String classTitle;
     private String classPrice;
