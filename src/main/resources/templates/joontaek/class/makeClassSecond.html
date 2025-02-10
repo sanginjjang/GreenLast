@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 커리큘럼</title>
+    <link rel="stylesheet" href="/css/joontaek/makeClassSecond.css">
+</head>
+<body>
+
+<!-- aside (비워둠 버전) -->
+<th:block layout:fragment="aside">
+    <!-- aside가 없는 경우 지우지말고 fragment aside 지우지 말고 가만두세요 -->
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" class="content-container">
+    <!-- 강의 제목 -->
+    <h2>강의 커리큘럼</h2>
+
+    <!-- 섹션 1 -->
+    <div class="section">
+        <div class="section-header">
+
+        </div>
+        <div class="sectionTitle">
+            <input type="text" class="section-title" id="sectionTitle" placeholder="섹션 제목을 작성해주세요.">
+        </div>
+        <button class="add-lesson-btn" onclick="addLesson()">수업 추가</button>
+        <div class="lesson-list" id="lesson-list">
+            <!-- 수업 목록은 여기에 동적으로 추가됩니다. -->
+        </div>
+    </div>
+
+    <!-- 섹션 추가 버튼 -->
+    <button class="add-section-btn">섹션 추가</button>
+
+</div>
+
+
+
+
+</body>
+
+<div layout:fragment="scripts">
+    <script>
+        function addLesson() {
+            console.log("에드레슨 들어옴");
+
+            const lessonList = document.getElementById('lesson-list');
+
+            const newLessonItem = document.createElement('div');
+            newLessonItem.classList.add('lesson-item');
+
+
+            const newLessonInput = document.createElement('input');
+            newLessonInput.type = 'text';
+            newLessonInput.classList.add('lesson-title');
+            newLessonInput.placeholder = '수업을 추가해주세요.'; // 플레이스홀더 추가
+
+
+            newLessonItem.appendChild(newLessonInput);
+
+
+            lessonList.appendChild(newLessonItem);
+        }
+    </script>
+</div>
+</html>
