@@ -7,7 +7,6 @@
   <title>커뮤니티</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
     }
@@ -120,9 +119,14 @@
   </style>
 </head>
 <body>
-
-<!-- 헤더 유지 -->
 <th:block layout:fragment="header"></th:block>
+
+<div th:if="${param.error == 'unauthorized'}">
+  <script>
+    alert("작성자만 수정 또는 삭제할 수 있습니다.");
+  </script>
+</div>
+
 
 <div layout:fragment="content">
   <div id="community-body">
