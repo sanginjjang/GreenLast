@@ -47,11 +47,36 @@ public class CommunityRestController {
 
     // 커뮤니티 게시글 수정 API
     @PutMapping("/post/{postId}")
-    public ResponseEntity<String> updatePost(@PathVariable int postId, @RequestBody CommunityPostDTO communityPostDto) {
-        communityPostDto.setPostId(postId); // 게시글 ID 설정
-        communityService.updateCommunityPost(communityPostDto); // 서비스 호출
+    public String updateCommunityPost(@PathVariable int postId,
+                                                      @RequestBody CommunityPostDTO communityPostDto) {
+        CommunityPostDTO existingPost = communityService.getCommunityPost(postId);
+        String currentUserId = SecurityUtil.getCurrentUserId();
 
-        return ResponseEntity.ok("게시글이 성공적으로 수정되었습니다.");
+        if (!existingPost.getUserId().equals(currentUserId)) {
+            return "redirect:/kwanhyun/community/CommunityMain?error=unauthorized";
+        }
+
+        existingPost.setTitle(communityPostDto.getTitle());
+        existingPost.setContent(communityPostDto.getContent());
+        communityService.updateCommunityPost(existingPost);
+
+        return "redirect:/kwanhyun/community/CommunityMain";
+    }
+
+
+
+    @DeleteMapping("/post/{postId}")
+    public String deleteCommunityPost(@PathVariable int postId) {
+        CommunityPostDTO existingPost = communityService.getCommunityPost(postId);
+        String currentUserId = SecurityUtil.getCurrentUserId();
+
+        if (!existingPost.getUserId().equals(currentUserId)) {
+            return "redirect:/kwanhyun/community/CommunityMain?error=unauthorized";
+        }
+
+        communityService.deleteCommunityPost(postId);
+
+        return "redirect:/kwanhyun/community/CommunityMain";
     }
 
     // 특정 게시글 조회 API
