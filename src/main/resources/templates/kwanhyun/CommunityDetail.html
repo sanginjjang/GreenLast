@@ -7,7 +7,6 @@
     <title>게시글 상세 보기</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -56,6 +55,21 @@
         .back-btn a:hover {
             background-color: #0056b3;
         }
+
+        .delete-btn {
+            margin: 20px 0;
+            text-align: right;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .delete-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -78,13 +92,45 @@
 
         <div class="back-btn">
             <a th:href="@{/kwanhyun/community/CommunityMain}">목록으로 돌아가기</a>
-            <a th:href="@{/kwanhyun/community/CommunityEdit(postId=${communityPost.postId})}" class="edit-btn">수정하기</a>
+            <a th:if="${communityPost.userId == currentUserId}"
+               th:href="@{/kwanhyun/community/CommunityEdit(postId=${communityPost.postId})}"
+               class="edit-btn">수정하기</a>
+            <button th:if="${communityPost.userId == currentUserId}"
+                    class="delete-btn"
+                    data-post-id="${communityPost.postId}">삭제하기</button>
         </div>
 
     </div>
 </div>
-
 <th:block layout:fragment="footer"></th:block>
-
 </body>
+<script>
+    $(document).ready(function() {
+        $(".delete-btn").click(function() {
+            console.log("삭제 버튼 클릭됨!");  // 버튼 클릭 시 로그 출력
+
+            if (!confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                return;
+            }
+
+            let postId = $(this).data("post-id");
+            console.log("삭제할 게시글 ID:", postId);
+
+            $.ajax({
+                type: "DELETE",
+                url: "/kwanhyun/api/community/post/" + postId,
+                success: function(response) {
+                    alert("게시글이 성공적으로 삭제되었습니다.");
+                    window.location.href = "/kwanhyun/community/CommunityMain";
+                },
+                error: function(xhr, status, error) {
+                    console.error("삭제 실패:", xhr.responseText);  // 에러 디버깅
+                    alert("게시글 삭제에 실패하였습니다.");
+                }
+            });
+        });
+    });
+</script>
+
+
 </html>
