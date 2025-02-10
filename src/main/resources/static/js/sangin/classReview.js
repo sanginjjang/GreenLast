@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const reviewHTML = `
                     <div class="box8-review">
                         <div class="box8-review-top">
-                            <img src="/images/test.webp" class="box8-review-profile">
+                            <img src="${review.fileUrl}" class="box8-review-profile">
                             <div>
                                 <div class="box8-review-name">${review.userId}</div>
                                 <div class="box8-review-createdAt" style="color: #00b0a2">${review.createdAt}</div>
