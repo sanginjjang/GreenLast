@@ -14,13 +14,11 @@ public class RegistUserViewController_Sangin {
 
     @GetMapping("/registUserForm")
     public String registUserForm() {
-        System.out.println("view/registUserForm...");
         return "/sangin/registUserForm";
     }
 
     @GetMapping("/loginForm")
     public String loginForm() {
-        System.out.println("view/loginForm...");
         return "/sangin/loginForm";
     }
 

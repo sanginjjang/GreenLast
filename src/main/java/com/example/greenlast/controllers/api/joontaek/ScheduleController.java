@@ -19,9 +19,6 @@ public class ScheduleController {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveEvent(@RequestBody ScheduleDTO schedule) {
-        System.out.println("@@@@@@@@@@@@");
-        System.out.println(schedule);
-        System.out.println("@@@@@@@@@@@@");
 
         //임시로 유저아이디 저장^^
         schedule.setUserId("박준택");
@@ -58,7 +55,6 @@ public class ScheduleController {
 
     @GetMapping("/listByDate")
     public ResponseEntity<List<ScheduleDTO>> getSchedulesByDate(@RequestParam String date) {
-        System.out.println("요청 받은 날짜: " + date);
         List<ScheduleDTO> schedules = scheduleDao.getScheduleByDate(date);
 
         if (schedules != null && !schedules.isEmpty()) {
