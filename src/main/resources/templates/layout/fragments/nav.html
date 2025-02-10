@@ -14,10 +14,12 @@
                     &nbsp;일정표
                 </a>
             </div>
-            <div class="nav_menu"><a href="/kwanhyun/community/CommunityMain"><i class="fa-solid fa-users"></i>&nbsp;커뮤니티</a>
+            <div class="nav_menu"><a th:href="@{/kwanhyun/community/CommunityMain/free}">
+                <i class="fa-solid fa-users"></i>&nbsp;커뮤니티</a>
             </div>
-            <div class="nav_menu"><i class="fa-solid fa-circle-question"></i>&nbsp;Q&A</div>
-        </div>
+            <div class="nav_menu"><a th:href="@{/kwanhyun/community/CommunityMain/qna}">
+                <i class="fa-solid fa-circle-question"></i>&nbsp;Q&A</a>
+            </div>
         <div id="nav_right">
             <div>
                 지식공유방

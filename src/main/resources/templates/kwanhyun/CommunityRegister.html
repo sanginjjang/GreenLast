@@ -116,10 +116,23 @@
             smartEditor()
         })
 
+        $(".cancel").click(function() {
+            let pageType = '[[${pageType}]]';
+            let currentPage = '[[${currentPage}]]';
+            let search = '[[${param.search} ?: ""]]';
+            let keyword = '[[${param.keyword} ?: ""]]';
+
+            window.location.href = `/kwanhyun/community/CommunityMain/${pageType}?page=${currentPage}&search=${search}&keyword=${keyword}`;
+        })
+
         $(".submit").click(function() {
             oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
             let title = $("#editor-title").val();
             let content = $("#editorTxt").val();
+            let pageType = '[[${pageType}]]';
+            let currentPage = '[[${currentPage}]]';
+            let search = '[[${param.search} ?: ""]]';
+            let keyword = '[[${param.keyword} ?: ""]]';
 
             if (!title || !content.trim()) {
                 alert("제목과 내용을 입력해주세요.");
@@ -128,15 +141,16 @@
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/kwanhyun/api/community/posts",
+                url: "/kwanhyun/api/community/posts",
                 contentType: "application/json",
                 data: JSON.stringify({
                     title: title,
-                    content: content
+                    content: content,
+                    pageType: pageType
                 }),
                 success: function(response) {
                     alert("게시글이 성공적으로 등록되었습니다.");
-                    window.location.href = "/kwanhyun/community/CommunityMain";
+                    window.location.href = `/kwanhyun/community/CommunityMain/${pageType}?page=${currentPage}&search=${search}&keyword=${keyword}`;
                 },
                 error: function(xhr, status, error) {
                     console.error(error);

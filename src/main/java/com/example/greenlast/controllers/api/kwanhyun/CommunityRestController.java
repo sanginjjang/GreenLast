@@ -25,63 +25,93 @@ public class CommunityRestController {
 
     // 커뮤니티 게시글 목록 API
     @GetMapping("/posts")
-    public List<CommunityPostDTO> getCommunityPosts(@RequestParam(defaultValue = "1") int page) {
-        return communityService.CommunityPostList(page);
+    public List<CommunityPostDTO> getCommunityPosts(@RequestParam(defaultValue = "1") int page,
+                                                    @RequestParam(value = "search", required = false) String search,
+                                                    @RequestParam(value = "keyword", required = false) String keyword,
+                                                    @RequestParam(value = "pageType", required = false) String pageType) {
+        return communityService.CommunityPostList(page, search, keyword, pageType);
     }
 
     // 커뮤니티 게시글 상세 API
     @GetMapping("/post")
-    public CommunityPostDTO getCommunityPost(@RequestParam int postId) {
-        return communityService.getCommunityPost(postId);
+    public CommunityPostDTO getCommunityPost(CommunityPostDTO communityPostDto) {
+        return communityService.getCommunityPost(communityPostDto);
     }
 
     // 커뮤니티 게시글 등록 API
     @PostMapping("/posts")
     public ResponseEntity<String> createPost(@RequestBody CommunityPostDTO communityPostDto) {
         communityPostDto.setUserId(SecurityUtil.getCurrentUserId());
-        communityPostDto.setCategory("U");
-        communityService.regCommunityPost(communityPostDto);
+        String userRole = SecurityUtil.getCurrentUserRole();
+        String pageType = communityPostDto.getPageType();
 
+        if(userRole.contains("ROLE_ADMIN")) {
+            if ("free".equals(pageType)) {
+                communityPostDto.setCategory("N");
+            } else if ("faq".equals(pageType)) {
+                communityPostDto.setCategory("F");
+            } else if ("qna".equals(pageType)) {
+                communityPostDto.setCategory("Q");
+            } else if ("class".equals(pageType)) {
+                communityPostDto.setCategory("C");
+            }
+        }
+        else if(userRole.contains("ROLE_USER")) {
+            if ("free".equals(pageType)) {
+                communityPostDto.setCategory("U");
+            } else if ("qna".equals(pageType)) {
+                communityPostDto.setCategory("Q");
+            } else if ("class".equals(pageType)) {
+                communityPostDto.setCategory("C");
+            }
+        }
+
+        communityService.regCommunityPost(communityPostDto);
         return ResponseEntity.ok("게시글이 성공적으로 저장되었습니다.");
     }
+
 
     // 커뮤니티 게시글 수정 API
     @PutMapping("/post/{postId}")
     public String updateCommunityPost(@PathVariable int postId,
-                                                      @RequestBody CommunityPostDTO communityPostDto) {
-        CommunityPostDTO existingPost = communityService.getCommunityPost(postId);
+                                      @RequestParam(value = "pageType", required = false) String pageType,
+                                      @RequestBody CommunityPostDTO communityPostDto) {
+        CommunityPostDTO postDto = new CommunityPostDTO();
+        postDto.setPostId(postId);
+
+        CommunityPostDTO existingPost = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
 
         if (!existingPost.getUserId().equals(currentUserId)) {
-            return "redirect:/kwanhyun/community/CommunityMain?error=unauthorized";
+            return "redirect:/kwanhyun/community/CommunityMain/" + pageType + "?error=unauthorized";
         }
 
         existingPost.setTitle(communityPostDto.getTitle());
         existingPost.setContent(communityPostDto.getContent());
         communityService.updateCommunityPost(existingPost);
 
-        return "redirect:/kwanhyun/community/CommunityMain";
+        return "redirect:/kwanhyun/community/CommunityMain/" + pageType;
     }
 
 
-
+    // 커뮤니티 게시글 삭제 API
     @DeleteMapping("/post/{postId}")
-    public String deleteCommunityPost(@PathVariable int postId) {
-        CommunityPostDTO existingPost = communityService.getCommunityPost(postId);
+    public String deleteCommunityPost(@PathVariable int postId,
+                                      @RequestParam(value = "pageType", required = false) String pageType) {
+        CommunityPostDTO postDto = new CommunityPostDTO();
+        postDto.setPostId(postId);
+
+        CommunityPostDTO existingPost = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
 
         if (!existingPost.getUserId().equals(currentUserId)) {
-            return "redirect:/kwanhyun/community/CommunityMain?error=unauthorized";
+            return "redirect:/kwanhyun/community/CommunityMain/" + pageType + "?error=unauthorized";
         }
 
         communityService.deleteCommunityPost(postId);
 
-        return "redirect:/kwanhyun/community/CommunityMain";
+        return "redirect:/kwanhyun/community/CommunityMain/" + pageType;
     }
 
-    // 특정 게시글 조회 API
-    @GetMapping("/post/{postId}")
-    public CommunityPostDTO getPostById(@PathVariable int postId) {
-        return communityService.getCommunityPost(postId);
-    }
+
 }
