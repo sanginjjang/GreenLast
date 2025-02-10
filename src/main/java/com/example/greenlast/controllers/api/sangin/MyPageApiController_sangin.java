@@ -26,16 +26,13 @@ public class MyPageApiController_sangin {
 
     @GetMapping("/getUserById")
     public ResponseEntity<?> infoForm() {
-        System.out.println("/api/mypage/infoForm");
         String userId = SecurityUtil.getCurrentUserId();
         String role = SecurityUtil.getCurrentUserRole();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Authentication: " + auth);
-        System.out.println("★ ★ ★ ★ ★ userId  : " + userId);
-        System.out.println("★ ★ ★ ★ ★ role : " + role);
+        System.out.println("\uD83D\uDD34 userId  : " + userId);
+        System.out.println("\uD83D\uDD34 role : " + role);
         UserDTO user = myPageService.getUserById(userId);
         if(user != null) {
-            System.out.println(user);
             return ResponseEntity.ok(user);
         }else {
             return ResponseEntity.notFound().build();
@@ -43,7 +40,6 @@ public class MyPageApiController_sangin {
     }
     @PutMapping("/modifyUser")
     public ResponseEntity<?> modifyUser(@RequestBody UserDTO userDTO) {
-        System.out.println("/api/mypage/modifyUser" + userDTO);
         String userId = SecurityUtil.getCurrentUserId();
         userDTO.setUserId(userId);
         int result = myPageService.modifyUserById(userDTO);
@@ -55,11 +51,9 @@ public class MyPageApiController_sangin {
     }
     @GetMapping("/getWrittenBorad")
     public ResponseEntity<?> getWrittenBoard() {
-        System.out.println("/api/mypage/getWrittenBoard");
         String userId = SecurityUtil.getCurrentUserId();
         List<CommunityPostDTO> boardList = myPageService.getCommunityPostByUserId(userId);
         if(boardList != null) {
-            System.out.println("@@@@" + boardList);
             return ResponseEntity.ok(boardList);
         }else{
             return ResponseEntity.notFound().build();
@@ -67,11 +61,9 @@ public class MyPageApiController_sangin {
     }
     @GetMapping("/getWrittenComment")
     public ResponseEntity<?> getWrittenComment() {
-        System.out.println("/api/mypage/getWrittenComment");
         String userId = SecurityUtil.getCurrentUserId();
         List<CommunityCommentDTO> commentList = myPageService.getWrittenCommentByUserId(userId);
         if(commentList != null) {
-            System.out.println("@@@@" + commentList);
             return ResponseEntity.ok(commentList);
         }else{
             return ResponseEntity.notFound().build();
@@ -80,11 +72,9 @@ public class MyPageApiController_sangin {
 
     @GetMapping("/getWrittenReview")
     public ResponseEntity<?> getWrittenReview() {
-        System.out.println("/api/mypage/getWrittenReview");
         String userId = SecurityUtil.getCurrentUserId();
         List<ClassReviewDTO> reviewList = myPageService.getWrittenReviewByUserId(userId);
         if(reviewList != null) {
-            System.out.println("@@@@" + reviewList);
             return ResponseEntity.ok(reviewList);
         }else{
             return ResponseEntity.notFound().build();
