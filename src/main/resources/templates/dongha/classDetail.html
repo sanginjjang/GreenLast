@@ -5,93 +5,134 @@
 <head>
     <meta charset="UTF-8">
     <title>강의 상세 페이지</title>
-    <style>
-        aside {
-            position: fixed;
-            right: 300px;
-            top: 150px;
-            width: 340px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .class-thumbnail {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .class-price {
-            font-size: 24px;
-            font-weight: bold;
-            color: #d9534f;
-            margin: 10px 0;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .btn-primary {
-            background-color: #0092ff;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #f8f9fa;
-            border: 1px solid #ccc;
-            color: black;
-        }
-
-        .class-detail-container {
-            margin-right: 380px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/dongha/classDetail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 
 <th:block layout:fragment="aside">
-    <aside>
-        <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
-        <p class="class-price">
-            <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
-        </p>
+    <!--    <aside>-->
+    <!--        <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>-->
+    <!--        <p class="class-price">-->
+    <!--            <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>-->
+    <!--        </p>-->
 
-        <th:block th:if="${isAuthenticated}">
-            <button class="btn btn-primary" id="addToCartButton"
-                    th:data-class-id="${classDetail.classId}" onclick="addToCart()">
-                수강 신청하기
-            </button>
-        </th:block>
-        <th:block th:unless="${isAuthenticated}">
-            <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
-                수강 신청하기
-            </button>
-        </th:block>
+    <!--        <th:block th:if="${isAuthenticated}">-->
+    <!--            <button class="btn btn-primary" id="addToCartButton"-->
+    <!--                    th:data-class-id="${classDetail.classId}" onclick="addToCart()">-->
+    <!--                수강 신청하기-->
+    <!--            </button>-->
+    <!--        </th:block>-->
+    <!--        <th:block th:unless="${isAuthenticated}">-->
+    <!--            <button class="btn btn-warning" onclick="location.href='/view/loginForm'">-->
+    <!--                수강 신청하기-->
+    <!--            </button>-->
+    <!--        </th:block>-->
 
-        <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
-        <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
-    </aside>
+    <!--        <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>-->
+    <!--        <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>-->
+    <!--    </aside>-->
 </th:block>
 
 <div layout:fragment="content">
-    <div class="class-detail-container">
-        <h1 class="class-title" th:text="${classDetail.title}">강의 제목</h1>
-        <p class="class-description" th:text="${classDetail.description}">강의 설명</p>
-        <p th:text="${classDetail.classCapsule}"></p>
-        <p th:text="${classDetail.classSubtitle}"></p>
-        <p th:text="${classDetail.classCategory}"></p>
-        <p th:text="${classDetail.classRecom}"></p>
+    <div style="border-left: 1px black solid; border-right:1px black solid; ">
+
+        <div id="class-container1">
+            <div id="container1-box1">
+                <div id="container1-box1-left">
+                    <div th:text="${classDetail.title}" id="class-title">강의제목</div>
+                    <div th:text="${classDetail.description}" id="class-decription">강의설명</div>
+                    <div id="box1-left-review">
+                        <div>
+                            <span id="dynamic-stars" style="color: gold;">★★★★★</span>
+                            <span id="dynamic-score">( 5.0 )</span>
+                        </div>
+                        <span id="dynamic-review-count">수강평</span>
+                        <span>수강생 28,843명</span>
+                    </div>
+
+                    <div id="class-teacher">동하리어카</div>
+                </div>
+                <img src="/images/test.webp" alt="강의사진" id="container1-box1-right">
+            </div>
+        </div>
+        <div id="class-container2">
+            <span>강의소개</span>
+            <span>커리큘럼</span>
+            <span>수강평</span>
+            <span>커뮤니티</span>
+        </div>
+        <div id="class-container3">
+
+            <!--class-detail-container-->
+            <div class="class-detail-container">
+                <!--            <h1 class="class-title" th:text="${classDetail.title}">강의 제목</h1>-->
+                <!--            <p class="class-description" th:text="${classDetail.description}">강의 설명</p>-->
+                <!--            <p th:text="${classDetail.classCapsule}"></p>-->
+                <!--            <p th:text="${classDetail.classSubtitle}"></p>-->
+                <!--            <p th:text="${classDetail.classCategory}"></p>-->
+                <!--            <p th:text="${classDetail.classRecom}"></p>-->
+
+                <div id="detail-container-box1">
+                    [설정된 강의수준(초급)]자를 위해 준비한 강의입니다.
+                </div>
+                <div id="detail-container-box2">
+                    <div id="container-box2-left">이런 걸 배워요</div>
+                    <div id="container-box2-right">
+                        <span>자바를 잘 잡는 법</span>
+                        <span>자바랑 자라의 차이점</span>
+                        <span>자바는 누가 잡나</span>
+                    </div>
+                </div>
+                <div id="detail-container-box3">
+                    강사가 입력한 강의소개 텍스트 및 이미지
+                </div>
+                <div id="detail-container-box4">
+                    커리큘럼
+                </div>
+                <div id="detail-container-box5">
+                    커리큘럼 박스
+                </div>
+                <div id="detail-container-box6">
+                    수강평
+                </div>
+                <div id="detail-container-box7">
+                    <div id="average-rating-score">5.0</div>
+                    <div id="average-rating-stars" style="color: gold;">★★★★★</div>
+                    <div id="total-reviews-count">수강평 178개</div>
+                </div>
+                <div id="detail-container-box8">
+                    <!-- 여기에 JavaScript에서 리뷰 데이터를 동적으로 추가 -->
+                </div>
+            </div>
+
+
+            <!--right aside bar-->
+            <div id="aside-container">
+                <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
+                <p class="class-price">
+                    <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
+                </p>
+
+                <th:block th:if="${isAuthenticated}">
+                    <button class="btn btn-primary" id="addToCartButton"
+                            th:data-class-id="${classDetail.classId}" onclick="addToCart()">
+                        수강 신청하기
+                    </button>
+                </th:block>
+                <th:block th:unless="${isAuthenticated}">
+                    <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
+                        수강 신청하기
+                    </button>
+                </th:block>
+
+                <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
+                <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
+            </div>
+        </div>
     </div>
+    <input type="hidden" id="classId" th:value="${classId}" />
 </div>
 
 <div layout:fragment="scripts">
@@ -101,8 +142,8 @@
 
             fetch('/cart-api/add', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ classId: classId })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({classId: classId})
             })
                 .then(response => response.json())
                 .then(data => {
@@ -116,3 +157,4 @@
 </div>
 </body>
 </html>
+<script src="/js/sangin/classReview.js"></script>
