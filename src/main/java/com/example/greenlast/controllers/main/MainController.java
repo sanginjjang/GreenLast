@@ -27,7 +27,6 @@ public class MainController {
     public String homepage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
         // keyword 값이 null일 수 있으므로 필요한 로직 추가 가능
         if (keyword != null) {
-            System.out.println("home/homepage?keyword=" + keyword);
             model.addAttribute("class", classMainService.getClassMainByKeyword(keyword));
         } else {
             model.addAttribute("class", classMainService.getClassMain());
