@@ -12,12 +12,16 @@ import java.util.List;
 
 @Mapper
 public interface CommunityDao {
-    public void regCommunityPost(CommunityPostDTO communityPost);
-    public CommunityPostDTO getCommunityPost(int postId);
+    public void regCommunityPost(CommunityPostDTO communityPostdto);
+    public CommunityPostDTO getCommunityPost(CommunityPostDTO communityPostDto);
     public List<CommunityPostDTO> getCommunityNoticeList();
-    public List<CommunityPostDTO> getCommunityPostList(@Param("offset") int offset, @Param("limit") int limit);
-    public List<CommunityPostDTO> searchCommunityPostList();
+    public List<CommunityPostDTO> getCommunityPostList(    @Param("offset") int offset,
+                                                           @Param("limit") int limit,
+                                                           @Param("search") String search,
+                                                           @Param("keyword") String keyword,
+                                                           @Param("pageType") String pageType);
     public void updateCommunityPost(CommunityPostDTO communityPost);
     public void deleteCommunityPost(int postId);
-    public int getTotalPostCount();
+    public int getTotalPostCount(@Param("search") String search, @Param("keyword") String keyword, @Param("pageType") String pageType);
+    public void viewCounter(int postId);
 }

@@ -54,6 +54,7 @@
       border: none;
       border-radius: 10px;
       margin-right: 10px;
+      cursor: pointer;
     }
 
     .write-btn {
@@ -130,23 +131,35 @@
 
 <div layout:fragment="content">
   <div id="community-body">
-    <div id="community-title">커뮤니티</div>
+    <div th:if="${pageType == 'free'}">
+      <div>자유게시판</div>
+    </div>
+    <div th:if="${pageType == 'qna'}">
+      <div>Q&A</div>
+    </div>
+    <div th:if="${pageType == 'faq'}">
+      <div>FAQ</div>
+    </div>
+    <div th:if="${pageType == 'class'}">
+      <div>강의 게시판</div>
+    </div>
 
     <div id="search-box">
       <div class="search-section">
         <label>
-          <select>
-            <option value="all" selected>제목+내용</option>
+          <select id="search">
+            <option value="all" selected>전체</option>
             <option value="title">제목</option>
             <option value="content">내용</option>
+            <option value="writer">작성자</option>
           </select>
         </label>
         <div class="search-textbox">
-          <input type="text" placeholder="검색어를 입력하세요">
+          <input id="keyword" type="text" placeholder="검색어를 입력하세요">
         </div>
-        <button class="search-btn">검색</button>
+        <button class="search-btn" onclick="keywordSearch()">검색</button>
       </div>
-      <a href="/kwanhyun/community/CommunityRegist">
+        <a th:href="@{/kwanhyun/community/CommunityRegister(pageType=${pageType})}">
         <button class="write-btn">글쓰기</button>
       </a>
 
@@ -162,35 +175,67 @@
         <div class="community-views">조회수</div>
       </div>
 
-      <th:block th:each="communityPostlist, iterStat : ${communityPostList}">
+      <th:block th:each="postlist, iterStat : ${postList}">
         <div class="community-item">
-          <div th:text="${communityPostlist.postId}">5</div>
-          <div th:switch="${communityPostlist.category}">
-            <div th:case="'N'">공지</div>
-            <div th:case="'U'">게시글</div>
+          <div th:text="${postlist.postId}">게시글번호</div>
+          <div th:if="${postlist.category == 'N'}">
+            <div>공지</div>
           </div>
+          <div th:if="${postlist.category == 'U'}">
+            <div>자유</div>
+          </div>
+          <div th:if="${postlist.category == 'Q'}">
+            <div>Q&A</div>
+          </div>
+          <div th:if="${postlist.category == 'F'}">
+            <div>FAQ</div>
+          </div>
+          <div th:if="${postlist.category == 'C'}">
+            <div>강의</div>
+          </div>
+
           <div>
-            <a th:href="@{/kwanhyun/community/CommunityDetail(postId=${communityPostlist.postId})}"
-               th:text="${communityPostlist.title}"></a>
+            <a th:href="@{/kwanhyun/community/CommunityDetail(postId=${postlist.postId})}"
+               th:text="${postlist.title}"></a>
           </div>
-          <div th:text="${communityPostlist.userId}">ㅇㄷㅎ</div>
-          <div th:text="${communityPostlist.createdAt}">2025-01-21</div>
-          <div th:text="${communityPostlist.views}">9999</div>
+          <div th:text="${postlist.userId}">작성자</div>
+          <div th:text="${postlist.createdAt}">등록일자</div>
+          <div th:text="${postlist.views}">조회수</div>
         </div>
       </th:block>
     </div>
     <div class="pagination" th:if="${totalPages > 0}">
-      <a th:if="${currentPage > 1}" th:href="@{/kwanhyun/community/CommunityMain(page=${currentPage - 1})}">이전</a>
+      <a th:if="${currentPage > 1}"
+         th:href="@{/kwanhyun/community/CommunityMain(page=${currentPage - 1}, search=${param.search}, keyword=${param.keyword}, pageType=${param.pageType})}">이전</a>
+
       <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages > 0 ? totalPages : 1)}">
-        <a th:href="@{/kwanhyun/community/CommunityMain(page=${pageNum})}" th:text="${pageNum}"
+        <a th:href="@{/kwanhyun/community/CommunityMain(page=${pageNum}, search=${param.search}, keyword=${param.keyword}, pageType=${param.pageType})}"
+           th:text="${pageNum}"
            th:classappend="${pageNum == currentPage} ? 'active' : ''"></a>
       </th:block>
-      <a th:if="${currentPage < totalPages}" th:href="@{/kwanhyun/community/CommunityMain(page=${currentPage + 1})}">다음</a>
+
+      <a th:if="${currentPage < totalPages}"
+         th:href="@{/kwanhyun/community/CommunityMain(page=${currentPage + 1}, search=${param.search}, keyword=${param.keyword}, pageType=${param.pageType})}">다음</a>
     </div>
+
   </div>
+
+  <script>
+    function keywordSearch() {
+      const searchType = document.getElementById('search').value;
+      const keyword = document.getElementById('keyword').value;
+      const pageType = new URLSearchParams(window.location.search).get('pageType');
+
+      let url = `/kwanhyun/community/CommunityMain?search=${searchType}&keyword=${keyword}`;
+      if (pageType) {
+        url += `&pageType=${pageType}`;
+      }
+      window.location.href = url;
+    }
+  </script>
+
 </div>
 
-<!-- 푸터 유지 -->
 <th:block layout:fragment="footer"></th:block>
 
 </body>

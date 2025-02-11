@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,60 +29,98 @@ public class CommunityController {
     private CommunityService communityService;
 
     @GetMapping("/CommunityMain")
-    public String communityMain(@RequestParam(defaultValue = "1") int page, Model model) {
-        List<CommunityPostDTO> communityPostList = communityService.CommunityPostList(page);
+    public String communityMain(@RequestParam(value = "pageType", required = false) String pageType,
+                                @RequestParam(value = "page", defaultValue = "1") int page,
+                                @RequestParam(value = "search", required = false) String search,
+                                @RequestParam(value = "keyword", required = false) String keyword,
+                                Model model) {
 
-        int totalPosts = communityService.getTotalPostCount();
+        List<CommunityPostDTO> postList = communityService.CommunityPostList(page, search, keyword, pageType);
+        int totalPosts = communityService.getTotalPostCount(search, keyword, pageType);
         int totalPages = (int) Math.ceil((double) totalPosts / 10);
 
-        if (totalPages < 1) totalPages = 1;
-
-        model.addAttribute("communityPostList", communityPostList);
+        model.addAttribute("postList", postList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
-        return "kwanhyun/CommunityMain";
+        model.addAttribute("pageType", pageType);
+
+        return "kwanhyun/CommunityMain"; // 템플릿 파일
     }
 
-    @GetMapping("/CommunityRegist")
-    public String communityRegist() {
-        return "kwanhyun/CommunityRegist";
+
+    @GetMapping("/CommunityRegister")
+    public String communityRegister(@RequestParam String pageType, Model model) {
+        model.addAttribute("pageType", pageType);
+        model.addAttribute("currentPage", 1);
+        model.addAttribute("search", "");
+        model.addAttribute("keyword", "");
+        return "kwanhyun/CommunityRegister";
     }
+
 
     @GetMapping("/CommunityDetail")
-    public String communityDetail(@RequestParam("postId") int postId, Model model) {
-        CommunityPostDTO post = communityService.getCommunityPost(postId);
-        String currentUserId = null;
-        try {
-            currentUserId = SecurityUtil.getCurrentUserId();
-        } catch (Exception e) {
-            log.info("로그인하지 않은 사용자 접근");
+    public String communityDetail(@RequestParam("postId") int postId,
+                                  @RequestParam(value = "pageType", required = false) String pageType,
+                                  Model model) {
+        communityService.viewCounter(postId);
+
+        CommunityPostDTO postDto = new CommunityPostDTO();
+        postDto.setPostId(postId);
+
+        CommunityPostDTO post = communityService.getCommunityPost(postDto);
+        String currentUserId = SecurityUtil.getCurrentUserId();
+
+        if(post.getCategory().equals("U")) {
+            pageType = "free";
+        } else if(post.getCategory().equals("N")) {
+            pageType = "free";
+        } else if(post.getCategory().equals("Q")) {
+            pageType = "qna";
+        } else if(post.getCategory().equals("F")) {
+            pageType = "faq";
+        } else if(post.getCategory().equals("C")) {
+            pageType = "class";
         }
 
         model.addAttribute("communityPost", post);
         model.addAttribute("currentUserId", currentUserId);
+        model.addAttribute("pageType", pageType);
 
         return "kwanhyun/CommunityDetail";
     }
 
+
     @GetMapping("/CommunityEdit")
-    public String communityEdit(@RequestParam("postId") int postId, Model model) {
-        CommunityPostDTO communityPost = communityService.getCommunityPost(postId);
+    public String communityEdit(@RequestParam("postId") int postId,
+                                @RequestParam(value = "pageType", required = false) String pageType,
+                                Model model) {
+        CommunityPostDTO postDto = new CommunityPostDTO();
+        postDto.setPostId(postId);
+
+        CommunityPostDTO post = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
 
-        if (!communityPost.getUserId().equals(currentUserId)) {
-            return "redirect:/kwanhyun/community/CommunityMain?error=unauthorized";
+        if(post.getCategory().equals("U")) {
+            pageType = "free";
+        } else if(post.getCategory().equals("N")) {
+            pageType = "free";
+        } else if(post.getCategory().equals("Q")) {
+            pageType = "qna";
+        } else if(post.getCategory().equals("F")) {
+            pageType = "faq";
+        } else if(post.getCategory().equals("C")) {
+            pageType = "class";
         }
 
-        model.addAttribute("communityPost", communityPost);
+        if (!post.getUserId().equals(currentUserId)) {
+            return "redirect:/kwanhyun/community/CommunityMain/" + pageType + "?error=unauthorized";
+        }
+
+        model.addAttribute("communityPost", post);
+        model.addAttribute("pageType", pageType);
+
         return "kwanhyun/CommunityEdit";
     }
 
-
-
-    @GetMapping("/CommunitySearch")
-    public String communitySearch() {
-
-        return "kwanhyun/CommunitySearch";
-    }
 
 }
