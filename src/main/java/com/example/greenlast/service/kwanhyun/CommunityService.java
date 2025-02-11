@@ -21,29 +21,33 @@ public class CommunityService {
     @Autowired
     CommunityDao communityDao;
 
-    public List<CommunityPostDTO> CommunityPostList(int page) {
+    public List<CommunityPostDTO> CommunityPostList(int page, String search, String keyword, String pageType) {
         int limit = 10;
         int offset = (page - 1) * limit;
-        List<CommunityPostDTO> communityNoticeList = communityDao.getCommunityNoticeList();
-        List<CommunityPostDTO> communityPostList = communityDao.getCommunityPostList(offset, limit);
-        communityNoticeList.addAll(communityPostList);
 
-        if (communityNoticeList.isEmpty()) {
+        List<CommunityPostDTO> postList;
+
+        if ("free".equals(pageType)) {
+            List<CommunityPostDTO> communityNoticeList = communityDao.getCommunityNoticeList();
+            List<CommunityPostDTO> communityPostList = communityDao.getCommunityPostList(offset, limit, search, keyword, pageType);
+
+            communityNoticeList.addAll(communityPostList);
+            postList = communityNoticeList;
+        } else {
+            postList = communityDao.getCommunityPostList(offset, limit, search, keyword, pageType);
+        }
+
+        if (postList.isEmpty()) {
             log.info("게시글이 존재하지 않습니다.");
             return null;
         }
-        System.out.println(communityNoticeList);
 
-        return communityNoticeList;
+        return postList;
     }
 
-    public CommunityPostDTO getCommunityPost(int postId) {
-        CommunityPostDTO communityPostDetail = communityDao.getCommunityPost(postId);
 
-        if(communityPostDetail == null) {
-            return null;
-        }
-        System.out.println(communityPostDetail);
+    public CommunityPostDTO getCommunityPost(CommunityPostDTO communityPostDto) {
+        CommunityPostDTO communityPostDetail = communityDao.getCommunityPost(communityPostDto);
 
         return communityPostDetail;
     }
@@ -66,8 +70,16 @@ public class CommunityService {
         communityDao.regCommunityPost(communityPostDto);
     }
 
-    public int getTotalPostCount() {
-        return communityDao.getTotalPostCount();
+    public void viewCounter(int postId) {
+        communityDao.viewCounter(postId);
+    }
+
+    public int getTotalPostCount(String search, String keyword, String pageType) {
+        if (search != null && keyword != null && !search.isEmpty() && !keyword.isEmpty()) {
+            return communityDao.getTotalPostCount(search, keyword, pageType);
+        }
+
+        return communityDao.getTotalPostCount(null, null, null);
     }
 
 }
