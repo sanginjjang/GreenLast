@@ -29,14 +29,6 @@ public class CartService {
 
     public List<CartDTO> getCartListByUserId(String userId) {
         List<CartDTO> cartList = cartDao.getCartItems(userId);
-
-        for (CartDTO item : cartList) {
-            System.out.println("📌 [CartService] 가져온 아이템 - classId: " + item.getClassId() +
-                    ", title: " + item.getClassTitle() +
-                    ", price: " + item.getCartPrice() +
-                    ", userName: " + item.getUserName());
-        }
-
         return cartList;
     }
 
