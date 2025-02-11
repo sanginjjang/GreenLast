@@ -57,7 +57,8 @@
                         th:data-class-id="${classDetail.classId}" onclick="addToCart()">
                     수강 신청하기
                 </button>
-                <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
+                <button class="btn" id="addCart"
+                        th:data-class-id="${classDetail.classId}" onclick="addCart()">
                     바구니에 담기
                 </button>
 
@@ -121,18 +122,32 @@
         function addToCart() {
             const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
 
-            fetch('/cart-api/add', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({classId: classId})
-            })
-                .then(response => response.json())
-                .then(data => {
+            axios.post('/cart-api/add', { classId: classId })
+                .then(response => {
+                    const data = response.data;
                     alert(data.message);
                     if (data.success) {
                         window.location.href = "/cart";
                     }
                 })
+                .catch(error => {
+                    console.error('에러 발생:', error);
+                    alert('장바구니 추가 중 오류가 발생했습니다!');
+                });
+        }
+
+        function addCart() {
+            const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
+
+            axios.post('/cart-api/add', { classId: classId })
+                .then(response => {
+                    const data = response.data;
+                    alert(data.message);
+                })
+                .catch(error => {
+                    console.error('에러 발생:', error);
+                    alert('장바구니 추가 중 오류가 발생했습니다!');
+                });
         }
     </script>
 </div>
