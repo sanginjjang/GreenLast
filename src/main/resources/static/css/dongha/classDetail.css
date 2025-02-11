@@ -1,24 +1,100 @@
-/*.btn-secondary {*/
-/*    background-color: #f8f9fa;*/
-/*    border: 1px solid #ccc;*/
-/*    color: black;*/
-/*}*/
+#content100 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
 
 /*class-container1*/
 #class-container1 {
-    padding: 50px 40px 20px 40px;
+    width: 100%;
+    z-index: 2;
+    height: 310px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #1f262b;
 }
 
 /*container1-box1*/
 #container1-box1 {
     display: flex;
+    padding: 0 40px;
+    align-items: center;
+    width: 1400px;
 }
 
 #container1-box1-left {
     /*딱히 쓸거없음*/
 }
 
+#best {
+    display: flex;
+    justify-content: center;
+    line-height: 20px;
+    width: 45px;
+    height: 20px;
+    color: #ffffff;
+    background-color: #e64980;
+    border-radius: 5px;
+}
+
+#fake1 {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    color: #ffffff99;
+    text-decoration-line: underline;
+}
+
+#dynamic-stars {
+    font-size: 18px;
+}
+
+#dynamic-score {
+    color: white;
+}
+
+#dynamic-review-count {
+    color: white;
+}
+
+#dynamic-student-count {
+    color: white;
+}
+
+#class-teacher {
+    color: white;
+}
+
+#dynamic-tech-stacks {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+#hash {
+    font-size: 14px;
+    margin-right: 8px;
+    color: #ffffff99;
+    font-weight: bold;
+}
+
+.tech-stack {
+    border-radius: 10px;
+    color: #a5d8ff;
+    padding: 0 8px;
+    font-size: 11px;
+    background-color: #1971c233;
+}
+
 #class-title {
+    margin-top: 5px;
+    color: white;
     font-weight: bold;
     font-size: 30px;
     max-height: 80px;
@@ -28,23 +104,18 @@
 }
 
 #class-description {
-    padding: 10px;
-    border: 1px #ddd solid;
-    min-height: 200px;
-    max-height: 200px;
+
     scrollbar-width: none;
     border-radius: 5px;
     overflow-y: scroll;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 18px;
-    color: #0d514c;
+    color: #ffffff99;
     height: auto;
-    min-width: 600px;
-    max-width: 600px;
 }
 
 #box1-left-review {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     gap: 30px;
 }
@@ -59,17 +130,20 @@
 }
 
 #class-teacher {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 #container1-box1-right {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 200px;
+    min-width: 300px;
     max-width: 300px;
-    min-height: 200px;
-    max-height: 300px;
+    height: auto;
+    max-height: 240px;
+    margin-left: 240px;
+    border-radius: 10px;
+
 }
 
 /*class-container2*/
@@ -77,31 +151,35 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     position: relative;
     border-top: #ddd 1px solid;
     border-bottom: #ddd 1px solid;
     height: 60px;
-    padding-left: 40px;
-}
 
-#class-container2 {
     background-color: white;
-    margin-left: 1px;
-    top: 0;
-    left: 0;
     z-index: 1000;
 }
 
 #container2-menu {
+    position: relative;
+    padding-left: 40px;
+    width: 1398px;
     display: flex;
     gap: 30px;
     align-items: center;
     height: 100%;
 }
 
+#container2-menu {
+    font-weight: bold;
+    font-size: 19px;
+}
+
 
 #class-container2 > span {
     font-size: 20px;
+
 }
 
 /*class-container3*/
@@ -109,12 +187,12 @@
     position: relative;
     display: flex;
     width: 1400px;
+    margin-bottom: 100px;
 }
 
 /*class-detail-container*/
 .class-detail-container {
     padding: 40px;
-    width: 1060px;
 }
 
 #detail-container-box1 {
@@ -153,6 +231,7 @@
 }
 
 #detail-container-box3 {
+    padding: 13px;
     display: flex;
     border: 1px #ddd solid;
     border-radius: 10px;
@@ -160,12 +239,15 @@
     min-width: 700px;
     max-width: 700px;
     min-height: 200px;
+    color: #0d514c;
     max-height: 700px;
+    font-size: 18px;
 }
 
 #detail-container-box4 {
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: 26px;
+    font-weight: bold;
 }
 
 #detail-container-box5 {
@@ -181,8 +263,9 @@
 }
 
 #detail-container-box6 {
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 26px;
+    font-weight: bold;
 }
 
 #detail-container-box7 {
@@ -291,7 +374,8 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: top 0.2s ease-in-out; /* 부드러운 이동 */
-    right: calc((100vw - 1400px) / 2 - 10px);
+    /*right: calc((100vw - 1400px) / 2 - 10px);*/
+    right: 100px; /* 이거 값 변동시키면 됩니다 동하형*/
 }
 
 
