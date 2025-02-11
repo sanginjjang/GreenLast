@@ -5,7 +5,6 @@ window.addEventListener("load", () => {
     const container2 = document.getElementById("class-container2");
     if (container2) {
         container2InitialOffsetTop = container2.offsetTop; // 초기 위치 저장
-        alert("초기값 : " + container2InitialOffsetTop);
     }
     updateScroll(); // 초기 로딩 시 적용
 });
@@ -26,6 +25,7 @@ function updateScroll() {
         console.log("🚀 Fixed 적용");
         container2.style.position = "fixed";
         container2.style.top = "0px";
+        container2.style.right = "250px";
         container2.style.backgroundColor = "rgba(250, 250, 250, 1)"; // 배경 강조
         container2.style.boxShadow = "0px 2px 5px rgba(0,0,0,0.1)"; // 그림자 추가
     }
@@ -33,6 +33,7 @@ function updateScroll() {
         console.log("🔄 Relative 적용 (원래 위치 복귀)");
         container2.style.position = "relative";
         container2.style.top = "unset";
+        container2.style.right = "250px";
         container2.style.backgroundColor = "white"; // 원래 배경 복구
         container2.style.boxShadow = "none"; // 그림자 제거
     }
