@@ -21,4 +21,5 @@ public class RefundDTO {
     private String refundReason;
     private String refundDate;
     private String refundStatus;
+    private String receiptId;
 }

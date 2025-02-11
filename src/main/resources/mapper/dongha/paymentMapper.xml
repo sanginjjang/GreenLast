@@ -5,8 +5,8 @@
 <mapper namespace="com.example.greenlast.dao.dongha.IPaymentDao">
     <insert id="insertPayment">
         INSERT INTO user_payment_history
-        (user_id, class_id, payment_date, price, refund_status)
-        VALUES (#{userId}, #{classId}, NOW(), #{price}, #{refundStatus})
+        (user_id, class_id, payment_date, price, refund_status, receipt_id)
+        VALUES (#{userId}, #{classId}, NOW(), #{price}, '결제완료', #{receiptId})
     </insert>
 
     <select id="getUserPaymentHistory" resultType="com.example.greenlast.dto.UserPaymentHistoryDTO">
@@ -17,6 +17,7 @@
         c.class_title AS classTitle,
         uph.price,
         uph.refund_status AS refundStatus,
+        uph.receipt_id AS receiptId,
         f.file_url AS fileUrl
         FROM
         user_payment_history uph
@@ -28,15 +29,44 @@
         uph.user_id = #{userId}
         ORDER BY
         uph.payment_date DESC;
+    </select>
 
+    <select id="getPaymentById" resultType="com.example.greenlast.dto.UserPaymentHistoryDTO">
+        SELECT
+        payment_id AS paymentId,
+        user_id AS userId,
+        class_id AS classId,
+        payment_date AS paymentDate,
+        price,
+        refund_status AS refundStatus,
+        receipt_id AS receiptId
+        FROM
+        user_payment_history
+        WHERE
+        payment_id = #{paymentId}
+    </select>
 
+    <select id="checkIfAlreadyPurchased" resultType="int">
+        SELECT COUNT(*)
+        FROM user_payment_history
+        WHERE user_id = #{userId}
+        AND class_id = #{classId}
+        AND refund_status != '환불완료'
     </select>
 
     <insert id="requestRefund">
-        INSERT INTO refund VALUES(null, #{paymentId}, #{userId}, #{refundReson}, now(), #{refundStatus})
+        INSERT INTO refund VALUES(null, #{paymentId}, #{userId}, #{refundReason}, now(), #{refundStatus})
     </insert>
 
+    <update id="requestRefundStatus">
+        UPDATE user_payment_history
+        SET refund_status = '환불요청'
+        WHERE payment_id = #{paymentId}
+    </update>
+
     <update id="updateRefundStatus">
-        UPDATE user_payment_history SET refund_status = #{refundStatus} WHERE payment_id = #{paymentId}
+        UPDATE user_payment_history
+        SET refund_status = '환불완료', refund_date = NOW()
+        WHERE payment_id = #{paymentId}
     </update>
 </mapper>

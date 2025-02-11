@@ -37,12 +37,29 @@ header {
     align-items: center;
     width: 1400px;
     max-height: inherit;
-}
+    }
 
 #header_left {
-    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
-    color: #0092ff;
+}
+#header_left a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 100px;
+    min-height: 100px;
+    min-width: 200px;
+    max-width: 200px;
+}
+
+#header_left a img {
+    width: 10vw;
+    max-width: 250px;
+    min-width: 150px;
+    height: auto;
 }
 
 #header_center {
