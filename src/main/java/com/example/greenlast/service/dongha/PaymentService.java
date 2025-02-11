@@ -3,6 +3,8 @@ package com.example.greenlast.service.dongha;
 import com.example.greenlast.dao.dongha.IClassMainDao;
 import com.example.greenlast.dao.dongha.IPaymentDao;
 import com.example.greenlast.dto.UserPaymentHistoryDTO;
+import kr.co.bootpay.Bootpay;
+import kr.co.bootpay.model.request.Cancel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -55,25 +58,18 @@ public class PaymentService {
 
     public List<UserPaymentHistoryDTO> getPaymentHistory(String userId) {
         List<UserPaymentHistoryDTO> history = paymentDao.getUserPaymentHistory(userId);
-        System.out.println("history.size() : " + history.size());
         return history;
     }
 
     public void processRefund(int paymentId) {
-        System.out.println("환불 처리 시작! paymentId: " + paymentId);
-
         UserPaymentHistoryDTO payment = paymentDao.getPaymentById(paymentId);
 
         if (payment == null) {
             throw new RuntimeException("결제 정보를 찾을 수 없습니다. paymentId: " + paymentId);
         }
 
-        System.out.println("환불 처리 중 결제 정보: " + payment);
-
         if (payment.getReceiptId() == null) {
             throw new RuntimeException("영수증 ID가 없다");
-        } else {
-            System.out.println("영수증 ID 확인 함: " + payment.getReceiptId());
         }
 
         if (payment.getPaymentDate() == null) {
@@ -84,7 +80,7 @@ public class PaymentService {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             paymentDate = LocalDateTime.parse(payment.getPaymentDate(), formatter);  // 🔥 파싱한 값 저장
-            System.out.println("🔥 결제 일자 확인 완료: " + paymentDate);
+
         } catch (DateTimeParseException e) {
             throw new RuntimeException("날짜 포맷이 잘못되었습니다: " + payment.getPaymentDate());
         }
@@ -103,8 +99,32 @@ public class PaymentService {
             throw new RuntimeException("구매 후 3시간이 지나 자동 환불이 불가능합니다. 관리자에게 문의하십시오.");
         }
     }
-
     private boolean callBootpayRefund(String receiptId, int price) {
-        return true; // 환불 성공 시 true 반환
+        try {
+            Bootpay bootpay = new Bootpay("679f11d7cc5274a3ac3fcc2c", "kPNI/PkTT4cJeMp8QCSTaxQ/InukzDgRQpvFpM6y33M=");
+            HashMap<String, Object> tokenResponse = bootpay.getAccessToken();
+
+            if (tokenResponse.get("error_code") != null) {
+                System.err.println("🔥 토큰 발급 실패: " + tokenResponse);
+                return false;
+            }
+
+            Cancel cancelRequest = new Cancel();
+            cancelRequest.receiptId = receiptId;
+            cancelRequest.cancelUsername = "관리자";
+            cancelRequest.cancelMessage = "사용자 요청 환불";
+            cancelRequest.cancelPrice = (double) price;
+
+            HashMap<String, Object> refundResponse = bootpay.receiptCancel(cancelRequest);
+
+            if (refundResponse.get("error_code") == null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("🔥 환불 요청 중 예외 발생: " + e.getMessage());
+            return false;
+        }
     }
 }

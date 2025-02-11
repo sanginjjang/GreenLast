@@ -182,7 +182,6 @@
                         "Content-Type": "application/json"
                     }
                 }).then(response => {
-                    console.log("서버 응답:", response.data);
                     alert("결제가 완료되었습니다!");
                     removeSelected(selectedItems);
                 }).catch(error => {
