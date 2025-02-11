@@ -36,7 +36,6 @@ public class FileController {
                                              @RequestParam(value = "id", required = false) int id
 
     ) throws IOException {
-        System.out.println(file.getOriginalFilename());
         FileEntity savedFile = fileService.saveFile(file, fileType, id);
         return ResponseEntity.ok("파일 업로드 성공! 저장된 경로: " + savedFile.getFileUrl());
     }

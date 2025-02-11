@@ -34,8 +34,6 @@ public class KakaoService {
                 .bodyToMono(String.class)
                 .block();
 
-        System.out.println("AccessToken Response: " + response);
-
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.readTree(response); // JSON 파싱

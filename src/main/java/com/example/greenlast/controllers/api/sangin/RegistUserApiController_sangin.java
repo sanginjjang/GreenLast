@@ -30,7 +30,6 @@ public class RegistUserApiController_sangin {
     @GetMapping("/check-duplicate-id")
     public ResponseEntity<?> checkDuplicateId(@RequestParam String userId) {
         boolean isDuplicate = registUserService.checkUserId(userId);
-        System.out.println("아이디 중복검사 tf = " + isDuplicate);
 
         // JSON 형태로 반환
         Map<String, Object> response = new HashMap<>();
@@ -42,7 +41,6 @@ public class RegistUserApiController_sangin {
     @GetMapping("/check-duplicate-email")
     public ResponseEntity<?> checkDuplicateEmail(@RequestParam String email) {
         boolean isDuplicate = registUserService.checkUserEmail(email);
-        System.out.println("email 중복검사 tf = " + isDuplicate);
 
         // JSON 형태로 반환
         Map<String, Object> response = new HashMap<>();
@@ -54,7 +52,6 @@ public class RegistUserApiController_sangin {
     @GetMapping("/check-duplicate-phoneNumber")
     public ResponseEntity<?> checkDuplicatePhoneNumber(@RequestParam String phoneNumber) {
         boolean isDuplicate = registUserService.checkUserPhoneNumber(phoneNumber);
-        System.out.println("phoneNumber 중복검사 tf = " + isDuplicate);
 
         // JSON 형태로 반환
         Map<String, Object> response = new HashMap<>();
@@ -65,8 +62,6 @@ public class RegistUserApiController_sangin {
 
     @PostMapping("/regist-user")
     public ResponseEntity<?> registUser(@RequestBody UserDTO userDTO) {
-        System.out.print("api/users/regist-user...");
-        System.out.println(userDTO);
         userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         int result = registUserService.registUser(userDTO);
         if (result == 1) {
@@ -78,8 +73,6 @@ public class RegistUserApiController_sangin {
     @ResponseBody
     @PostMapping("/login")
     public void login(@RequestBody UserDTO userDTO) {
-        System.out.print("api/users/login...");
-        System.out.println(userDTO);
     }
 
 
