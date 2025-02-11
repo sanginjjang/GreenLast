@@ -80,16 +80,16 @@
     </style>
 </head>
 <body>
-<th:block layout:fragment="aside">
-</th:block>
+<th:block layout:fragment="aside"></th:block>
 
 <div layout:fragment="content">
-    <div class="container"
-         data-page-type="[[${pageType}]]"
-         data-current-page="[[${currentPage}]]"
-         data-search="[[${param.search} ?: '']]"
-         data-keyword="[[${param.keyword} ?: '']]">
-    <div class="title">자유게시판 게시글 작성</div>
+    <div class="container">
+        <input type="hidden" id="pageType" th:value="${pageType}">
+        <input type="hidden" id="currentPage" th:value="${currentPage}">
+        <input type="hidden" id="search" th:value="${search}">
+        <input type="hidden" id="keyword" th:value="${keyword}">
+
+        <div class="title">자유게시판 게시글 작성</div>
         <input type="text" id="editor-title" class="input-title" placeholder="제목에 핵심 내용을 요약해보세요.">
         <div class="editor-container">
             <textarea id="editorTxt" name="editorTxt"></textarea>
@@ -100,13 +100,14 @@
         </div>
     </div>
 </div>
+
 </body>
 
 <div layout:fragment="scripts">
     <script>
         var oEditors = [];
 
-        smartEditor = function() {
+        function smartEditor() {
             nhn.husky.EZCreator.createInIFrame({
                 oAppRef: oEditors,
                 elPlaceHolder: "editorTxt",
@@ -115,60 +116,47 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             smartEditor();
 
-            $(".cancel").click(function() {
-                let pageType = $(".container").data("page-type");
-                let currentPage = $(".container").data("current-page") || 1;
-                let search = $(".container").data("search") || '';
-                let keyword = $(".container").data("keyword") || '';
+            let pageType = $("#pageType").val();
+            let currentPage = $("#currentPage").val() || 1;
+            let search = $("#search").val() || "";
+            let keyword = $("#keyword").val() || "";
 
-                console.log("취소 버튼 클릭 시 pageType:", pageType);
-
+            $(".cancel").click(function () {
                 window.location.href = `/kwanhyun/community/CommunityMain?pageType=${encodeURIComponent(pageType)}&page=${currentPage}&search=${encodeURIComponent(search)}&keyword=${encodeURIComponent(keyword)}`;
             });
 
-            $(".submit").click(function() {
+            $(".submit").click(function () {
                 oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
                 let title = $("#editor-title").val();
                 let content = $("#editorTxt").val();
-                let pageType = $(".container").data("page-type");
-                let currentPage = $(".container").data("current-page") || 1;
-                let search = $(".container").data("search") || '';
-                let keyword = $(".container").data("keyword") || '';
-
-                console.log("등록 시 pageType:", pageType);
 
                 if (!title || !content.trim()) {
                     alert("제목과 내용을 입력해주세요.");
                     return;
                 }
 
-                $.ajax({
-                    type: "POST",
-                    url: "/kwanhyun/api/community/posts",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        title: title,
-                        content: content,
-                        pageType: pageType,
-                        currentPage: currentPage,
-                        search: search,
-                        keyword: keyword
-                    }),
-                    success: function(response) {
+                axios.post("/kwanhyun/api/community/posts", {
+                    title: title,
+                    content: content,
+                    pageType: pageType,
+                    currentPage: currentPage,
+                    search: search,
+                    keyword: keyword
+                })
+                    .then(response => {
                         alert("게시글이 성공적으로 등록되었습니다.");
-                        console.log("리다이렉트 시 pageType:", pageType);
                         window.location.href = `/kwanhyun/community/CommunityMain?pageType=${encodeURIComponent(pageType)}&page=${currentPage}&search=${encodeURIComponent(search)}&keyword=${encodeURIComponent(keyword)}`;
-                    },
-                    error: function(xhr, status, error) {
+                    })
+                    .catch(error => {
                         console.error(error);
                         alert("게시글 등록에 실패하였습니다.");
-                    }
-                });
+                    });
             });
         });
     </script>
 </div>
+
 </html>
