@@ -28,18 +28,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 `;
             });
-        })
-        .catch(error => {
-            console.error("결제 내역을 불러오는 중 오류 발생:", error);
         });
 });
 
 function requestRefund(paymentId) {
-    console.log("환불 요청하는 결제 ID:", paymentId);  // 🔥 결제 ID 출력 확인
-
     axios.post("/payment-api/refund",
-        { paymentId: paymentId },  // JSON 형식으로 보냄
-        { headers: { "Content-Type": "application/json" } }  // 헤더 설정 확인!!!
+        { paymentId: paymentId },
+        { headers: { "Content-Type": "application/json" } }
     )
         .then(response => {
             if (response.data.status === "success") {
