@@ -83,14 +83,12 @@
             <!--            <p th:text="${classDetail.classRecom}"></p>-->
 
             <div id="detail-container-box1">
-                [설정된 강의수준(초급)]자를 위해 준비한 강의입니다.
+                설정된 강의수준은 [ [[${classDetail.classLevel}]]자 ]를 위해 준비한 강의입니다.
             </div>
             <div id="detail-container-box2">
                 <div id="container-box2-left">이런 걸 배워요</div>
                 <div id="container-box2-right">
-                    <span>자바를 잘 잡는 법</span>
-                    <span>자바랑 자라의 차이점</span>
-                    <span>자바는 누가 잡나</span>
+                    <span>[[${classDetail.classRecom}]]</span>
                 </div>
             </div>
             <div id="detail-container-box3">
