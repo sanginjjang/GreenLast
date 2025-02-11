@@ -44,7 +44,7 @@
             text-align: right;
         }
 
-        .back-btn a, .back-btn button {
+        .back-btn a, .back-btn button{
             background-color: #007bff;
             color: white;
             padding: 10px 20px;
@@ -55,7 +55,7 @@
             cursor: pointer;
         }
 
-        .back-btn a:hover, .back-btn button:hover {
+        .back-btn a:hover, .back-btn button:hover{
             background-color: #0056b3;
         }
     </style>
@@ -66,6 +66,11 @@
 
 <div layout:fragment="content">
     <div class="detail-container">
+        <input type="hidden" id="pageType" th:value="${pageType}">
+        <input type="hidden" id="currentPage" th:value="${currentPage}">
+        <input type="hidden" id="search" th:value="${search}">
+        <input type="hidden" id="keyword" th:value="${keyword}">
+
         <div class="detail-title" th:text="${communityPost.title}">게시글 제목</div>
 
         <div class="detail-meta">
@@ -99,17 +104,17 @@
                 }
 
                 let postId = $(this).data("post-id");
-                let pageType = '[[${pageType}]]';
-                let currentPage = '[[${currentPage}]]';
-                let search = '[[${param.search}]]';
-                let keyword = '[[${param.keyword}]]';
+                let pageType = $("#pageType").val();
+                let currentPage = $("#currentPage").val() || 1;
+                let search = $("#search").val() || "";
+                let keyword = $("#keyword").val() || "";
 
                 $.ajax({
                     type: "DELETE",
                     url: `/kwanhyun/api/community/post/${postId}?pageType=${pageType}`,
                     success: function(response) {
                         alert("게시글이 성공적으로 삭제되었습니다.");
-                        window.location.href = `/kwanhyun/community/CommunityMain/${pageType}?page=${currentPage}&search=${search}&keyword=${keyword}`;
+                        window.location.href = `/kwanhyun/community/CommunityMain?pageType=${encodeURIComponent(pageType)}&page=${currentPage}&search=${encodeURIComponent(search)}&keyword=${encodeURIComponent(keyword)}`;
                     },
                     error: function(xhr, status, error) {
                         console.error("삭제 실패:", xhr.responseText);

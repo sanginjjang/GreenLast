@@ -40,6 +40,8 @@
         SELECT cp.post_id, cp.class_id, u.name as userId, cp.title, cp.content, DATE(cp.created_at) as createdAt, cp.category, cp.views
         FROM community_post cp
         JOIN user u ON cp.user_id = u.user_id
+        WHERE 1=1
+
         <if test="pageType != null and pageType != ''">
             AND cp.category =
             <choose>
