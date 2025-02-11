@@ -104,6 +104,7 @@ public class CommunityRestController {
         CommunityPostDTO post = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
 
+
         if(post.getCategory().equals("U")) {
             pageType = "free";
         } else if(post.getCategory().equals("N")) {
