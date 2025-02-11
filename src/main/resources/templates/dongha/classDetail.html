@@ -63,29 +63,29 @@
                 <span>커리큘럼</span>
                 <span>수강평</span>
                 <span>커뮤니티</span>
+                <div id="aside-container">
+                    <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
+                    <p class="class-price">
+                        <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
+                    </p>
+
+                    <th:block th:if="${isAuthenticated}">
+                        <button class="btn btn-primary" id="addToCartButton"
+                                th:data-class-id="${classDetail.classId}" onclick="addToCart()">
+                            수강 신청하기
+                        </button>
+                    </th:block>
+                    <th:block th:unless="${isAuthenticated}">
+                        <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
+                            수강 신청하기
+                        </button>
+                    </th:block>
+
+                    <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
+                    <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
+                </div>
             </div>
             <!--right aside bar-->
-            <div id="aside-container">
-                <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
-                <p class="class-price">
-                    <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
-                </p>
-
-                <th:block th:if="${isAuthenticated}">
-                    <button class="btn btn-primary" id="addToCartButton"
-                            th:data-class-id="${classDetail.classId}" onclick="addToCart()">
-                        수강 신청하기
-                    </button>
-                </th:block>
-                <th:block th:unless="${isAuthenticated}">
-                    <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
-                        수강 신청하기
-                    </button>
-                </th:block>
-
-                <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
-                <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
-            </div>
         </div>
         <div id="class-container3">
 
@@ -130,7 +130,6 @@
                     <!-- 여기에 JavaScript에서 리뷰 데이터를 동적으로 추가 -->
                 </div>
             </div>
-
 
 
         </div>

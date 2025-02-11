@@ -28,7 +28,7 @@
 }
 
 #class-description {
-    padding: 10px;
+    padding: 12px;
     border: 1px #ddd solid;
     min-height: 200px;
     max-height: 200px;
@@ -66,10 +66,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 200px;
-    max-width: 300px;
-    min-height: 200px;
+    border: 1px #ddd solid;
+    min-width: 400px;
+    max-width: 400px;
+    height: auto;
     max-height: 300px;
+    margin-left: 200px;
+    border-radius: 10px;
+
 }
 
 /*class-container2*/
@@ -77,31 +81,39 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     position: relative;
     border-top: #ddd 1px solid;
     border-bottom: #ddd 1px solid;
     height: 60px;
-    padding-left: 40px;
 }
 
 #class-container2 {
     background-color: white;
-    margin-left: 1px;
     top: 0;
     left: 0;
     z-index: 1000;
 }
 
 #container2-menu {
+    position: relative;
+    padding-left: 40px;
+    width: 1398px;
     display: flex;
     gap: 30px;
     align-items: center;
     height: 100%;
 }
 
+#container2-menu {
+    font-weight: bold;
+    font-size: 19px;
+}
+
 
 #class-container2 > span {
     font-size: 20px;
+
 }
 
 /*class-container3*/
@@ -114,7 +126,6 @@
 /*class-detail-container*/
 .class-detail-container {
     padding: 40px;
-    width: 1060px;
 }
 
 #detail-container-box1 {
@@ -153,6 +164,7 @@
 }
 
 #detail-container-box3 {
+    padding: 13px;
     display: flex;
     border: 1px #ddd solid;
     border-radius: 10px;
@@ -160,12 +172,15 @@
     min-width: 700px;
     max-width: 700px;
     min-height: 200px;
+    color: #0d514c;
     max-height: 700px;
+    font-size: 18px;
 }
 
 #detail-container-box4 {
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: 26px;
+    font-weight: bold;
 }
 
 #detail-container-box5 {
@@ -181,8 +196,9 @@
 }
 
 #detail-container-box6 {
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 26px;
+    font-weight: bold;
 }
 
 #detail-container-box7 {
@@ -291,7 +307,8 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: top 0.2s ease-in-out; /* 부드러운 이동 */
-    right: calc((100vw - 1400px) / 2 - 10px);
+    /*right: calc((100vw - 1400px) / 2 - 10px);*/
+    right: 100px; /* 이거 값 변동시키면 됩니다 동하형*/
 }
 
 
