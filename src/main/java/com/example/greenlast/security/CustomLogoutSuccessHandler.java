@@ -14,7 +14,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        System.out.println("로그아웃 핸들러 작동!!");
         // 쿠키 삭제 로직
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {

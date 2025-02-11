@@ -9,7 +9,6 @@ public class CookieUtil {
 
     // JWT를 쿠키에 추가하는 메서드
     public static void addTokenToCookie(HttpServletResponse response, String token) {
-        System.out.println("쿠키 발급!!");
         Cookie cookie = new Cookie("mazayotoken", token);
         cookie.setHttpOnly(true); // JavaScript에서 접근 불가능
 
@@ -31,7 +30,6 @@ public class CookieUtil {
 
     // 쿠키에서 JWT를 삭제하는 메서드 (로그아웃 처리)
     public static void deleteCookie(HttpServletResponse response) {
-        System.out.println("쿠키 삭제!!");
         Cookie cookie = new Cookie("mazayotoken", null); // "mazayotoken" 이름으로 빈 값 설정
         cookie.setHttpOnly(true);
         cookie.setSecure(true);

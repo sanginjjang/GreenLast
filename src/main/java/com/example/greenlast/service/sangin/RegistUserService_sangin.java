@@ -14,19 +14,16 @@ public class RegistUserService_sangin {
     RegistUserDao registUserDao;
 
     public boolean checkUserId(String userId) {
-        System.out.println("service/registUserService/checkUserId: " + userId);
         Boolean isDuplicate = registUserDao.checkUserId(userId); // Boolean으로 선언
         return isDuplicate != null ? isDuplicate : false;
     }
 
     public boolean checkUserEmail(String email) {
-        System.out.println("service/registUserService/checkUserEmail: " + email);
         Boolean isDuplicate = registUserDao.checkUserEmail(email); // Boolean으로 선언
         return isDuplicate != null ? isDuplicate : false;
     }
 
     public boolean checkUserPhoneNumber(String phoneNumber) {
-        System.out.println("service/registUserService/checkUserPhoneNUmber : " + phoneNumber);
         Boolean isDuplicate = registUserDao.checkUserPhoneNumber(phoneNumber); // Boolean으로 선언
         return isDuplicate != null ? isDuplicate : false;
     }

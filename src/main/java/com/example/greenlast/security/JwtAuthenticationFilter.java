@@ -28,16 +28,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
-            System.out.println("필터 토큰 추출 실시");
             String token = resolveToken(request);
-            System.out.println("토큰: " + token);
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 String userId = jwtTokenProvider.getUserIdFromToken(token);
                 String role = jwtTokenProvider.getRoleFromToken(token);
-
-                System.out.println("jwtAuthenticationFilter - userId: " + userId);
-                System.out.println("jwtAuthenticationFilter - role: " + role);
 
                 // ✅ CustomUserDetails 생성 (role 포함)
                 CustomUserDetails userDetails = new CustomUserDetails(userId, null, role);
@@ -48,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 // ✅ SecurityContextHolder에 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("SecurityContextHolder - 인증 저장 완료");
             }
         } catch (Exception e) {
             logger.error("JWT 인증 중 오류 발생: " + e.getMessage());
