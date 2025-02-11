@@ -22,7 +22,6 @@ public class SanginController {
 
     @GetMapping("/1")
     public String test1(Model model) {
-        System.out.println("view/sangin/test1");
         String id = SecurityUtil.getCurrentUserId();
         model.addAttribute("id", id);
         return "/sangin/test1";
@@ -30,7 +29,6 @@ public class SanginController {
 
     @GetMapping("/2")
     public String test2() {
-        System.out.println("view/sangin/test2");
         return "/sangin/test2";
     }
 }
