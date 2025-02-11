@@ -39,7 +39,6 @@ public class PaymentControllerBack {
     @PostMapping("/payment")
     public ResponseEntity<Map<String, Object>> processPayment(@RequestBody Map<String, Object> requestData) {
         String userId = SecurityUtil.getCurrentUserId();
-        System.out.println("🔥 받은 데이터: " + requestData);
 
         List<Map<String, Object>> purchasedItems = (List<Map<String, Object>>) requestData.get("purchasedItems");
 
@@ -49,7 +48,6 @@ public class PaymentControllerBack {
 
         for (Map<String, Object> item : purchasedItems) {
             if (item.get("classId") == null || item.get("price") == null || item.get("receiptId") == null) {
-                System.out.println("🔥 누락된 데이터: " + item);
                 return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "필수 결제 데이터가 누락되었습니다."));
             }
 
@@ -57,7 +55,6 @@ public class PaymentControllerBack {
             int price = Integer.parseInt(item.get("price").toString());
             String receiptId = item.get("receiptId").toString();
 
-            System.out.println("🔥 결제 저장 시도 - classId: " + classId + ", price: " + price + ", receiptId: " + receiptId);
             paymentService.savePayment(userId, classId, price, receiptId);
         }
 
@@ -83,7 +80,6 @@ public class PaymentControllerBack {
 
     @PostMapping("/refund")
     public ResponseEntity<Map<String, Object>> requestRefund(@RequestBody Map<String, Object> requestData) {
-        System.out.println("🔥 요청 데이터: " + requestData);  // 요청 데이터 로그로 출력!!!
 
         if (!requestData.containsKey("paymentId")) {
             return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "결제 ID가 전달되지 않았습니다."));
