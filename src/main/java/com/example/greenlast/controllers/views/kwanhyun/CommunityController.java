@@ -49,7 +49,11 @@ public class CommunityController {
 
 
     @GetMapping("/CommunityRegister")
-    public String communityRegister(@RequestParam String pageType, Model model) {
+    public String communityRegister(@RequestParam(value = "pageType", required = false) String pageType,
+                                    @RequestParam(value = "page", defaultValue = "1") int page,
+                                    @RequestParam(value = "search", required = false) String search,
+                                    @RequestParam(value = "keyword", required = false) String keyword,
+                                    Model model) {
         model.addAttribute("pageType", pageType);
         model.addAttribute("currentPage", 1);
         model.addAttribute("search", "");

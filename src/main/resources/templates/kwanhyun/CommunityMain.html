@@ -16,7 +16,7 @@
       width: 80%;
     }
 
-    #community-title {
+    .community-body-title {
       font-size: 28px;
       font-weight: bold;
       text-align: center;
@@ -131,17 +131,18 @@
 
 <div layout:fragment="content">
   <div id="community-body">
+    <input type="hidden" id="pageType" th:value="${pageType}">
     <div th:if="${pageType == 'free'}">
-      <div>자유게시판</div>
+      <div class="community-body-title">자유게시판</div>
     </div>
     <div th:if="${pageType == 'qna'}">
-      <div>Q&A</div>
+      <div class="community-body-title">Q&A</div>
     </div>
     <div th:if="${pageType == 'faq'}">
-      <div>FAQ</div>
+      <div class="community-body-title">FAQ</div>
     </div>
     <div th:if="${pageType == 'class'}">
-      <div>강의 게시판</div>
+      <div class="community-body-title">강의 게시판</div>
     </div>
 
     <div id="search-box">
@@ -232,6 +233,15 @@
       }
       window.location.href = url;
     }
+
+    const pageType = $("#pageType").val();
+    const communityItems = document.querySelectorAll(".community-item");
+    if (pageType !== 'free'){
+      communityItems.forEach(item => {
+      item.style.backgroundColor = "white";
+      });
+    }
+
   </script>
 
 </div>
