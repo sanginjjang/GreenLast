@@ -158,8 +158,6 @@
     height: 60px;
 
     background-color: white;
-    top: 0;
-    left: 0;
     z-index: 1000;
 }
 
@@ -186,12 +184,10 @@
 
 /*class-container3*/
 #class-container3 {
-    border-right: 1px #ddd solid;
-    border-left: 1px #ddd solid;
-    border-bottom: 1px #ddd solid;
     position: relative;
     display: flex;
     width: 1400px;
+    margin-bottom: 100px;
 }
 
 /*class-detail-container*/
