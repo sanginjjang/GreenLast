@@ -3,6 +3,10 @@ body {
     margin: 0;
     padding: 0;
 }
+html {
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+}
 
 /* i */
 * {
@@ -126,7 +130,7 @@ nav {
 
 #nav_center {
     display: flex;
-    gap: 80px;
+    gap: 75px;
 }
 
 .nav_menu {
