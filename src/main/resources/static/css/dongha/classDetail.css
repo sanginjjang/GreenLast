@@ -74,12 +74,31 @@
 
 /*class-container2*/
 #class-container2 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
     border-top: #ddd 1px solid;
     border-bottom: #ddd 1px solid;
-    padding: 20px 40px;
+    height: 60px;
+    padding-left: 40px;
+}
+
+#class-container2 {
+    background-color: white;
+    margin-left: 1px;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+#container2-menu {
     display: flex;
     gap: 30px;
+    align-items: center;
+    height: 100%;
 }
+
 
 #class-container2 > span {
     font-size: 20px;
@@ -177,15 +196,18 @@
     border: 1px #ddd solid;
     padding: 20px;
 }
-#average-rating-score{
+
+#average-rating-score {
     font-size: 30px;
     font-weight: bold;
 }
-#average-rating-stars{
+
+#average-rating-stars {
     font-size: 40px;
     font-weight: bold;
 }
-#total-reviews-count{
+
+#total-reviews-count {
     font-size: 20px;
     font-weight: bold;
     margin-top: 10px;
@@ -234,12 +256,14 @@
     border-radius: 50%;
     border: 1px #ddd solid;
 }
-.box8-review-center{
+
+.box8-review-center {
     display: flex;
     margin-top: 10px;
     gap: 5px;
 }
-.box8-review-bottom{
+
+.box8-review-bottom {
     margin-top: 10px;
 }
 
@@ -248,16 +272,28 @@
 /*aside*/
 /*aside*/
 /*aside*/
+/*#aside-container {*/
+/*    position: fixed;*/
+/*    width: 340px;*/
+/*    padding: 20px;*/
+/*    background-color: #fff;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
+/*    transition: top 0.2s ease-in-out; !* 부드러운 이동 *!*/
+/*    right: calc((100vw - 1400px) / 2 - 10px);*/
+/*}*/
 #aside-container {
-    position: fixed;
+    position: absolute;
+    top: 60px;
     width: 340px;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-
+    transition: top 0.2s ease-in-out; /* 부드러운 이동 */
     right: calc((100vw - 1400px) / 2 - 10px);
 }
+
 
 .class-thumbnail {
     width: 100%;
