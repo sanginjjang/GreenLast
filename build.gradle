@@ -62,6 +62,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     // 네이버 스마트 에디터 <p>태그 제거
     implementation 'org.jsoup:jsoup:1.15.3'
+    
+    //부트페이 환불 관련 디펜던시
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'io.github.bootpay:backend:+'
 }
 
 tasks.named('test') {
