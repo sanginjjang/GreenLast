@@ -42,11 +42,14 @@
     border-radius: 5px;
 }
 
-#fake1 {
+#fakeList {
     margin-top: 5px;
     display: flex;
     align-items: center;
     color: #ffffff99;
+    gap: 5px;
+}
+.fake{
     text-decoration-line: underline;
 }
 
@@ -212,7 +215,7 @@
     padding: 20px;
     font-size: 22px;
     font-weight: bold;
-    border: 1px #ddd solid;
+    border-right: 1px #ddd solid;
     width: 129px;
 }
 
