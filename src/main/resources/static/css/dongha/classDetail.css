@@ -1,24 +1,100 @@
-/*.btn-secondary {*/
-/*    background-color: #f8f9fa;*/
-/*    border: 1px solid #ccc;*/
-/*    color: black;*/
-/*}*/
+#content100 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
 
 /*class-container1*/
 #class-container1 {
-    padding: 50px 40px 20px 40px;
+    width: 100%;
+    z-index: 2;
+    height: 310px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #1f262b;
 }
 
 /*container1-box1*/
 #container1-box1 {
     display: flex;
+    padding: 0 40px;
+    align-items: center;
+    width: 1400px;
 }
 
 #container1-box1-left {
     /*딱히 쓸거없음*/
 }
 
+#best {
+    display: flex;
+    justify-content: center;
+    line-height: 20px;
+    width: 45px;
+    height: 20px;
+    color: #ffffff;
+    background-color: #e64980;
+    border-radius: 5px;
+}
+
+#fake1 {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    color: #ffffff99;
+    text-decoration-line: underline;
+}
+
+#dynamic-stars {
+    font-size: 18px;
+}
+
+#dynamic-score {
+    color: white;
+}
+
+#dynamic-review-count {
+    color: white;
+}
+
+#dynamic-student-count {
+    color: white;
+}
+
+#class-teacher {
+    color: white;
+}
+
+#dynamic-tech-stacks {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+#hash {
+    font-size: 14px;
+    margin-right: 8px;
+    color: #ffffff99;
+    font-weight: bold;
+}
+
+.tech-stack {
+    border-radius: 10px;
+    color: #a5d8ff;
+    padding: 0 8px;
+    font-size: 11px;
+    background-color: #1971c233;
+}
+
 #class-title {
+    margin-top: 5px;
+    color: white;
     font-weight: bold;
     font-size: 30px;
     max-height: 80px;
@@ -28,23 +104,18 @@
 }
 
 #class-description {
-    padding: 12px;
-    border: 1px #ddd solid;
-    min-height: 200px;
-    max-height: 200px;
+
     scrollbar-width: none;
     border-radius: 5px;
     overflow-y: scroll;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 18px;
-    color: #0d514c;
+    color: #ffffff99;
     height: auto;
-    min-width: 600px;
-    max-width: 600px;
 }
 
 #box1-left-review {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     gap: 30px;
 }
@@ -59,19 +130,18 @@
 }
 
 #class-teacher {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 #container1-box1-right {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px #ddd solid;
-    min-width: 400px;
-    max-width: 400px;
+    min-width: 300px;
+    max-width: 300px;
     height: auto;
-    max-height: 300px;
-    margin-left: 200px;
+    max-height: 240px;
+    margin-left: 240px;
     border-radius: 10px;
 
 }
@@ -86,9 +156,7 @@
     border-top: #ddd 1px solid;
     border-bottom: #ddd 1px solid;
     height: 60px;
-}
 
-#class-container2 {
     background-color: white;
     top: 0;
     left: 0;
@@ -118,6 +186,9 @@
 
 /*class-container3*/
 #class-container3 {
+    border-right: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-bottom: 1px #ddd solid;
     position: relative;
     display: flex;
     width: 1400px;

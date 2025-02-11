@@ -10,129 +10,108 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-
-<th:block layout:fragment="aside">
-    <!--    <aside>-->
-    <!--        <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>-->
-    <!--        <p class="class-price">-->
-    <!--            <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>-->
-    <!--        </p>-->
-
-    <!--        <th:block th:if="${isAuthenticated}">-->
-    <!--            <button class="btn btn-primary" id="addToCartButton"-->
-    <!--                    th:data-class-id="${classDetail.classId}" onclick="addToCart()">-->
-    <!--                수강 신청하기-->
-    <!--            </button>-->
-    <!--        </th:block>-->
-    <!--        <th:block th:unless="${isAuthenticated}">-->
-    <!--            <button class="btn btn-warning" onclick="location.href='/view/loginForm'">-->
-    <!--                수강 신청하기-->
-    <!--            </button>-->
-    <!--        </th:block>-->
-
-    <!--        <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>-->
-    <!--        <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>-->
-    <!--    </aside>-->
-</th:block>
-
-<div layout:fragment="content">
-    <div style="border-left: 1px #ddd solid; border-right:1px #ddd solid; ">
-
-        <div id="class-container1">
-            <div id="container1-box1">
-                <div id="container1-box1-left">
-                    <div th:text="${classDetail.title}" id="class-title">강의제목</div>
-                    <div th:text="${classDetail.description}" id="class-description">강의설명</div>
-                    <div id="box1-left-review">
-                        <div>
-                            <span id="dynamic-stars" style="color: gold;">★★★★★</span>
-                            <span id="dynamic-score">( 5.0 )</span>
-                        </div>
-                        <span id="dynamic-review-count">수강평</span>
-                        <span>수강생 28,843명</span>
+<div layout:fragment="content100">
+    <div id="class-container1">
+        <div id="container1-box1">
+            <div id="container1-box1-left">
+                <div id="best">BEST</div>
+                <div id="fake1">백엔드 / 프론트엔드</div>
+                <div th:text="${classDetail.title}" id="class-title">강의제목</div>
+                <div th:text="${classDetail.classCapsule}" id="class-description">강의설명</div>
+                <div id="box1-left-review">
+                    <div>
+                        <span id="dynamic-stars" style="color: gold;">★★★★★</span>
+                        <span id="dynamic-score">( 0.0 )</span>
                     </div>
-
-                    <div id="class-teacher">동하리어카</div>
+                    <span id="dynamic-review-count">수강평</span>
+                    <span id="dynamic-student-count">수강생 0명</span>
                 </div>
-                <img src="/images/test.webp" alt="강의사진" id="container1-box1-right">
+
+                <div id="class-teacher">동하리어카</div>
+                <div id="dynamic-tech-stacks">
+                    <span id="hash">#</span>
+                    <span class="tech-stack">React</span>
+                    <span class="tech-stack">Node.js</span>
+                    <span class="tech-stack">Redux</span>
+                    <span class="tech-stack">Sass</span>
+                    <span class="tech-stack">swr</span>
+                </div>
             </div>
+            <img src="/images/test.webp" alt="강의사진" id="container1-box1-right">
         </div>
-        <div id="class-container2">
-            <div id="container2-menu">
-                <span>강의소개</span>
-                <span>커리큘럼</span>
-                <span>수강평</span>
-                <span>커뮤니티</span>
-                <div id="aside-container">
-                    <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
-                    <p class="class-price">
-                        <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
-                    </p>
-
-                    <th:block th:if="${isAuthenticated}">
-                        <button class="btn btn-primary" id="addToCartButton"
-                                th:data-class-id="${classDetail.classId}" onclick="addToCart()">
-                            수강 신청하기
-                        </button>
-                    </th:block>
-                    <th:block th:unless="${isAuthenticated}">
-                        <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
-                            수강 신청하기
-                        </button>
-                    </th:block>
-
-                    <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
-                    <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
-                </div>
-            </div>
+    </div>
+    <div id="class-container2">
+        <div id="container2-menu">
+            <span>강의소개</span>
+            <span>커리큘럼</span>
+            <span>수강평</span>
+            <span>커뮤니티</span>
             <!--right aside bar-->
+            <div id="aside-container">
+                <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
+                <p class="class-price">
+                    <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
+                </p>
+
+                <button class="btn btn-primary" id="addToCartButton"
+                        th:data-class-id="${classDetail.classId}" onclick="addToCart()">
+                    수강 신청하기
+                </button>
+                <button class="btn btn-warning" onclick="location.href='/view/loginForm'">
+                    바구니에 담기
+                </button>
+
+                <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
+                <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
+            </div>
         </div>
-        <div id="class-container3">
+    </div>
+    <!--여기 원래 있던 자리-->
+    <div id="class-container3">
 
-            <!--class-detail-container-->
-            <div class="class-detail-container">
-                <!--            <h1 class="class-title" th:text="${classDetail.title}">강의 제목</h1>-->
-                <!--            <p class="class-description" th:text="${classDetail.description}">강의 설명</p>-->
-                <!--            <p th:text="${classDetail.classCapsule}"></p>-->
-                <!--            <p th:text="${classDetail.classSubtitle}"></p>-->
-                <!--            <p th:text="${classDetail.classCategory}"></p>-->
-                <!--            <p th:text="${classDetail.classRecom}"></p>-->
+        <!--class-detail-container-->
+        <div class="class-detail-container">
+            <!--            <h1 class="class-title" th:text="${classDetail.title}">강의 제목</h1>-->
+            <!--            <p class="class-description" th:text="${classDetail.description}">강의 설명</p>-->
+            <!--            <p th:text="${classDetail.classCapsule}"></p>-->
+            <!--            <p th:text="${classDetail.classSubtitle}"></p>-->
+            <!--            <p th:text="${classDetail.classCategory}"></p>-->
+            <!--            <p th:text="${classDetail.classRecom}"></p>-->
 
-                <div id="detail-container-box1">
-                    [설정된 강의수준(초급)]자를 위해 준비한 강의입니다.
-                </div>
-                <div id="detail-container-box2">
-                    <div id="container-box2-left">이런 걸 배워요</div>
-                    <div id="container-box2-right">
-                        <span>자바를 잘 잡는 법</span>
-                        <span>자바랑 자라의 차이점</span>
-                        <span>자바는 누가 잡나</span>
-                    </div>
-                </div>
-                <div id="detail-container-box3">
-                    강사가 입력한 강의소개 텍스트 및 이미지
-                </div>
-                <div id="detail-container-box4">
-                    커리큘럼
-                </div>
-                <div id="detail-container-box5">
-                    커리큘럼 박스
-                </div>
-                <div id="detail-container-box6">
-                    수강평
-                </div>
-                <div id="detail-container-box7">
-                    <div id="average-rating-score">0.0</div>
-                    <div id="average-rating-stars" style="color: gold;">★★★★★</div>
-                    <div id="total-reviews-count">수강평 개</div>
-                </div>
-                <div id="detail-container-box8">
-                    <!-- 여기에 JavaScript에서 리뷰 데이터를 동적으로 추가 -->
+            <div id="detail-container-box1">
+                [설정된 강의수준(초급)]자를 위해 준비한 강의입니다.
+            </div>
+            <div id="detail-container-box2">
+                <div id="container-box2-left">이런 걸 배워요</div>
+                <div id="container-box2-right">
+                    <span>자바를 잘 잡는 법</span>
+                    <span>자바랑 자라의 차이점</span>
+                    <span>자바는 누가 잡나</span>
                 </div>
             </div>
-
-
+            <div id="detail-container-box3">
+                강사가 입력한 강의소개 텍스트 및 이미지
+            </div>
+            <div id="detail-container-box4">
+                커리큘럼
+            </div>
+            <div id="detail-container-box5">
+                커리큘럼 박스
+            </div>
+            <div id="detail-container-box6">
+                수강평
+            </div>
+            <div id="detail-container-box7">
+                <div id="average-rating-score">0.0</div>
+                <div id="average-rating-stars" style="color: gold;">★★★★★</div>
+                <div id="total-reviews-count">수강평 개</div>
+            </div>
+            <div id="detail-container-box8">
+                <!-- 여기에 JavaScript에서 리뷰 데이터를 동적으로 추가 -->
+            </div>
         </div>
+
+
     </div>
     <input type="hidden" id="classId" th:value="${classId}"/>
 </div>
