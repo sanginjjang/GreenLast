@@ -235,17 +235,13 @@
 }
 
 #detail-container-box3 {
-    padding: 13px;
     display: flex;
-    border: 1px #ddd solid;
-    border-radius: 10px;
+    flex-direction: column;
     margin-top: 40px;
-    min-width: 700px;
-    max-width: 700px;
-    min-height: 200px;
-    color: #0d514c;
-    max-height: 700px;
-    font-size: 18px;
+}
+.intro-content > p {
+    font-weight: bold;
+    font-size: 16px;
 }
 
 #detail-container-box4 {
@@ -382,16 +378,22 @@
     right: 100px; /* 이거 값 변동시키면 됩니다 동하형*/
 }
 
-
-.class-thumbnail {
+#aside_thumnail_box {
     display: flex;
-    width: auto;
+    width: 100%;
     align-items: center;
     justify-content: center;
-    border: 1px black solid;
-    height: 150px;
+    max-height: 150px;
+    border-radius: 10px;
+    border: 1px #ddd solid;
+}
+
+.class-thumbnail {
+    width: auto;
+    max-height: 150px;
     border-radius: 10px;
 }
+
 
 .class-price {
     font-size: 24px;
