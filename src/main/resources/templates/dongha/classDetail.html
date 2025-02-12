@@ -31,7 +31,7 @@
                     <span id="dynamic-student-count">수강생 [[${classDetail.studentCount}]] 명</span>
                 </div>
 
-                <div id="class-teacher">동하리어카</div>
+                <div id="class-teacher" th:text="${classDetail.instructor}"></div>
                 <div id="dynamic-tech-stacks">
                     <span id="hash">#</span>
                     <span class="tech-stack">React</span>
@@ -52,7 +52,9 @@
             <span>커뮤니티</span>
             <!--right aside bar-->
             <div id="aside-container">
-                <img th:src="@{${classDetail.fileUrl}}" class="class-thumbnail" alt="강의 썸네일"/>
+                <div id="aside_thumnail_box">
+                    <img th:src="@{${classDetail.fileUrl}}" class="class-thumbnail" alt="강의 썸네일"/>
+                </div>
                 <p class="class-price">
                     <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
                 </p>
@@ -124,7 +126,7 @@
         function addToCart() {
             const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
 
-            axios.post('/cart-api/add', { classId: classId })
+            axios.post('/cart-api/add', {classId: classId})
                 .then(response => {
                     const data = response.data;
                     alert(data.message);
@@ -141,7 +143,7 @@
         function addCart() {
             const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
 
-            axios.post('/cart-api/add', { classId: classId })
+            axios.post('/cart-api/add', {classId: classId})
                 .then(response => {
                     const data = response.data;
                     alert(data.message);
@@ -157,3 +159,4 @@
 </html>
 <script src="/js/sangin/classReview.js"></script>
 <script src="/js/sangin/classDetailScroll.js"></script>
+<script src="/js/sangin/classDetailContent.js"></script>
