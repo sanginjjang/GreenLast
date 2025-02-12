@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
             contentSection.innerHTML = '';
 
             paymentHistory.forEach(history => {
-                const refundButton = history.refundStatus === '환불완료'
+                const refundButton = history.refundStatus === 'n'
                     ? '<div class="pur_right_refund">환불완료</div>'
                     : `<button class="pur_right_refund_btn" onclick="requestRefund(${history.paymentId})">환불신청</button>`;
 
@@ -46,6 +46,6 @@ function requestRefund(paymentId) {
         })
         .catch(error => {
             console.error("환불 요청 중 오류 발생:", error.response ? error.response.data : error);
-            alert("구매 후 3시간이 지나 환불이 불가합니다.");
+            alert("환불 중 오류가 발생하였습니다.");
         });
 }

@@ -6,7 +6,7 @@
     <insert id="insertPayment">
         INSERT INTO user_payment_history
         (user_id, class_id, payment_date, price, refund_status, receipt_id)
-        VALUES (#{userId}, #{classId}, NOW(), #{price}, '결제완료', #{receiptId})
+        VALUES (#{userId}, #{classId}, NOW(), #{price}, 'y', #{receiptId})
     </insert>
 
     <select id="getUserPaymentHistory" resultType="com.example.greenlast.dto.UserPaymentHistoryDTO">
@@ -51,7 +51,7 @@
         FROM user_payment_history
         WHERE user_id = #{userId}
         AND class_id = #{classId}
-        AND refund_status != '환불완료'
+        AND refund_status != 'n'
     </select>
 
     <insert id="requestRefund">
@@ -66,7 +66,7 @@
 
     <update id="updateRefundStatus">
         UPDATE user_payment_history
-        SET refund_status = '환불완료', refund_date = NOW()
+        SET refund_status = 'n', refund_date = NOW()
         WHERE payment_id = #{paymentId}
     </update>
 </mapper>
