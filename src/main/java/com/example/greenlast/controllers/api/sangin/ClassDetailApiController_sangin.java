@@ -1,5 +1,6 @@
 package com.example.greenlast.controllers.api.sangin;
 
+import com.example.greenlast.dto.ClassIntroduceDTO;
 import com.example.greenlast.dto.ClassReviewDTO;
 import com.example.greenlast.service.sangin.ClassDetailService_sangin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ClassDetailApiController_sangin {
     @Autowired
     private ClassDetailService_sangin classDetailService;
 
-    @GetMapping("/")
+    @GetMapping("/review")
     public ResponseEntity<List<ClassReviewDTO>> getClassReviews(@RequestParam("classId") Integer classId) {
         if (classId == null) {
             return ResponseEntity.badRequest().build();
@@ -31,5 +32,18 @@ public class ClassDetailApiController_sangin {
         }
 
         return ResponseEntity.ok(reviews);
+    }
+
+    @GetMapping("/introduce")
+    public ResponseEntity<List<ClassIntroduceDTO>> getClassIntroduces(@RequestParam("classId") Integer classId) {
+        if (classId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<ClassIntroduceDTO> introduces = classDetailService.getIntroducesByClassId(classId);
+        if (introduces.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(introduces);
     }
 }
