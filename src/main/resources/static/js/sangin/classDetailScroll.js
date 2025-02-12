@@ -5,43 +5,55 @@ window.addEventListener("load", () => {
     const container2 = document.getElementById("class-container2");
     if (container2) {
         container2InitialOffsetTop = container2.offsetTop; // 초기 위치 저장
-        // alert("test :  " + container2InitialOffsetTop); test 이상 무
     }
     updateScroll(); // 초기 로딩 시 적용
 });
 
+// 스크롤 위치 조정 함수
 function updateScroll() {
     const container2 = document.getElementById("class-container2");
-    const container2Menu = document.getElementById("container2-menu");
     const container3 = document.getElementById("class-container3");
 
     if (!container2 || !container3 || container2InitialOffsetTop === undefined) return;
 
-    const container2Top = container2.getBoundingClientRect().top;
-    const container3Top = container3.getBoundingClientRect().top;
     const scrollY = window.pageYOffset;
-
-    console.log(`scrollY: ${scrollY}, container2Top: ${container2Top}, container2InitialOffsetTop: ${container2InitialOffsetTop}, container3Top: ${container3Top}`);
 
     // ✅ 컨테이너 2가 최상단에 도달하면 `fixed` 적용
     if (scrollY >= container2InitialOffsetTop) {
-        console.log("🚀 Fixed 적용");
         container2.style.position = "fixed";
         container2.style.top = "0px";
         container2.style.backgroundColor = "rgba(250, 250, 250, 1)";
         container2.style.boxShadow = "0px 2px 5px rgba(0,0,0,0.1)";
-
     }
     // ✅ 원래 위치로 복귀 (relative)
-    else if (scrollY < container2InitialOffsetTop) {
-        console.log("🔄 Relative 적용 (원래 위치 복귀)");
+    else {
         container2.style.position = "relative";
         container2.style.top = "unset";
-        container2.style.backgroundColor = "white"; // 원래 배경 복구
-        container2.style.boxShadow = "none"; // 그림자 제거
-
+        container2.style.backgroundColor = "white";
+        container2.style.boxShadow = "none";
     }
 }
 
 // 페이지 스크롤 이벤트 등록
 window.addEventListener("scroll", updateScroll);
+
+// 🔹 클릭 시 해당 위치로 스크롤 이동
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("#container2-menu span:nth-child(1)").addEventListener("click", () => scrollToSection("detail-container-box1")); // 강의소개
+    document.querySelector("#container2-menu span:nth-child(2)").addEventListener("click", () => scrollToSection("curriculum-container")); // 커리큘럼
+    document.querySelector("#container2-menu span:nth-child(3)").addEventListener("click", () => scrollToSection("detail-container-box6")); // 수강평
+});
+
+// 📌 부드러운 스크롤 이동 함수
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        const offset = 100; // 상단 메뉴 높이를 고려한 오프셋 조정
+        const targetPosition = section.getBoundingClientRect().top + window.scrollY - offset;
+
+        window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth" // 부드러운 스크롤 효과 추가
+        });
+    }
+}

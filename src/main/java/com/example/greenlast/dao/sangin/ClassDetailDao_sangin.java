@@ -10,4 +10,6 @@ import java.util.List;
 public interface ClassDetailDao_sangin {
     public List<ClassReviewDTO> getReviewsByClassId(Integer classId);
     public List<ClassIntroduceDTO> getIntroducesByClassId(Integer classId);
+//    public List<ClassIntroduceDTO> getIntroducesByClassId(Integer classId);
+//    public List<ClassIntroduceDTO> getIntroducesByClassId(Integer classId);
 }

@@ -17,6 +17,9 @@
         LEFT JOIN file f ON ci.file_no = f.file_no
         WHERE ci.class_id = #{classId}
     </select>
+    <select id="get">
+
+    </select>
 
 
 </mapper>

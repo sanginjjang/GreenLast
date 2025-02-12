@@ -26,7 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const imageElement = document.createElement("img");
                     imageElement.src = intro.fileUrl;
                     imageElement.alt = "강의 소개 이미지";
-                    imageElement.style.maxWidth = "100%";
+                    imageElement.style.maxWidth = "700px";
+                    imageElement.style.height = "auto";
                     imageElement.style.borderRadius = "10px";
                     imageElement.style.marginTop = "10px";
                     introElement.appendChild(imageElement);
