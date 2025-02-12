@@ -28,7 +28,7 @@
                         <span id="dynamic-score">( 0.0 )</span>
                     </div>
                     <span id="dynamic-review-count">수강평</span>
-                    <span id="dynamic-student-count">수강생 0명</span>
+                    <span id="dynamic-student-count">수강생 [[${classDetail.studentCount}]] 명</span>
                 </div>
 
                 <div id="class-teacher">동하리어카</div>
@@ -52,7 +52,7 @@
             <span>커뮤니티</span>
             <!--right aside bar-->
             <div id="aside-container">
-                <img th:src="@{${classDetail.fileNo}}" class="class-thumbnail" alt="강의 썸네일"/>
+                <img th:src="@{${classDetail.fileUrl}}" class="class-thumbnail" alt="강의 썸네일"/>
                 <p class="class-price">
                     <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
                 </p>
