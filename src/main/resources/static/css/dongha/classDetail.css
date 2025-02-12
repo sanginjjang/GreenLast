@@ -384,7 +384,12 @@
 
 
 .class-thumbnail {
-    width: 100%;
+    display: flex;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    border: 1px black solid;
+    height: 150px;
     border-radius: 10px;
 }
 

@@ -37,17 +37,23 @@
         c.class_title AS title,
         c.user_id AS instructor,
         c.class_price AS price,
-        f.file_url AS thumbnail,
+        f.file_url AS fileUrl,
         c.description AS description,
         c.class_capsule AS classCapsule,
         c.class_subtitle AS classSubtitle,
         c.class_category AS classCategory,
         c.class_recom AS classRecom,
-        c.class_level AS classLevel
+        c.class_level AS classLevel,
+        -- 수강생 수 카운트 (환불 안한 사람만)
+        (SELECT COUNT(*)
+        FROM user_payment_history uph
+        WHERE uph.class_id = c.class_id
+        AND uph.refund_status = 'y') AS studentCount
         FROM class c
-        LEFT JOIN file f ON c.class_id = f.file_ref_no
+        LEFT JOIN file f ON c.file_no = f.file_no
         WHERE c.class_id = #{id}
     </select>
+
 
     <select id="getClassTitleById" resultType="String">
         SELECT class_title
