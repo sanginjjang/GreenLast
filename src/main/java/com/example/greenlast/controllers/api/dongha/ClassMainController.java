@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/AllMain-api")
 @RequiredArgsConstructor
-public class ClassMainController {
+public class  ClassMainController {
     private final ClassMainService classMainService;
 
     @GetMapping("/class")
