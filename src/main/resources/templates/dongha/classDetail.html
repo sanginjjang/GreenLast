@@ -52,7 +52,7 @@
             <span>커뮤니티</span>
             <!--right aside bar-->
             <div id="aside-container">
-                <div id="aside_thumnail_box">
+                <div id="aside_thumbnail_box">
                     <img th:src="@{${classDetail.fileUrl}}" class="class-thumbnail" alt="강의 썸네일"/>
                 </div>
                 <p class="class-price">
@@ -118,8 +118,12 @@
 
 
     </div>
+
+
     <input type="hidden" id="classId" th:value="${classId}"/>
+
 </div>
+
 
 <div layout:fragment="scripts">
     <script>
@@ -160,3 +164,4 @@
 <script src="/js/sangin/classReview.js"></script>
 <script src="/js/sangin/classDetailScroll.js"></script>
 <script src="/js/sangin/classDetailContent.js"></script>
+

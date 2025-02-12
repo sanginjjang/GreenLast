@@ -382,7 +382,6 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    align-items: center;
     justify-content: center;
     font-size: 14px;
 }
@@ -460,7 +459,7 @@
     right: 0px; /* 이거 값 변동시키면 됩니다 동하형*/
 }
 
-#aside_thumnail_box {
+#aside_thumbnail_box {
     display: flex;
     width: 100%;
     align-items: center;
@@ -498,6 +497,9 @@
     background-color: #0092ff;
     color: white;
 }
+
+
+
 
 /*커리큘럼*/
 .curriculum-wrapper {

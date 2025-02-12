@@ -18,6 +18,7 @@
         uph.price,
         uph.refund_status AS refundStatus,
         uph.receipt_id AS receiptId,
+        uph.review_status AS reviewStatus,
         f.file_url AS fileUrl
         FROM
         user_payment_history uph
