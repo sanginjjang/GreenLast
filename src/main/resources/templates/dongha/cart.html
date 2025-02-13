@@ -10,6 +10,9 @@
     <script src="https://js.bootpay.co.kr/bootpay-4.3.4.min.js" type="application/javascript"></script>
 </head>
 <body>
+<th:block layout:fragment="aside">
+
+</th:block>
 
 <div layout:fragment="content">
     <div class="cart-container">
@@ -17,16 +20,18 @@
         <div id="user-info" th:data-username="${userName}" hidden></div>
 
         <div class="cart-header">
-            <div>
+            <div class="checkbox">
                 <input type="checkbox" id="select-all" onclick="toggleAll(this)">
-                <label for="select-all">전체선택 <span
-                        th:text="'(' + ${#lists.size(cart)} + '/' + ${#lists.size(cart)} + ')'"> </span></label>
+                <label for="select-all">
+                    전체선택
+                    <span id="selected-count">(0/0)</span>
+                </label>
             </div>
             <button class="delete-btn" onclick="removeSelected()">선택삭제</button>
         </div>
 
         <div th:each="item : ${cart}" class="cart-item">
-            <input type="checkbox" class="cart-checkbox" th:value="${item.classId}">
+            <input type="checkbox" class="cart-checkbox" th:value="${item.classId}" onchange="updateSelectedCount()">
             <div class="cart-info">
                 <h3 th:text="${item.classTitle}"></h3>
                 <p>강의 제공자: <span th:text="${item.userName}"></span></p>
@@ -39,11 +44,11 @@
                 <button class="delete-btn" th:onclick="|removeFromCart('${item.classId}')|">✖</button>
             </div>
         </div>
+    </div>
 
-        <div class="cart-footer">
-            <span class="total-price">총 결제 금액: ₩<span id="total-price">0</span></span>
-            <button class="checkout-btn" onclick="startBootpay()">결제하기</button>
-        </div>
+    <div class="cart-footer">
+        <span class="total-price">총 결제 금액: ₩<span id="total-price">0</span></span>
+        <button class="checkout-btn" onclick="startBootpay()">결제하기</button>
     </div>
 </div>
 <div layout:fragment="scripts">

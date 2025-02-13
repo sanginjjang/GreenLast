@@ -35,4 +35,9 @@ public class ClassMainService {
     public ClassDetailDTO getClassDetail(Long id){
         return classMainDao.findClassDetail(id);
     }
+
+    // 카테고리별 강의 조회
+    public List<ClassMainDTO> getClassByCategory(String category) {
+        return classMainDao.selectClassesByCategory(category);
+    }
 }
