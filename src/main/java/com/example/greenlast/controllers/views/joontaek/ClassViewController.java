@@ -20,11 +20,11 @@ public class ClassViewController {
     public String main(Model model) {
 
 //        String userId = SecurityUtil.getCurrentUserId(); 나중에 로그인 합치면 구현예정
-        int allStudentCnt = dashboardService.allStudentCnt("이동하");
-        int allClassCnt = dashboardService.allClassCnt("이동하");
-        String allRevenue = dashboardService.allRevenue("이동하");
-        int newStudentCnt = dashboardService.newStudentCnt("이동하");
-        double ratingAvg = dashboardService.ratingAvg("이동하");
+        int allStudentCnt = dashboardService.allStudentCnt("dlehdgk123");
+        int allClassCnt = dashboardService.allClassCnt("dlehdgk123");
+        String allRevenue = dashboardService.allRevenue("dlehdgk123");
+        int newStudentCnt = dashboardService.newStudentCnt("dlehdgk123");
+        double ratingAvg = dashboardService.ratingAvg("dlehdgk123");
 
         model.addAttribute("studentCnt",allStudentCnt);
         model.addAttribute("classCnt",allClassCnt);
