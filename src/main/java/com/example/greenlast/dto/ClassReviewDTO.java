@@ -13,4 +13,6 @@ public class ClassReviewDTO {
     private double rating;
     private String content;
     private String createdAt;
+    private String fileUrl;
+    private String name;
 }

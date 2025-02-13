@@ -84,26 +84,25 @@ public class CartControllerBack {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false, "message", "잘못된 데이터 형식"));
         }
 
-        List<Integer> purchasedItems;
+        List<Map<String, Object>> purchasedItems;
         try {
-            purchasedItems = ((List<?>) purchasedItemsObj).stream()
-                    .map(item -> Integer.parseInt(item.toString())) // String을 Integer로 변환
-                    .toList();
-        } catch (NumberFormatException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false, "message", "잘못된 ID 형식"));
+            purchasedItems = (List<Map<String, Object>>) purchasedItemsObj;
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("success", false, "message", "잘못된 데이터 형식"));
         }
 
         if (purchasedItems.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", "결제된 강의 목록이 없습니다."));
         }
 
-        int totalAmount = Integer.parseInt(requestData.get("amount").toString());
-        for (int classId : purchasedItems) {
-            paymentService.savePayment(userId, classId, totalAmount);
+        for (Map<String, Object> item : purchasedItems) {
+            int classId = Integer.parseInt(item.get("classId").toString());
+            int price = Integer.parseInt(item.get("price").toString());
+            String receiptId = item.get("receiptId").toString();
+
+            paymentService.savePayment(userId, classId, price, receiptId);
         }
 
-        cartService.removePurchasedItems(userId, purchasedItems);
-
-        return ResponseEntity.ok(Map.of("success", true, "message", "결제 내역 저장 & 장바구니 삭제 완료"));
+        return ResponseEntity.ok(Map.of("success", true, "message", "결제 내역 저장 완료"));
     }
 }

@@ -21,7 +21,6 @@ public class FileService {
     private String uploadPath;
 
     public FileEntity saveFile(MultipartFile multipartFile, String fileType, int id) throws IOException {
-        System.out.println("fileService...");
         String originalFilename = multipartFile.getOriginalFilename();
         String fileExt = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         String newFileName = UUID.randomUUID().toString() + "." + fileExt;

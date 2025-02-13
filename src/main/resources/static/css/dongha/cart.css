@@ -1,11 +1,6 @@
-body {
-    font-family: 'Arial', sans-serif;
-}
-
 .cart-container {
-    width: 80%;
+    width: 1400px;
     margin: auto;
-    padding: 20px;
 }
 
 h1 {
@@ -72,8 +67,12 @@ h1 {
 }
 
 .delete-btn {
-    color: red;
+    padding: 10px 20px;
     font-size: 16px;
+    color: white;
+    background: red;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
     margin-left: 10px;
 }
@@ -103,4 +102,80 @@ h1 {
 
 .checkout-btn:hover {
     background-color: #007acc;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-right: 8px;
+    cursor: pointer;
+    position: relative;
+    background-color: #eee;
+}
+
+.checkbox input[type="checkbox"]:checked {
+    background-color: #0092ff;
+    border-color: #0092ff;
+}
+
+.checkbox input[type="checkbox"]::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox input[type="checkbox"]:checked::after {
+    display: block;
+}
+
+.cart-checkbox {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    background-color: #eee;
+    margin-right: 10px;
+}
+
+.cart-checkbox:checked {
+    background-color: #0092ff;
+    border-color: #0092ff;
+}
+
+.cart-checkbox::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.cart-checkbox:checked::after {
+    display: block;
 }

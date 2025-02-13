@@ -30,15 +30,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomePgaeController {
     private final ClassMainService classMainService;
 
-    @GetMapping("/homepage")
-    public String homepage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
-        if (keyword != null) {
-            model.addAttribute("class", classMainService.getClassMainByKeyword(keyword));
-        } else {
-            model.addAttribute("class", classMainService.getClassMain());
-        }
-        return "/dongha/home";
-    }
+//    @GetMapping("/homepage")
+//    public String homepage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
+//        if (keyword != null) {
+//            model.addAttribute("classList", classMainService.getClassMainByKeyword(keyword));
+//        } else {
+//            model.addAttribute("classList", classMainService.getClassMain());
+//        }
+//        return "/dongha/home";
+//    }
 
 
     @GetMapping("/detail/{id}")
@@ -52,6 +52,7 @@ public class HomePgaeController {
             model.addAttribute("isAuthenticated", false);
             model.addAttribute("userId", null);
         }
+        model.addAttribute("classId", id);
 
         return "dongha/classDetail";
     }

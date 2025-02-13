@@ -30,7 +30,6 @@ public class KakaoUserService {
 
         // ⚠️ Null 체크
         if (kakaoAccount == null || properties == null) {
-            System.out.println("카카오 계정 정보 또는 프로퍼티가 null입니다.");
             response.sendRedirect("/error");
             return;
         }
@@ -57,17 +56,6 @@ public class KakaoUserService {
         int dayMonth = Integer.parseInt(birthday);
         birth = (year * 10000) + dayMonth;
 
-        // ✅ 출력
-        System.out.println("이메일: " + email);
-        System.out.println("닉네임: " + nickname);
-        System.out.println("이름: " + name);
-        System.out.println("성별: " + gender);
-        System.out.println("연령대: " + ageRange);
-        System.out.println("생일: " + birthday);
-        System.out.println("출생 연도: " + birthyear);
-        System.out.println("전화번호: " + phoneNumber);
-        System.out.println("생년월일: " + birth);
-
         String password = bCryptPasswordEncoder.encode(email);
 
         // ✅ DB 조회 및 회원가입 로직
@@ -85,12 +73,6 @@ public class KakaoUserService {
 
         // ✅ JWT 생성 및 쿠키 저장
         UserDTO findUser = userDao.findByEmail(user.getEmail());
-        System.out.println("@@@@@@@@토큰에 넣기 전 이러한 정보가 저장될거에요@@@@@@@@@");
-        System.out.println("@@@@@@@@토큰에 넣기 전 이러한 정보가 저장될거에요@@@@@@@@@");
-        System.out.println("user.getUserId(): " + findUser.getUserId());
-        System.out.println("findUser.getUserId(): " + findUser.getRole());
-        System.out.println("@@@@@@@@토큰에 넣기 전 이러한 정보가 저장될거에요@@@@@@@@@");
-        System.out.println("@@@@@@@@토큰에 넣기 전 이러한 정보가 저장될거에요@@@@@@@@@");
 
         String token = jwtTokenProvider.createToken(findUser.getUserId(), findUser.getRole());
         CookieUtil.addTokenToCookie(response, token);

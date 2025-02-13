@@ -21,4 +21,7 @@ import java.util.List;
 public interface IPaymentDao {
     void insertPayment(UserPaymentHistoryDTO userPaymentHistoryDTO);
     List<UserPaymentHistoryDTO> getUserPaymentHistory(@Param("userId") String userId);
+    UserPaymentHistoryDTO getPaymentById(@Param("paymentId") int paymentId);
+    void updateRefundStatus(@Param("paymentId") int paymentId, @Param("refundStatus") String refundStatus);
+    int checkIfAlreadyPurchased(@Param("userId") String userId, @Param("classId") int classId);  // 추가!!!!
 }
