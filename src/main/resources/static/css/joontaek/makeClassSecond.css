@@ -30,11 +30,28 @@ body {
     margin-bottom: 10px;
 }
 
-.section-header span {
-    font-size: 18px;
-    font-weight: bold;
+.section-title {
+    width: 80%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
+.delete-section-btn {
+    padding: 6px 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-section-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* 수업 추가 버튼 */
 .add-lesson-btn,
 .add-section-btn {
     padding: 8px 15px;
@@ -50,16 +67,7 @@ body {
     background-color: #0077cc;
 }
 
-/* 섹션 제목 입력란 */
-.section-title {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
+/* 수업 목록 */
 .lesson-list {
     margin-top: 10px;
 }
@@ -79,46 +87,43 @@ body {
     font-size: 14px;
 }
 
-.lesson-item button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    background-color: #0092ff;
+.delete-lesson-btn {
+    padding: 6px 12px;
+    background-color: #f44336;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.lesson-item button:hover {
-    background-color: #0077cc;
+.delete-lesson-btn:hover {
+    background-color: #d32f2f;
 }
-/* 수업 항목 스타일 */
-.lesson-item {
-    display: flex;
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
 }
 
-.lesson-title {
-    width: 80%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-right: 10px;
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
 }
 
-/* 버튼 스타일 */
-.lesson-item button {
-    padding: 5px 10px;
-    background-color: #0092ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
     cursor: pointer;
 }
-
-.lesson-item button:hover {
-    background-color: #0077cc;
-}
-
