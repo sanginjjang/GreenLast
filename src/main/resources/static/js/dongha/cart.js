@@ -1,6 +1,25 @@
+function updateSelectedCount() {
+    const totalItems = document.querySelectorAll('.cart-checkbox').length;
+    const selectedItems = document.querySelectorAll('.cart-checkbox:checked').length;
+
+    document.getElementById('selected-count').innerText = `(${selectedItems}/${totalItems})`;
+
+    const selectAllCheckbox = document.getElementById('select-all');
+    selectAllCheckbox.checked = (selectedItems === totalItems);
+}
+
+function toggleAll(source) {
+    const checkboxes = document.querySelectorAll('.cart-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = source.checked;
+    });
+
+    updateSelectedCount();
+}
+
+document.addEventListener('DOMContentLoaded', updateSelectedCount);
 document.addEventListener("DOMContentLoaded", function () {
     updateTotalPrice();
-
     document.querySelectorAll('.cart-checkbox').forEach(checkbox => {
         checkbox.addEventListener("change", updateTotalPrice);
     });
