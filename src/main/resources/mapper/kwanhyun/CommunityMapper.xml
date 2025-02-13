@@ -53,20 +53,22 @@
             </choose>
         </if>
 
-        <if test="search == 'title'">
-            AND cp.title LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        <if test="search == 'content'">
-            AND cp.content LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        <if test="search == 'writer'">
-            AND u.name LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        <if test="search == 'all'">
-            AND (cp.title LIKE CONCAT('%', #{keyword}, '%')
-            OR cp.content LIKE CONCAT('%', #{keyword}, '%')
-            OR cp.category LIKE CONCAT('%', #{keyword}, '%')
-            OR u.name LIKE CONCAT('%', #{keyword}, '%'))
+        <if test="keyword != null and keyword != ''">
+            <if test="search == 'title'">
+                AND cp.title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="search == 'content'">
+                AND cp.content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="search == 'writer'">
+                AND u.name LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="search == 'all'">
+                AND (cp.title LIKE CONCAT('%', #{keyword}, '%')
+                OR cp.content LIKE CONCAT('%', #{keyword}, '%')
+                OR cp.category LIKE CONCAT('%', #{keyword}, '%')
+                OR u.name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
         </if>
 
         ORDER BY cp.post_id DESC
@@ -83,16 +85,7 @@
         SELECT COUNT(*)
         FROM community_post cp
         JOIN user u ON cp.user_id = u.user_id
-        <if test="pageType != null and pageType != ''">
-            AND cp.category =
-            <choose>
-                <when test="pageType == 'free'"> 'U' </when>
-                <when test="pageType == 'qna'"> 'Q' </when>
-                <when test="pageType == 'faq'"> 'F' </when>
-                <when test="pageType == 'class'"> 'C' </when>
-                <otherwise> 'U' </otherwise>
-            </choose>
-        </if>
+        WHERE cp.category = #{pageType}
 
         <if test="search != null and keyword != null">
             <if test="search == 'title'">

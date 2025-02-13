@@ -38,13 +38,18 @@ public class CommunityController {
         List<CommunityPostDTO> postList = communityService.CommunityPostList(page, search, keyword, pageType);
         int totalPosts = communityService.getTotalPostCount(search, keyword, pageType);
         int totalPages = (int) Math.ceil((double) totalPosts / 10);
+        String currentUserRole = SecurityUtil.getCurrentUserRole();
 
         model.addAttribute("postList", postList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("pageType", pageType);
+        model.addAttribute("currentUserRole", currentUserRole);
 
-        return "kwanhyun/CommunityMain"; // 템플릿 파일
+        System.out.println("\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34page" + totalPages);
+        System.out.println("\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34post" + totalPosts);
+
+        return "kwanhyun/CommunityMain";
     }
 
 
@@ -55,9 +60,9 @@ public class CommunityController {
                                     @RequestParam(value = "keyword", required = false) String keyword,
                                     Model model) {
         model.addAttribute("pageType", pageType);
-        model.addAttribute("currentPage", 1);
-        model.addAttribute("search", "");
-        model.addAttribute("keyword", "");
+        model.addAttribute("currentPage", page);
+        model.addAttribute("search", search);
+        model.addAttribute("keyword", keyword);
         return "kwanhyun/CommunityRegister";
     }
 
@@ -125,6 +130,5 @@ public class CommunityController {
 
         return "kwanhyun/CommunityEdit";
     }
-
 
 }

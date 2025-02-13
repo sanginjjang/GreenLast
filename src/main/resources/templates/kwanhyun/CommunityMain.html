@@ -161,8 +161,9 @@
         <button class="search-btn" onclick="keywordSearch()">검색</button>
       </div>
         <a th:href="@{/kwanhyun/community/CommunityRegister(pageType=${pageType})}">
-        <button class="write-btn">글쓰기</button>
-      </a>
+          <button th:if="${currentUserRole} != 'ROLE_ANONYMOUS' and !(${currentUserRole} == 'ROLE_USER' and ${pageType} == 'faq')"
+                  class="write-btn">글쓰기</button>
+        </a>
 
     </div>
 

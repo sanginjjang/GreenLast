@@ -75,11 +75,23 @@ public class CommunityService {
     }
 
     public int getTotalPostCount(String search, String keyword, String pageType) {
-        if (search != null && keyword != null && !search.isEmpty() && !keyword.isEmpty()) {
-            return communityDao.getTotalPostCount(search, keyword, pageType);
+        if (pageType != null) {
+            switch (pageType) {
+                case "free":
+                    pageType = "U";
+                    break;
+                case "qna":
+                    pageType = "Q";
+                    break;
+                case "faq":
+                    pageType = "F";
+                    break;
+                case "class":
+                    pageType = "C";
+                    break;
+            }
         }
-
-        return communityDao.getTotalPostCount(null, null, null);
+        return communityDao.getTotalPostCount(search, keyword, pageType);
     }
 
 }

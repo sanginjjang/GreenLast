@@ -126,6 +126,7 @@
 
             $(".cancel").click(function () {
                 window.location.href = `/kwanhyun/community/CommunityMain?pageType=${encodeURIComponent(pageType)}&page=${currentPage}&search=${encodeURIComponent(search)}&keyword=${encodeURIComponent(keyword)}`;
+                console.log("등록시 페이지타입" + pageType);
             });
 
             $(".submit").click(function () {
