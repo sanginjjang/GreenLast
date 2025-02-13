@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 커리큘럼</title>
+    <style>
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            margin: 5px 0;
+            border-radius: 4px;
+            gap: 10px; /* 요소들 사이의 간격 */
+        }
+
+        .video-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border-radius: 4px;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        .lesson-title {
+            flex-grow: 1;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        /* 파일 업로드 관련 스타일 추가 */
+        .file-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: left;
+        }
+
+        .file-name {
+            margin: 0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .file-size {
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .delete-file-btn {
+            background: #dc3545 !important;
+            color: white !important;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .upload-btn {
+            background: white !important;
+            color: #333 !important;
+            border: 1px solid #ddd !important;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover {
+            background: #f8f9fa !important;
+        }
+
+        button{
+            background-color:#0092FF;
+            color:white;
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            width: 70%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+
+        .lesson-title {
+            flex-grow: 1;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 80%;
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .add-section-btn {
+            background: #0092FF;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #f44336;
+            color: white;
+        }
+        /* 기존 스타일에 추가할 내용 */
+        .modal-content {
+            background: #fff;
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close-btn {
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .upload-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn {
+            background: white !important;
+            color: #333 !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .file-info {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .upload-area {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .upload-desc {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .editor-section {
+            margin-top: 20px;
+        }
+
+        .editor-section h3 {
+            margin-bottom: 10px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-cancel {
+            background: white !important;
+            color: #333 !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .btn-save {
+            background: #4CAF50 !important;
+            color: white !important;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .save-curriculum-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .save-curriculum-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content" class="content-container">
+    <h2>강의 커리큘럼</h2>
+    <div id="sections-container"></div>
+    <button class="add-section-btn" onclick="addSection()">섹션 추가</button>
+    <button class="save-curriculum-btn" onclick="saveCurriculum()">커리큘럼 저장</button>
+
+
+    <div id="lesson-modal" class="modal">
+        <div class="modal-content">
+            <h3>수업 제목 입력</h3>
+            <input type="text" id="lesson-title-input" placeholder="수업 제목을 입력하세요">
+            <button onclick="saveLesson()">저장</button>
+            <button onclick="closeModal('lesson-modal')">취소</button>
+        </div>
+    </div>
+
+
+    <!-- content-modal 부분만 수정하면 됩니다 -->
+
+    <div id="content-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>수업 편집</h2>
+                <button class="close-btn" onclick="closeModal('content-modal')">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>수업 제목</label>
+                    <input type="text" id="content-title-input" placeholder="수업 제목을 입력하세요">  <!-- id 수정 -->
+                </div>
+
+                <div class="upload-section">
+                    <div class="upload-header">
+                        <span>영상 업로드</span>
+                        <button class="upload-btn" onclick="triggerFileUpload()">신규 업로드</button>
+                        <!-- 숨겨진 파일 입력 필드 추가 -->
+                        <input type="file" id="video-upload"
+                               accept=".mp4,.mkv,.m4v,.mov"
+                               style="display: none;"
+                               onchange="handleFileSelect(this)">
+                    </div>
+                    <div class="file-info">
+                        최대 5GB (.mp4, .mkv, .m4v, .mov 만 가능), 최소 720p 이상
+                    </div>
+                    <div class="upload-area" id="upload-area">
+                        <p id="upload-text">아직 업로드된 영상이 없어요</p>
+                        <p class="upload-desc">수업과 연관된 참고 영상을 업로드해주세요.</p>
+                    </div>
+                </div>
+
+                <div class="editor-section">
+                    <h3>수업 노트 작성</h3>
+                    <div id="editor">
+                        <!-- 여기에 에디터 API가 들어갈 자리 -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('content-modal')">취소</button>
+                <button class="btn-save" onclick="saveContent()">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        let lessonVideos = new Map();
+        let currentSection = null;
+        let currentLessonItem = null;
+
+        function addSection() {
+            const sectionContainer = document.createElement('div');
+            sectionContainer.classList.add('section');
+            sectionContainer.innerHTML = `
+        <div class="section-header">
+            <input type="text" class="section-title" placeholder="섹션 제목을 입력하세요">
+            <button class="delete-btn" onclick="this.closest('.section').remove()">섹션 삭제</button>
+        </div>
+        <div class="lesson-list"></div>
+        <button onclick="addLesson(this.closest('.section'))">수업 추가</button>
+    `;
+            document.getElementById('sections-container').appendChild(sectionContainer);
+        }
+
+        function addLesson(section) {
+            currentSection = section;
+            document.getElementById('lesson-modal').style.display = 'block';
+        }
+
+
+        function saveLesson() {
+            const title = document.getElementById('lesson-title-input').value;
+            if (title.trim()) {
+                const lessonItem = document.createElement('div');
+                lessonItem.classList.add('lesson-item');
+                // 고유 ID 추가
+                lessonItem.id = 'lesson-' + Date.now();
+                lessonItem.innerHTML = `
+            <div class="lesson-title" onclick="openContentModal(this.parentElement)">${title}</div>
+            <button class="delete-btn" onclick="deleteLessonItem(this)">삭제</button>
+        `;
+                currentSection.querySelector('.lesson-list').appendChild(lessonItem);
+                closeModal('lesson-modal');
+                document.getElementById('lesson-title-input').value = '';
+            }
+        }
+
+        function deleteLessonItem(button) {
+            const lessonItem = button.closest('.lesson-item');
+            lessonVideos.delete(lessonItem.id);  // 비디오 데이터 삭제
+            lessonItem.remove();
+        }
+
+        function openContentModal(lessonElement) {
+            console.log("모달 열림");
+
+            currentLessonItem = lessonElement;
+            const titleElement = lessonElement.querySelector('.lesson-title');
+            const existingTitle = titleElement ? titleElement.textContent : '';
+
+            const titleInput = document.getElementById('content-title-input');
+            if (titleInput) {
+                titleInput.value = existingTitle;
+            }
+
+            // 해당 수업의 비디오 상태 복원
+            const videoData = lessonVideos.get(currentLessonItem.id);
+            const uploadArea = document.getElementById('upload-area');
+
+            if (videoData) {
+                uploadArea.innerHTML = `
+            <div class="file-preview">
+                <p class="file-name">${videoData.name}</p>
+                <p class="file-size">${videoData.size}</p>
+                <button class="delete-file-btn" onclick="removeFile()">삭제</button>
+            </div>
+        `;
+            } else {
+                uploadArea.innerHTML = `
+            <p id="upload-text">아직 업로드된 영상이 없어요</p>
+            <p class="upload-desc">수업과 연관된 참고 영상을 업로드해주세요.</p>
+        `;
+            }
+
+            document.getElementById('content-modal').style.display = 'block';
+        }
+
+        function saveContent() {
+            console.log("저장 버튼 클릭됨");
+
+            const titleInput = document.getElementById('content-title-input');
+
+            if (!titleInput) {
+                console.error('제목 입력 필드를 찾을 수 없습니다.');
+                return;
+            }
+
+            const newTitle = titleInput.value;
+            // lessonVideos Map에서 비디오 존재 여부 확인으로 변경
+            const hasVideo = lessonVideos.has(currentLessonItem.id);
+
+            // 제목이 비어있지 않은 경우에만 업데이트
+            if (currentLessonItem && newTitle.trim()) {
+                // lesson-item의 내용을 업데이트
+                currentLessonItem.innerHTML = `
+            <div class="lesson-title" onclick="openContentModal(this.parentElement)">${newTitle}</div>
+            ${hasVideo ? '<span class="video-badge">📹 영상</span>' : ''}
+            <button class="delete-btn" onclick="deleteLessonItem(this)">삭제</button>
+        `;
+
+                // 모달 닫기
+                closeModal('content-modal');
+
+                // 입력 필드 초기화
+                titleInput.value = '';
+            } else {
+                alert('수업 제목을 입력해주세요.');
+            }
+        }
+
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+
+            // video-upload input 초기화
+            document.getElementById('video-upload').value = '';
+
+            // 모달이 닫힐 때 현재 선택된 항목 초기화
+            if (modalId === 'content-modal') {
+                currentLessonItem = null;
+            }
+        }
+
+        // ESC 키로 모달 닫기
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+                currentLessonItem = null;
+            }
+        });
+        function triggerFileUpload() {
+            document.getElementById('video-upload').click();
+        }
+
+
+        function handleFileSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // 현재 선택된 수업이 없으면 리턴
+            if (!currentLessonItem) {
+                alert('수업을 먼저 선택해주세요.');
+                input.value = '';
+                return;
+            }
+
+            // 파일 크기 체크 (5GB)
+            const maxSize = 5 * 1024 * 1024 * 1024;
+            if (file.size > maxSize) {
+                alert('파일 크기는 5GB를 초과할 수 없습니다.');
+                input.value = '';
+                return;
+            }
+
+            // 파일 형식 체크
+            const validTypes = ['.mp4', '.mkv', '.m4v', '.mov'];
+            const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+            if (!validTypes.includes(fileExtension)) {
+                alert('지원하지 않는 파일 형식입니다. (.mp4, .mkv, .m4v, .mov 파일만 업로드 가능)');
+                input.value = '';
+                return;
+            }
+
+            // 현재 수업에 대한 비디오 데이터 저장
+            lessonVideos.set(currentLessonItem.id, {
+                name: file.name,
+                size: formatFileSize(file.size),
+                file: file
+            });
+
+            // 업로드 영역 업데이트
+            const uploadArea = document.getElementById('upload-area');
+            uploadArea.innerHTML = `
+        <div class="file-preview">
+            <p class="file-name">${file.name}</p>
+            <p class="file-size">${formatFileSize(file.size)}</p>
+            <button class="delete-file-btn" onclick="removeFile()">삭제</button>
+        </div>
+    `;
+
+            // 파일 input 초기화 (다음 업로드를 위해)
+            input.value = '';
+        }
+
+
+        function removeFile() {
+            // 현재 수업의 비디오 데이터 삭제
+            lessonVideos.delete(currentLessonItem.id);
+
+            document.getElementById('video-upload').value = '';
+            const uploadArea = document.getElementById('upload-area');
+            uploadArea.innerHTML = `
+        <p id="upload-text">아직 업로드된 영상이 없어요</p>
+        <p class="upload-desc">수업과 연관된 참고 영상을 업로드해주세요.</p>
+    `;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function saveCurriculum() {
+            const formData = new FormData();
+
+            // 섹션과 수업 데이터 수집
+            const sections = document.querySelectorAll('.section');
+            const curriculumData = [];
+
+            sections.forEach((section, sectionIndex) => {
+                const sectionTitle = section.querySelector('.section-title').value;
+                const lessons = section.querySelectorAll('.lesson-item');
+
+                const sectionData = {
+                    title: sectionTitle,
+                    lessons: []
+                };
+
+                lessons.forEach((lesson, lessonIndex) => {
+                    const lessonTitle = lesson.querySelector('.lesson-title').textContent;
+                    const videoData = lessonVideos.get(lesson.id);
+
+                    sectionData.lessons.push({
+                        title: lessonTitle,
+                        hasVideo: !!videoData
+                    });
+
+                    // 비디오 파일이 있는 경우 FormData에 추가
+
+                    if (videoData && videoData.file) {
+                        formData.append('videos[]', videoData.file);  // videos[]로 전송
+                    }
+
+                });
+
+                curriculumData.push(sectionData);
+            });
+
+            // curriculumData를 JSON 문자열로 변환하여 추가
+            formData.append('curriculumData', JSON.stringify(curriculumData));
+
+
+            console.log("전송할 데이터:");
+            for (let pair of formData.entries()) {
+                console.log(pair[0], pair[1]);
+            }
+
+
+            // axios 요청
+            axios.post('/view/makeClass/third', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    console.log("서버 응답:", response.data);
+                    if (response.data.success) {
+                        alert('커리큘럼이 저장되었습니다.');
+                        window.location.href = '/view/makeClass/thirdd';
+                    } else {
+                        throw new Error(response.data.message || '저장에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error details:', error);
+                    if (error.response) {
+                        console.error('Server error:', error.response.data);
+                        alert('저장 중 오류가 발생했습니다: ' +
+                            (error.response.data.message || '서버 처리 중 오류가 발생했습니다.'));
+                    } else {
+                        alert('저장 중 오류가 발생했습니다: ' + error.message);
+                    }
+                });
+        }
+
+
+
+
+
+
+
+    </script>
+</div>
+</body>
+</html>

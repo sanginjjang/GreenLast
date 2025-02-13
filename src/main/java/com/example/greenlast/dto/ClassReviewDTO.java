@@ -14,4 +14,5 @@ public class ClassReviewDTO {
     private String content;
     private String createdAt;
     private String fileUrl;
+    private String name;
 }

@@ -103,4 +103,70 @@ public class FileService {
 
         fileRepository.deleteById(fileNo);
     }
+
+    //준택
+
+    public FileEntity saveVideo(MultipartFile multipartFile, String fileType, int id) throws IOException {
+        System.out.println("fileService...");
+        String originalFilename = multipartFile.getOriginalFilename();
+        String fileExt = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        String newFileName = UUID.randomUUID().toString() + "." + fileExt;
+
+        String subFolder = switch (fileType) {
+            case "introduce" -> "introduce";
+            case "post" -> "post";
+            case "profile" -> "profile";
+            case "thumbnail" -> "thumbnail";
+            default -> "others";
+        };
+
+        String fileDir = uploadPath + "/" + subFolder;
+        String fileUrl = "/uploads/" + subFolder + "/" + newFileName;
+
+        File uploadDir = new File(fileDir);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        File file = new File(fileDir, newFileName);
+        multipartFile.transferTo(file);
+
+        // ✅ 파일 메타데이터 저장
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFileType(fileType);
+        fileEntity.setFileOldName(originalFilename);
+        fileEntity.setFileNewName(newFileName);
+        fileEntity.setFileExt(fileExt);
+        fileEntity.setFileSize((int) multipartFile.getSize());
+        fileEntity.setFileUrl(fileUrl);
+        fileEntity.setFileSeq(1);
+
+        FileEntity savedFile = fileRepository.save(fileEntity);
+        int refNo = savedFile.getFileNo();
+
+        fileRepository.save(savedFile);
+
+        // ✅ Upsert 처리 (Update 실패 시 Insert 수행)
+        switch (fileType) {
+            case "introduce" -> {
+                if (fileDao.updateIntroduce((Integer) id, refNo) == 0) {
+                    fileDao.insertIntroduce((Integer) id, refNo);
+                }
+            }
+            case "post" -> {
+                if (fileDao.updatePostFile((Integer) id, refNo) == 0) {
+                    fileDao.insertPostFile((Integer) id, refNo);
+                }
+            }
+            case "thumbnail" -> {
+                if (fileDao.updateThumbnail(id, refNo) == 0) {
+                    fileDao.insertThumbnail(id, refNo);
+                }
+            }
+
+            case "profile" -> fileDao.updateProfile(SecurityUtil.getCurrentUserId(), refNo);
+        }
+
+        return savedFile;
+    }
 }

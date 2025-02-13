@@ -1,0 +1,97 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* content-container 스타일 */
+.content-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.form-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+
+h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* input-group 스타일 */
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* 버튼 스타일 */
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #0092ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #0077cc;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+    color: #999;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .form-container {
+        width: 100%;
+        padding: 20px;
+    }
+}
+/* date-inputs 스타일 */
+.date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 날짜 입력 필드 사이에 간격을 더 넓게 추가 */
+}
+
+.date-inputs input {
+    width: 48%; /* 두 입력 필드가 동일한 너비를 가지도록 설정, 50%보다 조금 더 여유 있게 */
+}
+
+.date-inputs span {
+    font-size: 20px; /* ~의 크기 설정 */
+    color: #333; /* 색상 조정 */
+}

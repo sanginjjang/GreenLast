@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 정보</title>
+    <link rel="stylesheet" href="/css/joontaek/makeClassFirst.css">
+</head>
+<body>
+<!-- aside (비워둠 버전) -->
+<th:block layout:fragment="aside">
+    <!-- aside가 없는 경우 지우지말고 fragment aside 지우지 말고 가만두세요 -->
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" class="content-container">
+    <div class="form-container">
+        <h2>강의 정보</h2>
+
+        <form action="/view/makeClass/second" method="post">
+            <div class="input-group">
+                <label for="classTitle">강의 제목</label>
+                <input type="text" id="classTitle" name="classTitle" placeholder="강의 제목을 입력하세요" required>
+            </div>
+
+            <div class="input-group">
+                <label for="description">강의 설명</label>
+                <textarea id="description" name="description" placeholder="강의 설명을 입력하세요" required></textarea>
+            </div>
+
+
+            <div class="input-group">
+                <label for="category">카테고리</label>
+                <select id="category" name="category" required>
+                    <option value="개발">개발</option>
+                    <option value="게임개발">게임개발</option>
+                    <option value="하드웨어">하드웨어</option>
+                    <option value="보안">보안</option>
+                    <option value="인공지능">인공지능</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="classRecom">이런분에게 추천해요!</label>
+                <textarea id="classRecom" name="classRecom" placeholder="ex) 스스로 개발하는것이 어색한 분" required></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="classLevel">강의수준</label>
+                <select id="classLevel" name="classLevel" required>
+                    <option value="초급">초급</option>
+                    <option value="중급">중급</option>
+                    <option value="상급">상급</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="classPrice">강의 가격</label>
+                <input type="text" id="classPrice" name="classPrice" placeholder="가격을 입력하세요" required>
+            </div>
+
+            <button type="submit" class="submit-button">다음</button>
+        </form>
+    </div>
+</div>
+
+</body>
+
+<div layout:fragment="scripts">
+    <script>
+        <!--스크립트 여기 안에서 작성하시면 돼요~-->
+    </script>
+</div>
+</html>
