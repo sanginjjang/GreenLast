@@ -8,12 +8,12 @@ public interface FileDao_Sangin {
 
     // ✅ 파일 업로드 시 참조 ID 저장
     int insertIntroduce(@Param("introduceId") int introduceId, @Param("refNo") int refNo);
-    int insertPostFile(@Param("postId") int postId, @Param("refNo") int refNo);
+    int insertPost(@Param("postId") int postId, @Param("refNo") int refNo);
     int insertThumbnail(@Param("classId") int classId, @Param("refNo") int refNo);
     int updateProfile(@Param("userId") String userId, @Param("refNo") int refNo);
 
     int updateIntroduce(@Param("introduceId") int introduceId, @Param("refNo") int refNo);
-    int updatePostFile(@Param("postId") int postId, @Param("refNo") int refNo);
+    int updatePost(@Param("postId") int postId, @Param("refNo") int refNo);
     int updateThumbnail(@Param("classId") int classId, @Param("refNo") int refNo);
 
     // ✅ 참조 데이터 삭제 메서드 추가

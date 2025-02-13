@@ -67,8 +67,8 @@ public class FileService {
                 }
             }
             case "post" -> {
-                if (fileDao.updatePostFile((Integer) id, refNo) == 0) {
-                    fileDao.insertPostFile((Integer) id, refNo);
+                if (fileDao.updatePost((Integer) id, refNo) == 0) {
+                    fileDao.insertPost((Integer) id, refNo);
                 }
             }
             case "thumbnail" -> {
