@@ -65,6 +65,7 @@ public class CommunityController {
     @GetMapping("/CommunityDetail")
     public String communityDetail(@RequestParam("postId") int postId,
                                   @RequestParam(value = "pageType", required = false) String pageType,
+                                  @RequestParam(value = "classId", required = false) String classId,
                                   Model model) {
         communityService.viewCounter(postId);
 
@@ -74,21 +75,26 @@ public class CommunityController {
         CommunityPostDTO post = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
 
-        if(post.getCategory().equals("U")) {
+        if (post.getCategory().equals("U")) {
             pageType = "free";
-        } else if(post.getCategory().equals("N")) {
+        } else if (post.getCategory().equals("N")) {
             pageType = "free";
-        } else if(post.getCategory().equals("Q")) {
+        } else if (post.getCategory().equals("Q")) {
             pageType = "qna";
-        } else if(post.getCategory().equals("F")) {
+        } else if (post.getCategory().equals("F")) {
             pageType = "faq";
-        } else if(post.getCategory().equals("C")) {
+        } else if (post.getCategory().equals("C")) {
             pageType = "class";
         }
-
+        if (classId != null) {
+            pageType = "class";
+        }
+        System.out.println("pageType: " + pageType);
+        System.out.println("classId: " + classId);
         model.addAttribute("communityPost", post);
         model.addAttribute("currentUserId", currentUserId);
         model.addAttribute("pageType", pageType);
+        model.addAttribute("classId", classId);
 
         return "kwanhyun/CommunityDetail";
     }
@@ -104,15 +110,15 @@ public class CommunityController {
         CommunityPostDTO post = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
 
-        if(post.getCategory().equals("U")) {
+        if (post.getCategory().equals("U")) {
             pageType = "free";
-        } else if(post.getCategory().equals("N")) {
+        } else if (post.getCategory().equals("N")) {
             pageType = "free";
-        } else if(post.getCategory().equals("Q")) {
+        } else if (post.getCategory().equals("Q")) {
             pageType = "qna";
-        } else if(post.getCategory().equals("F")) {
+        } else if (post.getCategory().equals("F")) {
             pageType = "faq";
-        } else if(post.getCategory().equals("C")) {
+        } else if (post.getCategory().equals("C")) {
             pageType = "class";
         }
 

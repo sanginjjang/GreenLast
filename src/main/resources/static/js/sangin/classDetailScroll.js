@@ -42,10 +42,21 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#container2-menu span:nth-child(1)").addEventListener("click", () => scrollToSection("detail-container-box1")); // 강의소개
     document.querySelector("#container2-menu span:nth-child(2)").addEventListener("click", () => scrollToSection("curriculum-container")); // 커리큘럼
     document.querySelector("#container2-menu span:nth-child(3)").addEventListener("click", () => scrollToSection("detail-container-box6")); // 수강평
+    document.querySelector("#container2-menu span:nth-child(4)").addEventListener("click", () => goToCommunity()); // 커뮤니티
 });
 
 // 📌 부드러운 스크롤 이동 함수
 function scrollToSection(sectionId) {
+    const detailContainer = document.getElementById("class-detail-container");
+    const detailCommunity = document.getElementById("class-detail-community");
+    if (detailContainer.style.display == "none") {
+        detailContainer.style.display = "flex";
+    }
+    if(detailCommunity.style.display == "flex"){
+        detailCommunity.style.display = "none";
+    }
+
+
     const section = document.getElementById(sectionId);
     if (section) {
         const offset = 100; // 상단 메뉴 높이를 고려한 오프셋 조정
@@ -55,5 +66,22 @@ function scrollToSection(sectionId) {
             top: targetPosition,
             behavior: "smooth" // 부드러운 스크롤 효과 추가
         });
+    }
+}
+
+function goToCommunity() {
+    const detailContainer = document.getElementById("class-detail-container");
+    const detailCommunity = document.getElementById("class-detail-community");
+
+    if (detailContainer.style.display === "flex" || detailContainer.style.display === "") {
+        detailContainer.style.display = "none";
+    } else {
+        detailContainer.style.display = "flex";
+    }
+
+    if (detailCommunity.style.display === "none" || detailCommunity.style.display === "") {
+        detailCommunity.style.display = "flex";
+    } else {
+        detailCommunity.style.display = "none";
     }
 }

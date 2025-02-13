@@ -2,6 +2,7 @@ package com.example.greenlast.controllers.api.sangin;
 
 import com.example.greenlast.dto.ClassIntroduceDTO;
 import com.example.greenlast.dto.ClassReviewDTO;
+import com.example.greenlast.dto.CommunityPostDTO;
 import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.sangin.ClassDetailService_sangin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,19 @@ public class ClassDetailApiController_sangin {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(introduces);
+    }
+    @GetMapping("/community")
+    public ResponseEntity<List<CommunityPostDTO>> getClassCommnuity(@RequestParam("classId") Integer classId) {
+        if (classId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<CommunityPostDTO> posts = classDetailService.getClassCommunityByClassId(classId);
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        System.out.println("posts" + posts);
+        return ResponseEntity.ok(posts);
     }
 
     @PostMapping("/review")

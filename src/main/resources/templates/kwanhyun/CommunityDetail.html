@@ -79,21 +79,31 @@
         </div>
 
         <div class="back-btn">
-            <a th:href="@{/kwanhyun/community/CommunityMain(pageType=${pageType}, page=${currentPage}, search=${param.search}, keyword=${param.keyword})}">
-                목록으로 돌아가기
-            </a>
+            <!--            <span th:text="'pageType: ' + pageType"></span>-->
+            <th:block th:if="${pageType != 'class'}">
+                <a th:href="@{/kwanhyun/community/CommunityMain(pageType=${pageType}, page=${currentPage}, search=${param.search}, keyword=${param.keyword})}">
+                    목록으로 돌아가기
+                </a>
+            </th:block>
+
+            <th:block th:if="${pageType == 'class'}">
+                <a th:href="@{/home/detail/{classId}(classId=${classId})}">
+                    강의로 돌아가기
+                </a>
+            </th:block>
             <a th:if="${communityPost.userId == currentUserId}"
                th:href="@{/kwanhyun/community/CommunityEdit(postId=${communityPost.postId}, pageType=${pageType}, page=${currentPage}, search=${param.search}, keyword=${param.keyword})}"
                class="edit-btn">수정하기</a>
             <button th:if="${communityPost.userId == currentUserId}"
                     class="delete-btn"
-                    th:data-post-id="${communityPost.postId}">삭제하기</button>
+                    th:data-post-id="${communityPost.postId}">삭제하기
+            </button>
         </div>
     </div>
 
     <script th:inline="javascript">
-        $(document).ready(function() {
-            $(".delete-btn").click(function() {
+        $(document).ready(function () {
+            $(".delete-btn").click(function () {
                 if (!confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
                     return;
                 }
@@ -107,11 +117,11 @@
                 $.ajax({
                     type: "DELETE",
                     url: `/kwanhyun/api/community/post/${postId}?pageType=${pageType}`,
-                    success: function(response) {
+                    success: function (response) {
                         alert("게시글이 성공적으로 삭제되었습니다.");
                         window.location.href = `/kwanhyun/community/CommunityMain/${pageType}?page=${currentPage}&search=${search}&keyword=${keyword}`;
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error("삭제 실패:", xhr.responseText);
                         alert("게시글 삭제에 실패하였습니다.");
                     }

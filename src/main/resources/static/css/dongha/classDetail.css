@@ -200,11 +200,15 @@
     display: flex;
     width: 1400px;
     margin-bottom: 100px;
+    display: flex;
+    flex-direction: column;
 }
 
 /*class-detail-container*/
-.class-detail-container {
+#class-detail-container {
     padding: 0 40px;
+    display: flex;
+    flex-direction: column;
 }
 
 #detail-container-box1 {
@@ -499,8 +503,6 @@
 }
 
 
-
-
 /*커리큘럼*/
 .curriculum-wrapper {
     padding: 20px;
@@ -580,4 +582,97 @@
 .chevron {
     font-size: 16px;
     color: #868e96;
+}
+
+/*강의 상세 커뮤니티*/
+#class-detail-community {
+    display: none;
+    padding-left: 40px;
+    flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+#community-detail-box1{
+    display: flex;
+    align-items: center;
+}
+#community-detail-box1 > span{
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 3px;
+    border: 1px #ddd solid;
+}
+
+#community-detail-box2 {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    max-height: 1400px;
+}
+
+.question-box {
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+    margin-top: 16px;
+    width: 700px;
+    height: auto;
+    border: 1px;
+    border: 1px #ddd solid;
+    border-radius: 10px;
+}
+
+.question-box-top {
+    padding: 20px 24px 10px 24px;
+}
+
+.question-status {
+    height: 15px;
+    background-color: #868296;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.question-title {
+    margin-top: 10px;
+    width: 650px;
+    color: #212529;
+    font-size: 18px;
+}
+
+.question-content {
+    margin-top: 5px;
+    color: #495057;
+    font-size: 15px;
+}
+
+.question-box-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    height: 40px;
+    align-items: center;
+    border-top: 1px #ddd solid;
+    padding: 0 24px;
+}
+
+.question-box-footer-left {
+    display: flex;
+    gap: 3px;
+}
+
+.question-box-footer-left > span {
+    color: #868e96;
+    font-size: 12px;
+}
+
+.question-box-footer-right {
+    display: flex;
+    gap: 10px;
+}
+
+.question-box-footer-right > span {
+    color: #868e96;
+    font-size: 12px;
 }
