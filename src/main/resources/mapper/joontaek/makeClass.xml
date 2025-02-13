@@ -28,8 +28,17 @@
         (NULL,#{blockId},#{type},#{content})
     </insert>
 
+    <!-- 이 아래로는 강의 승인/반려 구현중-->
+    <select id="getPendingClasses" resultType="com.example.greenlast.dto.ClassDTO">
+        SELECT * FROM class WHERE class_permit = 'n'
+    </select>
 
+    <update id="approveClass">
+        UPDATE class SET class_permit = 'y' WHERE class_id = #{classId}
+    </update>
 
-
+    <update id="rejectClass">
+        UPDATE class SET class_permit = 'r' WHERE class_id = #{classId}
+    </update>
 
 </mapper>
