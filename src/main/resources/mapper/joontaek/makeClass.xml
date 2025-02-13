@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.joontaek.MakeClassDao">
+
+    <select id="getMaxClassId" resultType="_int">
+        SELECT MAX(class_id) FROM class
+    </select>
+<!--
+    <insert id="saveSection">
+        INSERT INTO class_section VALUES(null,#{},#{},
+    </insert>
+
+    !-->
+
+
+    <insert id="saveBlock">
+        INSERT INTO introduce_block values
+        (NULL,#{classId},#{blockType})
+    </insert>
+
+    <select id="getBlockNum" resultType="_int">
+        SELECT MAX(block_id) FROM introduce_block;
+    </select>
+    <insert id="saveElement">
+        INSERT INTO block_element values
+        (NULL,#{blockId},#{type},#{content})
+    </insert>
+
+
+
+
+
+</mapper>
