@@ -17,4 +17,5 @@ public class CommunityPostDTO {
     private int views;
     private int commentCount;
     private String pageType;
+    private String name;
 }

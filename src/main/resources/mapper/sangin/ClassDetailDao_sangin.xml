@@ -17,6 +17,18 @@
         LEFT JOIN file f ON ci.file_no = f.file_no
         WHERE ci.class_id = #{classId}
     </select>
+    <select id="getClassCommunityByClassId" resultType="com.example.greenlast.dto.CommunityPostDTO">
+        SELECT
+        p.*,
+        u.name,
+        COUNT(c.comment_id) AS commentCount
+        FROM community_post p
+        LEFT JOIN community_comment c ON p.post_id = c.post_id
+        LEFT JOIN user u ON p.user_id = u.user_id
+        WHERE p.class_id = #{class_id}
+        GROUP BY p.post_id
+    </select>
+
     <insert id="postReview" parameterType="com.example.greenlast.dto.ClassReviewDTO">
         insert into class_review (user_id, class_id, rating, content, created_at)
         values(#{review.userId},#{review.classId},#{review.rating},#{review.content},now())
@@ -26,7 +38,6 @@
         SET review_status = 'y'
         WHERE user_id = #{review.userId} AND class_id = #{review.classId}
     </update>
-
 
 
 </mapper>
