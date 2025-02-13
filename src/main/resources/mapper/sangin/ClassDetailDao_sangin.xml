@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.sangin.ClassDetailDao_sangin">
+
+    <select id="getReviewsByClassId" resultType="com.example.greenlast.dto.ClassReviewDTO">
+        SELECT cr.*, f.file_url, u.name
+        FROM class_review cr
+        LEFT JOIN user u ON cr.user_id = u.user_id
+        LEFT JOIN file f ON u.file_no = f.file_no
+        WHERE cr.class_id = #{classId}
+    </select>
+    <select id="getIntroducesByClassId" resultType="com.example.greenlast.dto.ClassIntroduceDTO">
+        SELECT ci.*, f.file_url as fileUrl
+        FROM class_introduce ci
+        LEFT JOIN file f ON ci.file_no = f.file_no
+        WHERE ci.class_id = #{classId}
+    </select>
+    <insert id="postReview" parameterType="com.example.greenlast.dto.ClassReviewDTO">
+        insert into class_review (user_id, class_id, rating, content, created_at)
+        values(#{review.userId},#{review.classId},#{review.rating},#{review.content},now())
+    </insert>
+    <update id="postReviewStatus" parameterType="com.example.greenlast.dto.ClassReviewDTO">
+        UPDATE user_payment_history
+        SET review_status = 'y'
+        WHERE user_id = #{review.userId} AND class_id = #{review.classId}
+    </update>
+
+
+
+</mapper>

@@ -16,4 +16,6 @@ public class UserPaymentHistoryDTO {
     private String classTitle;
     private String term;
     private String fileUrl;
+    private String receiptId;
+    private String reviewStatus;
 }

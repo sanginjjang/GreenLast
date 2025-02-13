@@ -19,11 +19,12 @@ public class ClassDetailDTO {
     private String title;//
     private String instructor;//
     private int price;//
-    private String fileNo;//
+    private String fileUrl;
     private String description;//
     private String classCapsule;
     private String classSubtitle;
     private String classCategory;
     private String classRecom;
     private String classLevel;
+    private int studentCount;
 }

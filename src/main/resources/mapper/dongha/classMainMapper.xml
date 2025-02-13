@@ -7,27 +7,29 @@
     <select id="findClassMain" resultType="com.example.greenlast.dto.ClassMainDTO">
         SELECT
         c.class_id AS classId,
-        f.file_url AS thumbNail,
-        c.user_id AS userId,
+        f.file_url AS fileUrl,
+        u.name AS userId,
         c.class_title AS classTitle,
         c.class_price AS classPrice
         FROM class c
-        LEFT JOIN file f ON c.class_id = f.file_ref_no
+        LEFT JOIN file f ON c.file_no = f.file_no
+        INNER JOIN user u ON c.user_id = u.user_id;
     </select>
     <!--키워드용-->
     <select id="findClassMainByKeyword" resultType="com.example.greenlast.dto.ClassMainDTO">
         SELECT
         c.class_id AS classId,
-        f.file_url AS thumbNail,
-        c.user_id AS userId,
+        f.file_url AS fileUrl,
+        u.name AS userId,
         c.class_title AS classTitle,
         c.class_price AS classPrice
         FROM class c
-        LEFT JOIN file f ON c.class_id = f.file_ref_no
+        LEFT JOIN file f ON c.file_no = f.file_no
+        INNER JOIN user u ON c.user_id = u.user_id
         WHERE c.class_title LIKE CONCAT('%', #{keyword}, '%')
         OR c.class_price LIKE CONCAT('%', #{keyword}, '%')
         OR c.class_category LIKE CONCAT('%', #{keyword}, '%')
-        OR c.user_id LIKE CONCAT('%', #{keyword}, '%')
+        OR u.name LIKE CONCAT('%', #{keyword}, '%')
         OR c.class_level LIKE CONCAT('%', #{keyword}, '%');
     </select>
 
@@ -35,7 +37,7 @@
         SELECT
         c.class_id AS classId,
         c.class_title AS title,
-        c.user_id AS instructor,
+        u.name AS instructor,
         c.class_price AS price,
         f.file_url AS thumbnail,
         c.description AS description,
@@ -46,6 +48,7 @@
         c.class_level AS classLevel
         FROM class c
         LEFT JOIN file f ON c.class_id = f.file_ref_no
+        INNER JOIN user u ON c.user_id = u.user_id
         WHERE c.class_id = #{id}
     </select>
 
@@ -54,4 +57,14 @@
         FROM class
         WHERE class_id = #{classId}
     </select>
+
+    <select id="selectAllClasses" resultType="com.example.greenlast.dto.ClassDetailDTO">
+        SELECT * FROM class
+    </select>
+
+    <select id="selectClassesByCategory" parameterType="String" resultType="com.example.greenlast.dto.ClassDetailDTO">
+        SELECT * FROM class
+        WHERE class_category = #{category}
+    </select>
+
 </mapper>

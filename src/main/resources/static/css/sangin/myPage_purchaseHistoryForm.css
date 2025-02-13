@@ -39,6 +39,7 @@
     height: 100px;
     border-radius: 5px;
     margin-right: 15px;
+    margin-left: 15px;
 }
 
 .pur_box_center {
@@ -64,18 +65,18 @@
 }
 
 .pur_box_right {
-    width: 130px;
+    width: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 10px;
 }
 
 .pur_right_money {
     color: rgba(0, 0, 0, 0.8);
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 .pur_right_delete, .pur_right_refund {
@@ -85,4 +86,104 @@
     border: 1px #ddd solid;
     cursor: pointer;
     padding: 3px 7px;
+}
+.pur_right_review_btn, .pur_right_refund_btn{
+    width: 100%;
+    padding: 5px 0;
+    border: none;
+    border-radius: 3px;
+    background-color: #0092ff;
+    color: white;
+}
+
+/*리뷰 모달*/
+#review-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 300px;
+    background-color: white;
+    z-index: 1001;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#review-modal-title {
+    height: 50px;
+    background-color: #0092ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#review-modal-star {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+#review-modal-star > span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 50px;
+    color: gold;
+    cursor: pointer;
+}
+
+#review-modal-content {
+    padding: 8px;
+    display: flex;
+    height: 100px;
+    width: 85%;
+    font-size: 17px;
+    color: #0d514c;
+    border: gray 1px solid;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+#review-modal-content:focus{
+    outline: none;
+    border: gray 1px solid;
+}
+
+#review-modal-btn-box {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-top: 15px;
+}
+
+#review-modal-register-btn {
+    background-color: #0092ff;
+}
+
+#review-modal-cancel-btn {
+    background-color: #9a9a9a;
+}
+
+#review-modal-cancel-btn, #review-modal-register-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100px;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
 }
