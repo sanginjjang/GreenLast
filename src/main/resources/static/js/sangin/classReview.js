@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dynamicScore = document.getElementById("dynamic-score");
     const dynamicReviewCount = document.getElementById("dynamic-review-count");
 
-    axios.get(`/api/classDetail/`, { params: { classId: classId } })
+    axios.get(`/api/classDetail/review`, { params: { classId: classId } })
         .then(response => {
             if (response.status === 204) { // 204 No Content 처리
                 reviewContainer.innerHTML = "<p>등록된 리뷰가 없습니다.</p>";
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="box8-review-top">
                             <img src="${review.fileUrl}" class="box8-review-profile">
                             <div>
-                                <div class="box8-review-name">${review.userId}</div>
+                                <div class="box8-review-name">${review.name}</div>
                                 <div class="box8-review-createdAt" style="color: #00b0a2">${review.createdAt}</div>
                             </div>
                         </div>

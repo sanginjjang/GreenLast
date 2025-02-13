@@ -1,0 +1,150 @@
+.category-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    gap: 20px;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.category-item {
+    width: 120px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 10px;
+}
+
+.category-item i {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: black;
+    transition: color 0.3s;
+}
+
+.category-item span {
+    font-size: 14px;
+    color: black;
+}
+
+.category-item:hover i {
+    color: #0092ff;
+}
+
+.category-item.all {
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+.category-item.all i {
+    color: #4a4a4a;
+    font-size: 36px;
+}
+
+.category-item.all:hover {
+    color: #0092ff;
+}
+
+.category-item.all:hover i {
+    color: #0092ff;
+}
+
+.class-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.class-card {
+    width: 240px;
+    height: 360px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: #333;
+}
+
+.class-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.class-card p {
+    margin: 10px 15px;
+    font-size: 14px;
+}
+
+.class-card p:first-of-type {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.class-card p:last-of-type {
+    color: #007acc;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .filter-container {
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .class-card {
+        width: 180px;
+        height: 300px;
+    }
+
+    .category-item {
+        width: 80px;
+        height: 80px;
+    }
+
+    .category-item i {
+        font-size: 28px;
+    }
+
+    .category-item span {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .class-card {
+        width: 150px;
+        height: 250px;
+    }
+
+    .category-item {
+        width: 70px;
+        height: 70px;
+    }
+
+    .category-item i {
+        font-size: 24px;
+    }
+
+    .category-item span {
+        font-size: 10px;
+    }
+}
