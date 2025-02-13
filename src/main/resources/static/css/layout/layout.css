@@ -78,10 +78,16 @@ header {
     width: 700px;
     height: 40px;
     padding-left: 15px;
-    border: 3px #0092ff solid;
+    border: 1px #ddd solid;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
+    background-color: #f6f6f6;
+    color: #3e3e3e;
+}
+#header_center input:focus{
+    outline: 2px #0092ff solid;
+    box-sizing: border-box;
 }
 
 #header_btn {
