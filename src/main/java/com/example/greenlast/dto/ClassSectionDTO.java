@@ -9,6 +9,6 @@ import lombok.Data;
 public class ClassSectionDTO {
     private int sectionId;
     private int classId;
-    private String classSubtitle;
+    private String classTitle;
     private String classPermit;
 }

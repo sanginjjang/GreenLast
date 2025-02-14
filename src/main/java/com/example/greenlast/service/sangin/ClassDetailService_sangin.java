@@ -23,4 +23,9 @@ public class ClassDetailService_sangin {
     public List<ClassIntroduceDTO> getIntroducesByClassId(Integer classId) {
         return classDetailDao.getIntroducesByClassId(classId);
     }
+
+    public int postReview(ClassReviewDTO classReviewDTO) {
+        classDetailDao.postReviewStatus(classReviewDTO);
+        return classDetailDao.postReview(classReviewDTO);
+    }
 }

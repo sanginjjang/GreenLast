@@ -2,6 +2,7 @@ package com.example.greenlast.controllers.api.sangin;
 
 import com.example.greenlast.dto.ClassIntroduceDTO;
 import com.example.greenlast.dto.ClassReviewDTO;
+import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.sangin.ClassDetailService_sangin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,18 @@ public class ClassDetailApiController_sangin {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(introduces);
+    }
+
+    @PostMapping("/review")
+    public ResponseEntity<String> addClassReview(@RequestBody ClassReviewDTO classReviewDTO) {
+        if (classReviewDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        classReviewDTO.setUserId(SecurityUtil.getCurrentUserId());
+        if (classDetailService.postReview(classReviewDTO) == 1) {
+            return ResponseEntity.ok().body("성공적으로 등록되었습니다");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

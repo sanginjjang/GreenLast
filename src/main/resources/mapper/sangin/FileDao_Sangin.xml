@@ -69,4 +69,12 @@
         WHERE file_no = #{fileNo}
     </update>
 
+
+    <!-- 준택 비디오 추가 !-->
+
+    <update id="updateLesson">
+        UPDATE class_lesson SET file_no = #{refNo} WHERE lesson_id = #{lessonId}
+    </update>
+
+
 </mapper>
