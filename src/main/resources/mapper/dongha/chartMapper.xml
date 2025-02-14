@@ -35,4 +35,16 @@
         FROM user
         ORDER BY created_at ASC
     </select>
+
+    <select id="findPendingClasses" resultType="com.example.greenlast.dto.ClassDTO">
+        SELECT * FROM class WHERE class_permit = 'n'
+    </select>
+
+    <update id="updateClassPermit">
+        UPDATE class SET class_permit = #{permitStatus} WHERE class_id = #{classId}
+    </update>
+
+    <update id="updateClassRejection">
+        UPDATE class SET class_permit = 'n', reject_message = #{rejectMessage} WHERE class_id = #{classId}
+    </update>
 </mapper>

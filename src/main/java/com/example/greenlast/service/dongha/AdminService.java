@@ -1,10 +1,7 @@
 package com.example.greenlast.service.dongha;
 
 import com.example.greenlast.dao.dongha.IAdminDao;
-import com.example.greenlast.dto.AgeGroupDTO;
-import com.example.greenlast.dto.DailyUserDTO;
-import com.example.greenlast.dto.GenderDTO;
-import com.example.greenlast.dto.UserDTO;
+import com.example.greenlast.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +35,18 @@ public class AdminService {
     public List<UserDTO> getUsers() {
         return adminDao.findUser();
     }
+    public List<ClassDTO> getPendingClasses() {
+        return adminDao.findPendingClasses();
+    }
 
+    // ✅ 강의 승인 (class_permit을 'y'로 변경)
+    public void approveClass(int classId) {
+        adminDao.updateClassPermit(classId, "y");
+    }
+
+    // ✅ 강의 반려 (class_permit을 'n' 유지, 반려 메시지 저장 가능)
+    public void rejectClass(int classId, String rejectMessage) {
+        adminDao.updateClassRejection(classId, rejectMessage);
+    }
 
 }

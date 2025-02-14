@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Class</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <!-- aside (사용 버전) -->
@@ -23,108 +24,82 @@
     <table>
         <thead>
         <tr>
-            <th>대표이미지</th>
-            <th>강의명</th>
-            <th>강사명</th>
-            <th>요청일시</th>
-            <th>상태</th>
+            <th>강의 제목</th>
+            <th>강의 설명</th>
+            <th>강사</th>
+            <th>승인/반려</th>
         </tr>
         </thead>
+        <tbody id="classTableBody"></tbody>
     </table>
+
+    <!-- 반려 사유 입력 모달 -->
+    <div id="rejectModal" style="display:none;">
+        <input type="hidden" id="rejectClassId">
+        <textarea id="rejectReason" placeholder="반려 사유를 입력하세요"></textarea>
+        <button onclick="rejectClass()">반려하기</button>
+    </div>
 </div>
 </body>
 
 <!--이거밖에서 스크립트 작성하면 안돌아갑니다...-->
 <div layout:fragment="scripts">
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            loadPendingClasses();
-        });
-
+        // ✅ 승인 대기 강의 목록 불러오기
         function loadPendingClasses() {
             axios.get('/admin-api/pending-classes')
                 .then(response => {
-                    const classes = response.data;
-                    const tableBody = document.getElementById('classTableBody');
-                    tableBody.innerHTML = '';
-
-                    // `class_permit = 'n'`인 데이터만 표시
-                    const pendingClasses = classes.filter(classItem => classItem.classPermit === 'n');
-
-                    pendingClasses.forEach(classItem => {
-                        const row = document.createElement('tr');
-
-                        // 이미지 처리
-                        const imgSrc = classItem.fileNo ? `/uploads/${classItem.fileNo}.jpg` : '/default-thumbnail.jpg';
-                        const imgCell = `<td><img src="${imgSrc}" alt="썸네일" style="width: 100px; height: 60px;"></td>`;
-
-                        // 요청일시 변환 (yyyy-MM-dd)
-                        const requestDate = new Date(classItem.classCreateDate).toISOString().split('T')[0];
-
-                        // 행 추가
-                        row.innerHTML = `
-                        ${imgCell}
-                        <td><a href="/admin/classDetail?classId=${classItem.classId}">${classItem.classTitle}</a></td>
-                        <td>${classItem.userId}</td>
-                        <td>${requestDate}</td>
-                        <td>
-                            <button onclick="approveClass(${classItem.classId})">승인</button>
-                            <button onclick="showRejectModal(${classItem.classId})">반려</button>
-                        </td>
+                    const tbody = document.getElementById("classTableBody");
+                    tbody.innerHTML = "";
+                    response.data.forEach(cls => {
+                        tbody.innerHTML += `
+                        <tr>
+                            <td><a href="/admin/classDetail?classId=${cls.classId}">${cls.classTitle}</a></td>
+                            <td>${cls.description}</td>
+                            <td>${cls.userId}</td>
+                            <td>
+                                <button onclick="approveClass(${cls.classId})">승인</button>
+                                <button onclick="showRejectModal(${cls.classId})">반려</button>
+                            </td>
+                        </tr>
                     `;
-                        tableBody.appendChild(row);
                     });
                 })
-                .catch(error => {
-                    console.error("강의 목록 불러오기 오류:", error);
-                });
+                .catch(error => console.error("강의 목록 불러오기 실패:", error));
         }
 
+        // ✅ 강의 승인 요청 (Axios)
         function approveClass(classId) {
-            axios.post('/admin-api/approve-class', { classId: classId })
-                .then(response => {
-                    alert(response.data.message);
+            axios.post('/admin-api/approve-class', { classId })
+                .then(() => {
+                    alert("강의가 승인되었습니다.");
                     loadPendingClasses();
                 })
-                .catch(error => {
-                    console.error("승인 오류:", error);
-                    alert("승인 처리 중 오류가 발생했습니다.");
-                });
+                .catch(error => alert("승인 실패: " + error.response.data.message));
         }
 
+        // ✅ 반려 모달 띄우기
         function showRejectModal(classId) {
             document.getElementById('rejectClassId').value = classId;
             document.getElementById('rejectModal').style.display = 'block';
         }
 
+        // ✅ 강의 반려 요청 (Axios)
         function rejectClass() {
-            let classId = document.getElementById('rejectClassId').value;
-            let reason = document.getElementById('rejectReason').value;
+            const classId = document.getElementById('rejectClassId').value;
+            const rejectMessage = document.getElementById('rejectReason').value;
 
-            if (!reason.trim()) {
-                alert("반려 사유를 입력하세요!");
-                return;
-            }
-
-            axios.post('/admin-api/reject-class', {
-                classId: classId,
-                rejectMessage: reason
-            })
-                .then(response => {
-                    alert(response.data.message);
+            axios.post('/admin-api/reject-class', { classId, rejectMessage })
+                .then(() => {
+                    alert("강의가 반려되었습니다.");
                     loadPendingClasses();
+                    document.getElementById('rejectModal').style.display = 'none';
                 })
-                .catch(error => {
-                    console.error("반려 오류:", error);
-                    alert("반려 처리 중 오류가 발생했습니다.");
-                });
+                .catch(error => alert("반려 실패: " + error.response.data.message));
         }
+
+        // 페이지 로드 시 실행
+        loadPendingClasses();
     </script>
-    <div id="rejectModal" style="display:none;">
-        <input type="hidden" id="rejectClassId">
-        <textarea id="rejectReason" placeholder="반려 사유를 입력하세요"></textarea>
-        <button onclick="rejectClass()">반려하기</button>
-        <button onclick="document.getElementById('rejectModal').style.display='none'">취소</button>
-    </div>
 </div>
 </html>
