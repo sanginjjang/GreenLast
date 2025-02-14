@@ -5,6 +5,7 @@ import com.example.greenlast.dao.joontaek.MakeClassDao;
 import com.example.greenlast.dto.ClassDTO;
 import com.example.greenlast.dto.ContentRequestDTO;
 import com.example.greenlast.dto.SectionDTO;
+import com.example.greenlast.file.FileEntity;
 import com.example.greenlast.file.FileService;
 import com.example.greenlast.service.joontaek.MakeClassService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -44,7 +47,6 @@ public class MakeClassController {
     MakeClassService makeClassService;
 
 
-
     @RequestMapping("/first")
     public String first() {
 
@@ -52,14 +54,29 @@ public class MakeClassController {
     }
 
     @RequestMapping("/second")
-    public String second(@ModelAttribute ClassDTO classInfo, HttpServletRequest request) {
+    public String second(@ModelAttribute ClassDTO classInfo, HttpServletRequest request) throws IOException {
 
         HttpSession session = request.getSession();
 
-        int classId = makeClassDao.getMaxClassId() + 1;
+        int classId = makeClassDao.getMaxClassId();
+
+//        int fileNo = makeClassDao.getMaxFileNo();       담배피고와서 추가@@@@@@@@@@
         classInfo.setClassId(classId);
         session.setAttribute("classInfo", classInfo);
-        System.out.println("강의 기본 정보 "+classInfo);
+        System.out.println("강의 기본 정보 " + classInfo);
+
+        //나중에 userId 바꿀 예정@@@
+        classInfo.setUserId("박준택");
+
+
+        FileEntity file = fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
+        int fileNo = file.getFileNo();
+        classInfo.setFileNo(fileNo);
+
+
+        makeClassService.saveClassInfo(classInfo);
+
+
         return "/joontaek/class/makeClassSecond";
     }
 
@@ -72,6 +89,8 @@ public class MakeClassController {
             @RequestParam(value = "videos[]", required = false) List<MultipartFile> videos
     ) {
 
+
+        int classId = makeClassDao.getMaxClassId();
         HttpSession session = request.getSession();
 
         // videos[] 리스트로 받기
@@ -97,122 +116,141 @@ public class MakeClassController {
             response.put("success", true);
             response.put("curriculumId", 1L);
 
-            int classId = makeClassDao.getMaxClassId() + 1;
 
+            int videoCnt = 0;
             session.setAttribute("sectionInfo", curriculumData);
             session.setAttribute("videos", videos);
             for (int a = 0; a < curriculumData.size(); a++) {
                 Map<String, Object> section = curriculumData.get(a);
 
+
                 System.out.println("Curriculum Data: " + section);
 
                 String sectionTitle = section.get("title").toString();
-                //여기서 섹션 저장
+
+                makeClassService.saveSection(classId, sectionTitle);
+                int sectionId = makeClassService.getSectionId();
 
 
                 List<Map<String, Object>> lessons = (List<Map<String, Object>>) section.get("lessons");
-
+                session.setAttribute("lesson", lessons);
                 for (Map<String, Object> lesson : lessons) {
-                    String lessonTitle = lesson.get("title").toString(); // 수업이름
-                }
+                    String lessonTitle = lesson.get("title").toString();
 
-                for (int video = 0; video < videos.size(); video++) {
-
-                }
-
+                    // 수업이름
+                    makeClassService.saveLesson(sectionId, lessonTitle);
+                    int lessonId = makeClassService.getLessonId();
+                    fileService.saveFile(videos.get(videoCnt), "video", lessonId);
+                    videoCnt++;
+                    
             }
-
-
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.put("success", false);
-            response.put("message", e.getMessage());
-            return ResponseEntity.badRequest().body(response);
         }
-        //-------------------저장로직-------------------
 
 
+        return ResponseEntity.ok(response);
+
+    } catch(
+    Exception e)
+
+    {
+        e.printStackTrace();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return ResponseEntity.badRequest().body(response);
     }
+    //-------------------저장로직-------------------
 
 
-    @RequestMapping("/thirdd")
-    public String thirdd(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+}
+
+
+@RequestMapping("/thirdd")
+public String thirdd(HttpServletRequest request) {
+
+
+    return "/joontaek/class/makeClassThird";
+}
+
+@ResponseBody
+@PostMapping("/last")
+public ResponseEntity<?> saveContent(@RequestBody ContentRequestDTO request, HttpServletRequest sessionRequest) {
+    try {
+
+        HttpSession session = sessionRequest.getSession();
 
         List<Map<String, Object>> sectionInfo = (List<Map<String, Object>>) session.getAttribute("sectionInfo");
         ClassDTO classInfo = (ClassDTO) session.getAttribute("classInfo");
+        List<Map<String, Object>> lessonInfo = (List<Map<String, Object>>) session.getAttribute("lesson");
         List<MultipartFile> videos = (List<MultipartFile>) session.getAttribute("videos");
+
 
         System.out.println("강의 정보");
         System.out.println(classInfo);
-        System.out.println("섹션정보");
+
+        System.out.println("섹션 정보");
         System.out.println(sectionInfo);
+
+        System.out.println("수업 정보");
+        System.out.println(lessonInfo);
+
         System.out.println("비디오 정보");
         System.out.println(videos);
 
 
-        return "/joontaek/class/makeClassThird";
-    }
-
-    @ResponseBody
-    @PostMapping("/last")
-    public ResponseEntity<?> saveContent(@RequestBody ContentRequestDTO request) {
-        try {
-            int classId = makeClassDao.getMaxClassId() + 1;
-
-            for (ContentRequestDTO.BlockData block : request.getContent()) {
-                int result = makeClassService.saveBlock(classId, block.getType());
-                int blockId = makeClassService.getBlockNum();
-
-                for (ContentRequestDTO.ElementData element : block.getElements()) {
-
-                    if ("image".equals(element.getType())) {
-                        // Base64 데이터에서 헤더 부분 제거
-                        String base64Image = element.getContent().split(",")[1];
+        int classId = makeClassDao.getMaxClassId();
 
 
+        for (ContentRequestDTO.BlockData block : request.getContent()) {
+            int result = makeClassService.saveBlock(classId, block.getType());
+            int blockId = makeClassService.getBlockNum();
 
-                        // 파일 이름 생성
-                        String fileName = "image_" + System.currentTimeMillis() + ".jpg";
-                        String filePath = "C:/classInfoImg/" + fileName;
+            for (ContentRequestDTO.ElementData element : block.getElements()) {
 
-                        // Base64를 파일로 저장
-                        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-                        Files.write(Paths.get(filePath), imageBytes);
+                if ("image".equals(element.getType())) {
+                    // Base64 데이터에서 헤더 부분 제거
+                    String base64Image = element.getContent().split(",")[1];
 
-                        // content를 파일 경로로 변경
-                        element.setContent(filePath);
 
-                        System.out.println("파일 경로 : " + filePath);
-                        System.out.println("파일 이름 : " + fileName);
-                    }
+                    // 파일 이름 생성
+                    String fileName = "image_" + System.currentTimeMillis() + ".jpg";
+                    String filePath = "C:/classInfoImg/" + fileName;
 
-                    System.out.println("--- 요소 정보 ---");
-                    System.out.println("타입: " + element.getType());
-                    System.out.println("내용: " + element.getContent());
+                    // Base64를 파일로 저장
+                    byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+                    Files.write(Paths.get(filePath), imageBytes);
 
-                    makeClassService.saveElement(blockId,element.getType(),element.getContent());
+                    // content를 파일 경로로 변경
+                    element.setContent(filePath);
 
+                    System.out.println("파일 경로 : " + filePath);
+                    System.out.println("파일 이름 : " + fileName);
                 }
+
+                System.out.println("--- 요소 정보 ---");
+                System.out.println("타입: " + element.getType());
+                System.out.println("내용: " + element.getContent());
+
+                makeClassService.saveElement(blockId, element.getType(), element.getContent());
+
             }
-
-            return ResponseEntity.ok(Map.of(
-                    "success", true,
-                    "message", "강의 소개글이 성공적으로 저장되었습니다."
-            ));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of(
-                            "success", false,
-                            "message", "저장 중 오류가 발생했습니다.",
-                            "error", e.getMessage()
-                    ));
         }
+
+
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "강의 소개글이 성공적으로 저장되었습니다."
+        ));
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of(
+                        "success", false,
+                        "message", "저장 중 오류가 발생했습니다.",
+                        "error", e.getMessage()
+                ));
     }
+}
 //    @ResponseBody
 //    @PostMapping("/last")
 //    public ResponseEntity<?> saveContent(@RequestBody ContentRequestDTO request) {

@@ -4,6 +4,7 @@ package com.example.greenlast.dto;
  * Created on 2025-01-22 by 한상인
  */
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class ClassDTO {
@@ -19,6 +20,7 @@ public class ClassDTO {
     private String classPermit;
     private String classRecom;
     private String classLevel;
-    private String fileNo;
-    private String fileUrl;
+    private int fileNo;
+    private MultipartFile thumbnail;
+
 }
