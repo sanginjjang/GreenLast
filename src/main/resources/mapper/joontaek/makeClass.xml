@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.joontaek.MakeClassDao">
+
+    <insert id="saveClassInfo">
+        INSERT INTO class (class_id,user_id,class_title,description,class_price,class_category,class_permit,class_recom,class_level,class_create_date,file_no) values
+        (NULL,#{userId},#{classTitle},#{description},#{classPrice},#{classCategory},'N',#{classRecom},#{classLevel},NOW(),#{fileNo});
+    </insert>
+
+
+
+    <select id="getMaxClassId" resultType="_int">
+        SELECT MAX(class_id) FROM class
+    </select>
+
+    <insert id="saveSection">
+        INSERT INTO class_section (section_id,class_id,section_title,class_permit) VALUES (null,#{classId},#{sectionTitle},'N')
+    </insert>
+
+    <select id="getSectionId" resultType="_int">
+        SELECT MAX(section_id) FROM class_section
+    </select>
+
+
+    <insert id="saveLesson">
+        INSERT INTO class_lesson (lesson_id, section_id, lesson_title) VALUES (NULL,#{sectionId},#{lessonTitle})
+    </insert>
+
+    <select id="getLessonId" resultType="_int">
+        SELECT MAX(lesson_id) FROM class_lesson
+    </select>
+
+
+    <select id="getFileNo" resultType="_int">
+        SELECT MAX(file_no) FROM file
+    </select>
+
+
+
+
+    <insert id="saveBlock">
+        INSERT INTO introduce_block values
+        (NULL,#{classId},#{blockType})
+    </insert>
+
+    <select id="getBlockNum" resultType="_int">
+        SELECT MAX(block_id) FROM introduce_block;
+    </select>
+    <insert id="saveElement">
+        INSERT INTO block_element values
+        (NULL,#{blockId},#{type},#{content})
+    </insert>
+
+
+
+
+
+</mapper>

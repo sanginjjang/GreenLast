@@ -1,3 +1,6 @@
+#main_container{
+    min-height: 800px;
+}
 aside {
     border: 1px #ddd solid;
     width: 290px;

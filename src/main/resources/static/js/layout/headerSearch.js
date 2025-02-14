@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     headerBtn.addEventListener("click", () => {
         // alert('test header');여기도 됐음
         // alert("header text = " + headerSearch.value); 이상 무
-        window.location.href=`/home/homepage?keyword=${headerSearch.value}`;
+        window.location.href=`/?keyword=${headerSearch.value}`;
 
     })
 })
