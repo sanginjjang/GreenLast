@@ -30,6 +30,7 @@ public class FileService {
             case "post" -> "post";
             case "profile" -> "profile";
             case "thumbnail" -> "thumbnail";
+            case "video" -> "video";
             default -> "others";
         };
 
@@ -76,6 +77,13 @@ public class FileService {
                     fileDao.insertThumbnail(id, refNo);
                 }
             }
+
+            case "video" -> {
+                if (fileDao.updateLesson(id, refNo) == 0) {
+                    fileDao.insertLesson(id, refNo);
+                }
+            }
+
 
             case "profile" -> fileDao.updateProfile(SecurityUtil.getCurrentUserId(), refNo);
         }

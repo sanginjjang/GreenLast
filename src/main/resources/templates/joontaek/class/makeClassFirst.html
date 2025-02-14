@@ -18,7 +18,7 @@
     <div class="form-container">
         <h2>강의 정보</h2>
 
-        <form action="/view/makeClass/second" method="post">
+        <form action="/view/makeClass/second" method="post" enctype="multipart/form-data">
             <div class="input-group">
                 <label for="classTitle">강의 제목</label>
                 <input type="text" id="classTitle" name="classTitle" placeholder="강의 제목을 입력하세요" required>
@@ -29,10 +29,9 @@
                 <textarea id="description" name="description" placeholder="강의 설명을 입력하세요" required></textarea>
             </div>
 
-
             <div class="input-group">
-                <label for="category">카테고리</label>
-                <select id="category" name="category" required>
+                <label for="classCategory">카테고리</label>
+                <select id="classCategory" name="classCategory" required>
                     <option value="개발">개발</option>
                     <option value="게임개발">게임개발</option>
                     <option value="하드웨어">하드웨어</option>
@@ -60,6 +59,15 @@
                 <input type="text" id="classPrice" name="classPrice" placeholder="가격을 입력하세요" required>
             </div>
 
+            <!-- 썸네일 이미지 추가 폼 -->
+            <div class="input-group">
+                <label for="thumbnail">썸네일 이미지</label>
+                <input type="file" id="thumbnail" name="thumbnail" accept="image/*" onchange="previewImage(event)">
+                <div class="image-preview" id="imagePreview">
+                    <img id="previewImg" style="max-width: 100%; display: none; border-radius: 6px;">
+                </div>
+            </div>
+
             <button type="submit" class="submit-button">다음</button>
         </form>
     </div>
@@ -69,7 +77,15 @@
 
 <div layout:fragment="scripts">
     <script>
-        <!--스크립트 여기 안에서 작성하시면 돼요~-->
+            function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+            const previewImg = document.getElementById('previewImg');
+            previewImg.src = reader.result;
+            previewImg.style.display = "block";
+        }
+            reader.readAsDataURL(event.target.files[0]);
+        }
     </script>
 </div>
 </html>
