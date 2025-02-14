@@ -10,10 +10,17 @@ public interface MakeClassDao {
 
     public int getMaxClassId();
 
+    public int saveClassInfo(ClassDTO classDTO);
 
 
 
+    public int saveSection(int classId, String sectionTitle);
+    public int getSectionId();
+    public int saveLesson(int sectionId, String lessonTitle);
 
+    public int getLessonId();
+
+    public int getFileNo();
 
 
 

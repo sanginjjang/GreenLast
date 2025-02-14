@@ -12,6 +12,11 @@ public interface FileDao_Sangin {
     int insertThumbnail(@Param("classId") int classId, @Param("refNo") int refNo);
     int updateProfile(@Param("userId") String userId, @Param("refNo") int refNo);
 
+
+    int updateLesson(@Param("lessonId") int lessonId, @Param("refNo") int refNo);
+    int insertLesson(@Param("lessonId") int lessonId, @Param("refNo") int refNo);
+
+
     int updateIntroduce(@Param("introduceId") int introduceId, @Param("refNo") int refNo);
     int updatePostFile(@Param("postId") int postId, @Param("refNo") int refNo);
     int updateThumbnail(@Param("classId") int classId, @Param("refNo") int refNo);
