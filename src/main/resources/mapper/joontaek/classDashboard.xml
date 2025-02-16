@@ -20,7 +20,7 @@
         SELECT FORMAT(SUM(c.class_price), 0) AS formatted_price
         FROM class c
         INNER JOIN class_status cs ON c.class_id = cs.class_id
-        WHERE c.user_id = "이동하"
+        WHERE c.user_id = #{userId}
     </select>
 
     <select id="newStudentCnt" resultType="_int">
@@ -30,7 +30,7 @@
         WHERE c.user_id = #{userId} AND cs.reg_date >= CURDATE() - INTERVAL 7 day
     </select>
 
-    <select id="ratingAvg" resultType="double">
+    <select id="ratingAvg" resultType="java.lang.Double">
         SELECT ROUND(AVG(cr.rating), 1)
         FROM class_review cr
         JOIN class c ON c.class_id = cr.class_id
