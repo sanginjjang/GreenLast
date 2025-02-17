@@ -2,6 +2,7 @@ package com.example.greenlast.dao.sangin;
 
 import com.example.greenlast.dto.ClassIntroduceDTO;
 import com.example.greenlast.dto.ClassReviewDTO;
+import com.example.greenlast.dto.CommunityCommentDTO;
 import com.example.greenlast.dto.CommunityPostDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,4 +16,7 @@ public interface ClassDetailDao_sangin {
     public List<CommunityPostDTO> getClassCommunityByClassId(Integer classId);
     public int postReview(@Param("review") ClassReviewDTO reviewDto);
     public int postReviewStatus(@Param("review") ClassReviewDTO reviewDto);
+    public CommunityPostDTO getCommunityPostByPostId(Integer postId);
+    public List<CommunityCommentDTO> getCommunityCommentByPostId(Integer postId);
+
 }
