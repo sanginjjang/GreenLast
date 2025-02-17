@@ -93,11 +93,13 @@
         <div id="class-detail-community" style="margin-top: 20px;">
             <div id="community-detail-box1">
                 <span>질문</span>
+                <button>+ 질문 작성</button>
                 <!--검색기능-->
             </div>
             <div id="community-detail-box2">
                 <!--커뮤니티-->
             </div>
+
         </div>
 
         <!--디테일 상세-->
@@ -137,7 +139,7 @@
                         </div>
                     </div>
                     <div id="curriculum-detail1-footer">
-                        <div id="curriculum-detail1-footer-left">해당 강의에서 제공</div>
+                        <div id="curriculum-detail1-footer-left">해당 강의에서 자료 제공</div>
                         <div id="curriculum-detail1-all-btn">모두 접기</div>
                     </div>
                 </div>
@@ -163,50 +165,92 @@
                             <div class="curriculum-lesson-time">06:53</div>
                         </div>
                     </div>
+                    <div class="curriculum-box">
+                        <div class="curriculum-section">
+                            <div class="curriculum-section-left">
+                                <div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-down"></i></div>
+                                <!--<div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-up"></i></div>-->
+                                <div class="curriculum-section-title">섹션 1.1 제목을 적는 공간입니다</div>
+                            </div>
+                            <div class="curriculum-section-right">
+                                <div class="curriculum-section-number">25개</div>
+                                <div>∙</div>
+                                <div class="curriculum-section-time">4시간 26분</div>
+                            </div>
+                        </div>
+                        <div class="curriculum-lesson">
+                            <div class="curriculum-lesson-title">
+                                <i class="fa-solid fa-play"></i>&nbsp;
+                                제목
+                            </div>
+                            <div class="curriculum-lesson-time">06:53</div>
+                        </div>
+                    </div>
+                    <div class="curriculum-box">
+                        <div class="curriculum-section">
+                            <div class="curriculum-section-left">
+                                <div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-down"></i></div>
+                                <!--<div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-up"></i></div>-->
+                                <div class="curriculum-section-title">섹션 1.1 제목을 적는 공간입니다</div>
+                            </div>
+                            <div class="curriculum-section-right">
+                                <div class="curriculum-section-number">25개</div>
+                                <div>∙</div>
+                                <div class="curriculum-section-time">4시간 26분</div>
+                            </div>
+                        </div>
+                        <div class="curriculum-lesson">
+                            <div class="curriculum-lesson-title">
+                                <i class="fa-solid fa-play"></i>&nbsp;
+                                제목
+                            </div>
+                            <div class="curriculum-lesson-time">06:53</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div id="community-modal">
+        <div id="community-modal-box">
+            <button id="community-modal-close-btn" onclick="closeCommunityModal()">닫기</button>
+            <div id="community-modal-title"></div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                <div id="community-modal-writer"></div>
+                <div id="community-modal-created"></div>
+            </div>
+            <div id="community-modal-content" style="margin-top: 10px;">
+            </div>
 
+            <div style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-weight: bold; font-size: 20px;">댓글</div>
+                <button id="comment-register-btn" onclick="registComment()">+ 댓글 작성</button>
+            </div>
 
+            <div id="comment-modal">
+                <div id="comment-modal-title">댓글 작성</div>
+                <textarea type="text" id="comment-modal-content" placeholder="댓글을 입력해주세요."></textarea>
+                <div id="comment-modal-btn-box">
+                    <div id="comment-modal-register-btn">댓글 등록</div>
+                    <div id="comment-modal-cancel-btn">뒤로가기</div>
+                </div>
+            </div>
+
+            <div id="community-modal-comment-section" style="margin-top: 10px;">
+                <div class="community-comment">
+                    <div style="display: flex; align-items: center; gap: 10px; padding-top: 12px; padding-left: 12px;">
+                        <div class="community-comment-writer"></div>
+                        <div class="community-comment-createdAt"></div>
+                    </div>
+                    <div class="community-comment-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  중요  -->
     <input type="hidden" id="classId" th:value="${classId}"/>
-
-</div>
-
-
-<div layout:fragment="scripts">
-    <script>
-        function addToCart() {
-            const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
-
-            axios.post('/cart-api/add', {classId: classId})
-                .then(response => {
-                    const data = response.data;
-                    alert(data.message);
-                    if (data.success) {
-                        window.location.href = "/cart";
-                    }
-                })
-                .catch(error => {
-                    console.error('에러 발생:', error);
-                    alert('장바구니 추가 중 오류가 발생했습니다!');
-                });
-        }
-
-        function addCart() {
-            const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
-
-            axios.post('/cart-api/add', {classId: classId})
-                .then(response => {
-                    const data = response.data;
-                    alert(data.message);
-                })
-                .catch(error => {
-                    console.error('에러 발생:', error);
-                    alert('장바구니 추가 중 오류가 발생했습니다!');
-                });
-        }
-    </script>
+    <!--  중요  -->
 </div>
 </body>
 </html>

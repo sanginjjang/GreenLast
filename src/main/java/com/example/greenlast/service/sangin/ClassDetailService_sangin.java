@@ -3,6 +3,7 @@ package com.example.greenlast.service.sangin;
 import com.example.greenlast.dao.sangin.ClassDetailDao_sangin;
 import com.example.greenlast.dto.ClassIntroduceDTO;
 import com.example.greenlast.dto.ClassReviewDTO;
+import com.example.greenlast.dto.CommunityCommentDTO;
 import com.example.greenlast.dto.CommunityPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,17 @@ public class ClassDetailService_sangin {
         return classDetailDao.getClassCommunityByClassId(classId);
     }
 
+    public CommunityPostDTO getCommunityPostByPostId(Integer postId) {
+        return classDetailDao.getCommunityPostByPostId(postId);
+    }
+
+    public List<CommunityCommentDTO> getCommunityCommentByPostId(Integer postId) {
+        return classDetailDao.getCommunityCommentByPostId(postId);
+    }
+
     public int postReview(ClassReviewDTO classReviewDTO) {
         classDetailDao.postReviewStatus(classReviewDTO);
         return classDetailDao.postReview(classReviewDTO);
     }
+
 }

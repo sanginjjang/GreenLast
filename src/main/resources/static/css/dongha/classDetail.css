@@ -138,17 +138,21 @@
 }
 
 #container1-box1-right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 300px;
-    max-width: 300px;
-    height: auto;
+    min-width: 400px;
+    max-width: 400px;
     max-height: 240px;
+    object-fit: contain;
     margin-left: 240px;
     border-radius: 10px;
+    background-color: white;
+    border: 2px #ddd solid;
+    overflow: hidden;
+}
+
+#container1-box1-right > img {
 
 }
+
 
 /*class-container2*/
 #class-container2 {
@@ -535,7 +539,7 @@
     color: white;
 }
 
-/*강의 상세 커뮤니티*/
+/*커뮤니티*/
 #class-detail-community {
     display: none;
     padding-left: 40px;
@@ -547,6 +551,8 @@
 #community-detail-box1 {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 700px;
 }
 
 #community-detail-box1 > span {
@@ -556,6 +562,20 @@
     border-radius: 3px;
     border: 1px #ddd solid;
 }
+
+#community-detail-box1 > button {
+    padding: 8px 20px;
+    border-radius: 5px;
+    background-color: #0092ff;
+    border: 1px solid #0092ff;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+/*여기 하는 중*/
 
 #community-detail-box2 {
     margin-top: 10px;
@@ -630,6 +650,188 @@
     font-size: 12px;
 }
 
+/*커뮤니티 모달*/
+#community-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#community-modal-box {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 1000px;
+    height: 850px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+#community-modal-close-btn, #comment-register-btn {
+    right: 20px;
+    position: absolute;
+    padding: 8px 20px;
+    border-radius: 5px;
+    background-color: #0092ff;
+    border: 1px solid #0092ff;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#community-modal-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#community-modal-writer {
+    font-size: 17px;
+    color: #212529;
+}
+
+#community-modal-created {
+    font-size: 15px;
+    color: #868e96;
+}
+
+#community-modal-content {
+    border: 2px #ddd solid;
+    border-radius: 10px;
+    padding: 12px;
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: scroll;
+    /*scrollbar-width: none;*/
+    line-height: 1.7;
+    letter-spacing: 0.5px;
+    color: #333;
+}
+
+#community-modal-comment-section {
+    height: 250px;
+    width: 100%;
+    border: 2px #ddd solid;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /*scrollbar-width: none;*/
+    border-radius: 10px;
+}
+
+.community-comment {
+    /*    딱히 손댈 것 없음    */
+}
+
+.community-comment-writer {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.community-comment-createdAt {
+    font-size: 12px;
+    color: #868e96;
+}
+
+.community-comment-content {
+    margin-left: 12px;
+    padding: 12px 12px 12px 0;
+    border-bottom: 1px #ddd solid;
+    width: 75%;
+    max-height: 200px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    overflow-x: hidden;
+    line-height: 1.7;
+    letter-spacing: 0.5px;
+    font-size: 15px;
+    color: #333;
+}
+
+/*댓글 모달*/
+#comment-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 250px;
+    background-color: white;
+    z-index: 1001;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    flex-direction: column;
+    align-items: center;
+    display: none;
+}
+
+#comment-modal-title {
+    height: 50px;
+    background-color: #0092ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#comment-modal-content {
+    padding: 8px;
+    display: flex;
+    height: 100px;
+    width: 85%;
+    font-size: 17px;
+    color: #0d514c;
+    border: gray 1px solid;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#comment-modal-content:focus {
+    outline: none;
+    border: gray 1px solid;
+}
+
+#comment-modal-btn-box {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-top: 15px;
+}
+
+#comment-modal-register-btn {
+    background-color: #0092ff;
+}
+
+#comment-modal-cancel-btn {
+    background-color: #9a9a9a;
+}
+
+#comment-modal-cancel-btn, #comment-modal-register-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 100px;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
 /*커리큘럼*/
 #curriculum-container {
     display: flex;
@@ -687,15 +889,19 @@
 #curriculum-detail2 {
     display: flex;
     flex-direction: column;
-}
-
-.curriculum-box {
-    display: flex;
-    flex-direction: column;
-    border: 1px #ddd solid;
+    border-bottom: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-right: 1px #ddd solid;
     border-radius: 5px;
     overflow: hidden;
 }
+
+.curriculum-box {
+    border-top: 1px #ddd solid;
+    display: flex;
+    flex-direction: column;
+}
+
 
 .curriculum-section {
     background-color: #f8f9fa;
@@ -748,3 +954,48 @@
     color: #868e96;
     font-size: 15px;
 }
+
+/*스크롤바 전용*/
+
+/* ✅ 공통 스크롤바 디자인 */
+#community-modal-content::-webkit-scrollbar,
+#community-modal-comment-section::-webkit-scrollbar {
+    width: 30px; /* ✅ 두꺼운 스크롤바 */
+}
+
+#community-modal-content::-webkit-scrollbar-thumb,
+#community-modal-comment-section::-webkit-scrollbar-thumb {
+    background: #b0b0b0; /* ✅ 중간 회색 */
+    border-radius: 10px; /* ✅ 둥근 모서리 */
+    border: 3px solid #e0e0e0; /* ✅ 입체감 추가 */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* ✅ 살짝 그림자 효과 */
+    transition: background 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+#community-modal-content::-webkit-scrollbar-track,
+#community-modal-comment-section::-webkit-scrollbar-track {
+    background: #f5f5f5; /* ✅ 밝은 회색 */
+    border-radius: 10px;
+}
+
+/* ✅ 마우스 올렸을 때 */
+#community-modal-content::-webkit-scrollbar-thumb:hover,
+#community-modal-comment-section::-webkit-scrollbar-thumb:hover {
+    background: #909090; /* ✅ 더 진한 회색 */
+    border: 3px solid #d0d0d0;
+}
+
+
+/* ✅ Edge & IE 전용 */
+#community-modal-content::-ms-scrollbar,
+#community-modal-comment-section::-ms-scrollbar {
+    width: 30px;
+}
+
+#community-modal-content::-ms-scrollbar-thumb,
+#community-modal-comment-section::-ms-scrollbar-thumb {
+    background: #b0b0b0;
+    border-radius: 10px;
+    border: 3px solid #e0e0e0;
+}
+

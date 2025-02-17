@@ -28,6 +28,12 @@
         WHERE p.class_id = #{class_id}
         GROUP BY p.post_id
     </select>
+    <select id="getCommunityPostByPostId" resultType="com.example.greenlast.dto.CommunityPostDTO">
+        select * from community_post where post_id = #{postId}
+    </select>
+    <select id="getCommunityCommentByPostId">
+        select * from community_comment where post_id = #{postId}
+    </select>
 
     <insert id="postReview" parameterType="com.example.greenlast.dto.ClassReviewDTO">
         insert into class_review (user_id, class_id, rating, content, created_at)
