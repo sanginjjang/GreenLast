@@ -53,28 +53,40 @@
             <span>새소식</span>
             <!--right aside bar-->
             <div id="aside-container">
-                <div id="aside_thumbnail_box">
-                    <img th:src="@{${classDetail.fileUrl}}" class="class-thumbnail" alt="강의 썸네일"/>
+                <div id="aside-fake-time">
+                    이동하님 첫 구매 할인 중 (21:23:20 남음)
                 </div>
-                <p class="class-price">
-                    <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
-                </p>
+                <div id="aside-container-detail1">
+                    <div class="class-price">
+                        <span th:text="${'₩' + #numbers.formatInteger(classDetail.price, 0, 'COMMA')}"></span>
+                    </div>
 
-                <button class="btn btn-primary" id="addToCartButton"
-                        th:data-class-id="${classDetail.classId}" onclick="addToCart()">
-                    수강 신청하기
-                </button>
-                <button class="btn" id="addCart"
-                        th:data-class-id="${classDetail.classId}" onclick="addCart()">
-                    바구니에 담기
-                </button>
+                    <button class="btn btn-primary" id="addToCartButton"
+                            th:data-class-id="${classDetail.classId}" onclick="addToCart()">
+                        수강 신청하기
+                    </button>
+                    <button class="btn" id="addCart"
+                            th:data-class-id="${classDetail.classId}" onclick="addCart()">
+                        바구니에 담기
+                    </button>
 
-                <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
-                <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
+                </div>
+                <div id="aside-container-detail2">
+                    <div style="display: flex;">
+                        <div id="aside-container-detail2-left">
+                            <span>지식공유자</span>
+                            <span>난이도</span>
+                        </div>
+                        <div id="aside-container-detail2-right">
+                            <span>[[${classDetail.instructor}]]</span>
+                            <span>[[${classDetail.classLevel}]]</span>
+                        </div>
+                    </div>
+                    <div id="aside-fake-text1" style="margin-top: 15px;">지식공유자 답변이 제공되는 강의입니다.</div>
+                </div>
             </div>
         </div>
     </div>
-    <!--여기 원래 있던 자리-->
     <div id="class-container3">
 
         <!--디테일 상세-->
@@ -84,9 +96,7 @@
                 <!--검색기능-->
             </div>
             <div id="community-detail-box2">
-
-
-
+                <!--커뮤니티-->
             </div>
         </div>
 
@@ -102,7 +112,7 @@
                 <div id="total-reviews-count">수강평 개</div>
             </div>
             <div id="detail-container-box8">
-                <!-- 여기에 JavaScript에서 리뷰 데이터를 동적으로 추가 -->
+                <!-- 여기에 리뷰 데이터를 동적으로 추가 -->
             </div>
 
             <div id="detail-container-box1" style="margin-top: 30px;">
@@ -115,19 +125,47 @@
                 </div>
             </div>
             <div id="detail-container-box3">
-                강사가 입력한 강의소개 텍스트 및 이미지
+                <!--강의 소개 동적으로 추가-->
             </div>
-            <div id="curriculum-container" class="curriculum-wrapper" style="margin-top: 20px;">
-                <h2 class="curriculum-title">커리큘럼</h2>
-                <div class="curriculum-info">
-                    <p>전체</p>
-                    <p id="total-lessons">총 0개 강의 ∙ (0시간 0분)</p>
+            <div id="curriculum-container" style="margin-top: 20px;">
+                <div id="curriculum-detail1">
+                    <div id="curriculum-detail1-top">
+                        <h2 id="curriculum-detail-top-left">커리큘럼</h2>
+                        <div id="curriculum-detail1-top-right">
+                            <div id="curriculum-detail1-top-right-total">전체</div>
+                            <div id="curriculum-detail1-top-right-number">개수</div>
+                        </div>
+                    </div>
+                    <div id="curriculum-detail1-footer">
+                        <div id="curriculum-detail1-footer-left">해당 강의에서 제공</div>
+                        <div id="curriculum-detail1-all-btn">모두 접기</div>
+                    </div>
                 </div>
-                <button id="expand-all-btn" class="expand-btn">모두 펼치기</button>
-                <div id="curriculum-sections" class="curriculum-sections"></div>
+                <div id="curriculum-detail2" style="margin-top: 30px">
+                    <div class="curriculum-box">
+                        <div class="curriculum-section">
+                            <div class="curriculum-section-left">
+                                <div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-down"></i></div>
+                                <!--<div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-up"></i></div>-->
+                                <div class="curriculum-section-title">섹션 1.1 제목을 적는 공간입니다</div>
+                            </div>
+                            <div class="curriculum-section-right">
+                                <div class="curriculum-section-number">25개</div>
+                                <div>∙</div>
+                                <div class="curriculum-section-time">4시간 26분</div>
+                            </div>
+                        </div>
+                        <div class="curriculum-lesson">
+                            <div class="curriculum-lesson-title">
+                                <i class="fa-solid fa-play"></i>&nbsp;
+                                제목
+                            </div>
+                            <div class="curriculum-lesson-time">06:53</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 
 
