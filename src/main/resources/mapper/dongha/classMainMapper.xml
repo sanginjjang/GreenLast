@@ -41,8 +41,8 @@
         c.class_price AS price,
         f.file_url AS thumbnail,
         c.description AS description,
-        c.class_capsule AS classCapsule,
-        c.class_subtitle AS classSubtitle,
+<!--        c.class_capsule AS classCapsule,-->
+<!--        c.class_subtitle AS classSubtitle,-->
         c.class_category AS classCategory,
         c.class_recom AS classRecom,
         c.class_level AS classLevel
