@@ -72,8 +72,12 @@
                     <td th:text="${class.allRevenue}"></td>
                     <td th:text="${class.classPermit}"></td>
                     <td>
-                        <button>수정버튼구현중^^</button>
+                        <form th:action="@{/view/classUpdate/first}" method="post">
+                            <input type="hidden" name="classId" th:value="${class.classId}">
+                            <button type="submit">수정</button>
+                        </form>
                     </td>
+
                 </tr>
                 </tbody>
 

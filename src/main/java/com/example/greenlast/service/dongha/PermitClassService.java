@@ -32,9 +32,7 @@ public class PermitClassService {
         return permitClassDao.approveClass(classId);
     }
 
-    public int rejectClass(int classId) {
-        return permitClassDao.rejectClass(classId);
-    }
+    public int rejectClass(int classId) { return permitClassDao.rejectClass(classId); }
 
     public ClassDTO getClassDetail(int classId) {
         return permitClassDao.getClassById(classId);
