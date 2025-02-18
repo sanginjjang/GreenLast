@@ -25,27 +25,18 @@
         <thead>
         <tr>
             <th>강의 제목</th>
-            <th>강의 설명</th>
-            <th>강사</th>
-            <th>승인/반려</th>
+            <th>강사명</th>
+            <th>요청일시</th>
         </tr>
         </thead>
         <tbody id="classTableBody"></tbody>
     </table>
-
-    <!-- 반려 사유 입력 모달 -->
-    <div id="rejectModal" style="display:none;">
-        <input type="hidden" id="rejectClassId">
-        <textarea id="rejectReason" placeholder="반려 사유를 입력하세요"></textarea>
-        <button onclick="rejectClass()">반려하기</button>
-    </div>
 </div>
 </body>
 
 <!--이거밖에서 스크립트 작성하면 안돌아갑니다...-->
 <div layout:fragment="scripts">
     <script>
-        // ✅ 승인 대기 강의 목록 불러오기
         function loadPendingClasses() {
             axios.get('/admin-api/pending-classes')
                 .then(response => {
@@ -54,13 +45,9 @@
                     response.data.forEach(cls => {
                         tbody.innerHTML += `
                         <tr>
-                            <td><a href="/admin/classDetail?classId=${cls.classId}">${cls.classTitle}</a></td>
-                            <td>${cls.description}</td>
+                            <td><a href="/view/permitClass/detail?classId=${cls.classId}">${cls.classTitle}</a></td>
                             <td>${cls.userId}</td>
-                            <td>
-                                <button onclick="approveClass(${cls.classId})">승인</button>
-                                <button onclick="showRejectModal(${cls.classId})">반려</button>
-                            </td>
+                            <td>${new Date(cls.classCreateDate).toISOString().split('T')[0]}</td>
                         </tr>
                     `;
                     });
@@ -68,37 +55,6 @@
                 .catch(error => console.error("강의 목록 불러오기 실패:", error));
         }
 
-        // ✅ 강의 승인 요청 (Axios)
-        function approveClass(classId) {
-            axios.post('/admin-api/approve-class', { classId })
-                .then(() => {
-                    alert("강의가 승인되었습니다.");
-                    loadPendingClasses();
-                })
-                .catch(error => alert("승인 실패: " + error.response.data.message));
-        }
-
-        // ✅ 반려 모달 띄우기
-        function showRejectModal(classId) {
-            document.getElementById('rejectClassId').value = classId;
-            document.getElementById('rejectModal').style.display = 'block';
-        }
-
-        // ✅ 강의 반려 요청 (Axios)
-        function rejectClass() {
-            const classId = document.getElementById('rejectClassId').value;
-            const rejectMessage = document.getElementById('rejectReason').value;
-
-            axios.post('/admin-api/reject-class', { classId, rejectMessage })
-                .then(() => {
-                    alert("강의가 반려되었습니다.");
-                    loadPendingClasses();
-                    document.getElementById('rejectModal').style.display = 'none';
-                })
-                .catch(error => alert("반려 실패: " + error.response.data.message));
-        }
-
-        // 페이지 로드 시 실행
         loadPendingClasses();
     </script>
 </div>
