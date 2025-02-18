@@ -18,7 +18,7 @@ public interface ClassDashboardDao {
 
     public int newStudentCnt(String userId);
 
-    public double ratingAvg(String userId);
+    public Double ratingAvg(String userId);
 
 
     // REST@@@@@@@@@@@@@@@@

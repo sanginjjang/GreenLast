@@ -24,9 +24,8 @@ public class ClassController {
     @RequestMapping("revenueGraph")
     public ResponseEntity<List<RevenueGraphDTO>> revenueGraph() {
         // 나중에 시큐리티 값 넣을 예정
-        List<RevenueGraphDTO> revenueGraph = dashboardService.getRevenueGraph("이동하");
+        List<RevenueGraphDTO> revenueGraph = dashboardService.getRevenueGraph("dlehdgk123");
 
-        System.err.println(revenueGraph);
 
         return ResponseEntity.ok(revenueGraph);
     }
@@ -34,9 +33,9 @@ public class ClassController {
     @RequestMapping("ageGraph")
     public ResponseEntity<List<AgeGraphDTO>> ageGraph() {
         // 나중에 시큐리티 값 넣을 예정
-        List<AgeGraphDTO> ageGraph = dashboardService.getAgeGraph("이동하");
+        List<AgeGraphDTO> ageGraph = dashboardService.getAgeGraph("dlehdgk123");
 
-        System.err.println("에이지그래프...ㅅㅂ"+ageGraph);
+
 
         return ResponseEntity.ok(ageGraph);
     }
