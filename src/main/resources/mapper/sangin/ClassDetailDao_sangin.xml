@@ -56,7 +56,8 @@
         class_permit = 'Y'
     </select>
     <select id="getLessonBySectionId" resultType="com.example.greenlast.dto.ClassLessonDTO">
-        select * from class_lesson
+        select c.*, f.file_url as fileUrl from class_lesson c
+        LEFT JOIN file f ON c.file_no = f.file_no
         where section_id = #{sectionId}
         <!--and lesson_permit = 'Y'-->
     </select>
