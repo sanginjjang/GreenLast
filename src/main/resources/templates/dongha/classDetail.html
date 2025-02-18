@@ -97,7 +97,23 @@
             <!--게시글 작성-->
             <div id="community-detail-box1">
                 <span>질문</span>
-                <button>+ 게시글 작성</button>
+                <button id="post-register-btn">+ 게시글 작성</button>
+                <div id="post-modal-background">
+                    <div id="post-modal">
+                        <div id="post-modal-title">
+                            <div>제목</div>
+                            <input type="text" name="post-modal-title" maxlength="25" placeholder="제목을 작성해주세요.">
+                        </div>
+                        <div id="post-modal-content" style="margin-top: 20px;">
+                            <div>내용</div>
+                            <textarea placeholder="내용을 작성해주세요."></textarea>
+                        </div>
+                        <div id="post-modal-footer" style="margin-top: 20px">
+                            <button id="post-modal-register-btn">등록하기</button>
+                            <button id="post-modal-cancel-btn">뒤로가기</button>
+                        </div>
+                    </div>
+                </div>
                 <!--검색기능-->
             </div>
             <div id="community-detail-box2">
@@ -197,6 +213,7 @@
             </div>
         </div>
     </div>
+
     <!--  중요  -->
     <input type="hidden" id="classId" th:value="${classId}"/>
     <!--  중요  -->

@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const communityModal = document.getElementById("community-modal");
     const communityModalContent = document.getElementById("community-modal-content");
 
+
     axios.get(`/api/classDetail/community`, {params: {classId: classId}})
         .then(response => {
             if (!response.data || response.data.length === 0) {
@@ -66,7 +67,7 @@ function openCommunityModal(postId) {
     const communityModalContent = document.getElementById("community-modal-content");
     const communityCommentSection = document.getElementById("community-modal-comment-section");
 
-    axios.get(`/api/classDetail/communityDetail`, { params: { postId: postId } })
+    axios.get(`/api/classDetail/communityDetail`, {params: {postId: postId}})
         .then(response => {
             if (!response.data) {
                 communityModalContent.innerHTML = "<p>게시글 정보를 불러올 수 없습니다.</p>";
@@ -82,7 +83,7 @@ function openCommunityModal(postId) {
             communityModalContent.textContent = post.content;
 
             // ✅ 댓글 목록 불러오기
-            axios.get(`/api/classDetail/communityComments`, { params: { postId: postId } })
+            axios.get(`/api/classDetail/communityComments`, {params: {postId: postId}})
                 .then(commentResponse => {
                     const comments = commentResponse.data;
                     communityCommentSection.innerHTML = ""; // 기존 댓글 초기화
@@ -126,12 +127,6 @@ function closeCommunityModal() {
     document.getElementById("community-modal").style.display = "none";
 }
 
-
-
-function registComment(){
-
-}
-
 // 댓글 작성 버튼 클릭 시 모달 열기
 document.getElementById("comment-register-btn").addEventListener("click", function () {
     document.getElementById("comment-modal").style.display = "flex";
@@ -141,6 +136,28 @@ document.getElementById("comment-register-btn").addEventListener("click", functi
 document.getElementById("comment-modal-cancel-btn").addEventListener("click", function () {
     document.getElementById("comment-modal").style.display = "none";
 });
+
+
+function registComment() {
+
+}
+
+
+
+
+
+// 게시글 등록 모달 열기
+document.getElementById("post-register-btn").addEventListener("click", function () {
+    document.getElementById("post-modal").style.display = "flex";
+});
+
+// 게시글 등록 모달 닫기
+function closePostModal() {
+    document.getElementById("post-modal").style.display = "none";
+}
+
+
+
 
 
 
