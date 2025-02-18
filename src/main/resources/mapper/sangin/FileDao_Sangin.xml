@@ -30,6 +30,7 @@
         WHERE class_id = #{classId}
     </update>
 
+
     <!-- ✅ 소개 이미지 Upsert -->
     <update id="updateIntroduce">
         UPDATE class_introduce
