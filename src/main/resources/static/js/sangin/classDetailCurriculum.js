@@ -40,8 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     sectionHTML += `
                         <div class="curriculum-lesson">
                             <div class="curriculum-lesson-title">
+                                <a th:href="@{/${lesson.fileUrl}">
                                 <i class="fa-solid fa-play"></i>&nbsp;
                                 ${lesson.lessonTitle}
+                                </a>
                             </div>
                             <div class="curriculum-lesson-time">${lesson.duration ? lesson.duration : "00:00"}</div>
                         </div>`;
