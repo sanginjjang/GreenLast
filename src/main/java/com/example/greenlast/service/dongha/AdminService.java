@@ -38,13 +38,9 @@ public class AdminService {
     public List<ClassDTO> getPendingClasses() {
         return adminDao.findPendingClasses();
     }
-
-    // ✅ 강의 승인 (class_permit을 'y'로 변경)
     public void approveClass(int classId) {
         adminDao.updateClassPermit(classId, "y");
     }
-
-    // ✅ 강의 반려 (class_permit을 'n' 유지, 반려 메시지 저장 가능)
     public void rejectClass(int classId, String rejectMessage) {
         adminDao.updateClassRejection(classId, rejectMessage);
     }

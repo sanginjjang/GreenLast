@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 소개글 작성</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+
+        #blocks-container {
+            min-height: 50px; /* 블록이 없을 때도 최소 높이 유지 */
+        }
+
+        .add-block-wrapper {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+            clear: both; /* 이전 요소들과 겹치지 않도록 */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content-block {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .content-block.two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .add-block-wrapper {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .add-block-button {
+            background: none;
+            border: 2px dashed #ccc;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #666;
+            font-size: 14px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .add-block-button:hover {
+            border-color: #999;
+            background: #f8f8f8;
+        }
+
+        .plus-icon {
+            font-size: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .popover-menu {
+            position: absolute;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 8px 0;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #333;
+        }
+
+        .menu-item:hover {
+            background: #f0f0f0;
+        }
+
+        .menu-item i {
+            margin-right: 8px;
+            width: 20px;
+        }
+
+        .element-placeholder {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            background: #f8f8f8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .element-placeholder:hover {
+            border-color: #999;
+            background: #f0f0f0;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            border: 2px dashed #e0e0e0;
+            padding: 30px;
+            text-align: center;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload:hover {
+            border-color: #999;
+            background: #f0f0f0;
+        }
+
+        .block-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .content-block:hover .block-controls {
+            opacity: 1;
+        }
+
+        .control-button {
+            background: #f0f0f0;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin: 0 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .control-button:hover {
+            background: #e0e0e0;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .save-button-wrapper {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .save-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+
+        .save-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .save-button i {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="aside">
+</th:block>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>강의 소개 확인</h1>
+        <div id="content-container">
+            <div id="blocks-container">
+                <!-- 블록 데이터 표시 -->
+                <div th:each="block : ${contentData}" class="content-block" th:classappend="${block.type == 'double' ? 'two-column' : ''}">
+
+                    <div th:each="element : ${block.elements}">
+                        <!-- 텍스트 블록 -->
+                        <textarea class="text-input" th:text="${element.content}" readonly></textarea>
+
+                        <!-- 이미지 블록 -->
+                        <div class="image-preview" th:if="${element.type == 'image'}">
+                            <img th:src="${element.content}" style="max-width: 100%; max-height: 300px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 승인 & 반려 버튼 -->
+        <div class="button-wrapper">
+            <button type="button" class="approve-button" onclick="approveClass()">승인</button>
+            <button type="button" class="reject-button" onclick="rejectClass()">반려</button>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        function approveClass() {
+            axios.post('/view/permitClass/approve', { classId: [[${classId}]] })
+                .then(response => {
+                    alert('강의가 승인되었습니다!');
+                    window.location.href = '/view/permitClass/list';
+                })
+                .catch(error => {
+                    alert('승인 중 오류가 발생했습니다.');
+                    console.error(error);
+                });
+        }
+
+        function rejectClass() {
+            const reason = prompt('반려 사유를 입력하세요:');
+            if (!reason) return;
+
+            axios.post('/view/permitClass/reject', {
+                classId: [[${classId}]],
+                reason: reason
+            })
+                .then(response => {
+                    alert('강의가 반려되었습니다.');
+                    window.location.href = '/view/permitClass/list';
+                })
+                .catch(error => {
+                    alert('반려 처리 중 오류가 발생했습니다.');
+                    console.error(error);
+                });
+        }
+    </script>
+</div>
+
+</body>
+</html>
