@@ -328,7 +328,7 @@
         </div>
         <div>
             <form action="/view/permitClass/thirdPermit" method="get">
-                <input type="hidden" name="classId" th:value="${curriculum.classId}">
+                <input type="hidden" name="classId" th:value="${curriculum[0].classId}">
                 <input type="submit" value="다음">
             </form>
         </div>

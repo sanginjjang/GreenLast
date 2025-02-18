@@ -7,6 +7,7 @@
     <title>강의 소개글 작성</title>
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
 
         #blocks-container {
@@ -226,16 +227,11 @@
         <h1>강의 소개 확인</h1>
         <div id="content-container">
             <div id="blocks-container">
-                <!-- 블록 데이터 표시 -->
-                <div th:each="block : ${contentData}" class="content-block" th:classappend="${block.type == 'double' ? 'two-column' : ''}">
-
+                <div th:each="block : ${blocks}" class="content-block" th:classappend="${block.blockType == 'double' ? 'two-column' : ''}">
                     <div th:each="element : ${block.elements}">
-                        <!-- 텍스트 블록 -->
-                        <textarea class="text-input" th:text="${element.content}" readonly></textarea>
-
-                        <!-- 이미지 블록 -->
-                        <div class="image-preview" th:if="${element.type == 'image'}">
-                            <img th:src="${element.content}" style="max-width: 100%; max-height: 300px;">
+                        <textarea class="text-input" th:if="${element.elementType == 'text'}" th:text="${element.elementContent}" readonly></textarea>
+                        <div class="image-preview" th:if="${element.elementType == 'image'}">
+                            <img th:src="${element.elementContent}" alt="사진들" style="max-width: 100%; max-height: 300px;">
                         </div>
                     </div>
                 </div>
@@ -244,6 +240,7 @@
 
         <!-- 승인 & 반려 버튼 -->
         <div class="button-wrapper">
+            <input type="hidden" id="classId" th:value="${classId}">
             <button type="button" class="approve-button" onclick="approveClass()">승인</button>
             <button type="button" class="reject-button" onclick="rejectClass()">반려</button>
         </div>
@@ -251,11 +248,9 @@
 </div>
 
 <div layout:fragment="scripts">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <script>
         function approveClass() {
-            axios.post('/view/permitClass/approve', { classId: [[${classId}]] })
+            axios.post('/back/permitClass/approve', { classId: classId })
                 .then(response => {
                     alert('강의가 승인되었습니다!');
                     window.location.href = '/view/permitClass/list';
@@ -265,6 +260,7 @@
                     console.error(error);
                 });
         }
+
 
         function rejectClass() {
             const reason = prompt('반려 사유를 입력하세요:');

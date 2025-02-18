@@ -42,14 +42,27 @@
         ORDER BY cl.lesson_id;
     </select>
 
-    <resultMap id="lessonResultMap" type="com.example.greenlast.dto.ClassLessonDTO">
-        <id property="lessonId" column="lesson_id"/>
-        <result property="sectionId" column="section_id"/>
-        <result property="lessonTitle" column="lesson_title"/>
-        <result property="lessonContent" column="lesson_content"/>
-        <result property="lessonFree" column="lesson_free"/>
-        <result property="fileNo" column="file_no"/>
-        <result property="fileUrl" column="file_url"/>
-    </resultMap>
+    <select id="getBlocksByClassId" resultType="com.example.greenlast.dto.BlockElementDto">
+        SELECT
+            ib.block_id AS blockId,
+            ib.class_id AS classId,
+            ib.block_type AS blockType,
+            be.element_id AS elementId,
+            be.element_type AS elementType,
+            be.element_content AS elementContent
+        FROM introduce_block ib
+        LEFT JOIN block_element be ON ib.block_id = be.block_id
+        WHERE ib.class_id = #{classId}
+    </select>
 
+    <!-- 특정 블록의 요소 가져오기 -->
+    <select id="getElementsByBlockId" resultType="com.example.greenlast.dto.BlockElementDto">
+        SELECT
+        element_id,
+        block_id,
+        element_type,
+        element_content
+        FROM block_element
+        WHERE block_id = #{blockId}
+    </select>
 </mapper>

@@ -12,4 +12,6 @@ public class BlockElementDto {
     private String elementType;
     //text image
     private String elementContent;
+
+    private String blockType;
 }
