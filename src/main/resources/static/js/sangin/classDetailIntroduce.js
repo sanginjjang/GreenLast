@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     else if (element.elementType === "image") {
                         const imageElement = document.createElement("img");
                         imageElement.src = element.elementContent;
-                        imageElement.alt = "강의 소개 이미지";
                         imageElement.style.maxWidth = "100%";
                         imageElement.style.height = "auto";
                         imageElement.style.borderRadius = "10px";
