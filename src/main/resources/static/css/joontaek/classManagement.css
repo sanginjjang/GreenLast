@@ -1,0 +1,182 @@
+/* 기본 페이지 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* 아이보리색 배경 */
+    margin: 0;
+    padding: 0;
+}
+.dashboard-header {
+    background-color: #000; /* 검은 배경 */
+    padding: 7px 9px; /* 위아래 여백 */
+    text-align: left; /* 왼쪽 정렬 */
+    font-size: 20px; /* 글자 크기 */
+    font-weight: bold; /* 글자 굵기 */
+    color: white; /* 글씨 색상 */
+    border-bottom: 3px solid #000; /* 아래 검은색 선 */
+}
+
+
+.dashboard-container {
+    margin-left: 250px;  /* 사이드바가 있을 경우 콘텐츠를 오른쪽으로 밀기 */
+    width: calc(100% - 250px);  /* 사이드바를 제외한 나머지 공간 사용 */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom:130px;
+}
+
+.dashboard-header h2{
+    margin-left : 350px;
+}
+
+/* 사이드바 스타일 */
+aside {
+    background-color: #f4f4f4; /* 사이드바 배경색 */
+    color: white;
+    height: 100vh;
+    width: 250px;
+    padding: 20px;
+    position: fixed;
+}
+
+aside p {
+    color: #aaaaaa;
+    padding-top: 10px;
+}
+
+aside h2 {
+    font-size: 24px;
+    color: #0092ff;
+    margin-bottom: 30px;
+}
+
+aside ul {
+    list-style: none;
+    padding: 15px;
+}
+
+aside ul li {
+    margin: 10px 0;
+}
+
+aside ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+    font-style: normal;
+    transition: color 0.3s ease;
+}
+
+aside ul li a:hover {
+    color: #3498db;
+}
+
+/* 반응형 레이아웃 */
+@media (max-width: 768px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* 사이드바 크기 축소 */
+    aside {
+        width: 200px;
+    }
+
+}
+
+.class-management-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 새 강의 만들기 버튼 스타일 */
+.new-class-button {
+    margin-bottom: 20px;
+}
+
+.new-class-button a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0092ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.new-class-button a:hover {
+    background-color: #007acc;
+}
+
+/* 테이블 스타일 */
+.class-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.class-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.class-table th,
+.class-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.class-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.class-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* 테이블 이미지 스타일 */
+.class-table img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* 관리 버튼 스타일 */
+.manage-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.manage-buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #ffc107;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+
+
+
+
