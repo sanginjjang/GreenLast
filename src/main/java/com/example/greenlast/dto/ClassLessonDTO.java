@@ -13,4 +13,5 @@ public class ClassLessonDTO {
     private String lessonContent;
     private String lessonFree;
     private String duration;
+    private String fileUrl;
 }

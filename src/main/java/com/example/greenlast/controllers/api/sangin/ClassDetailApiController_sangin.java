@@ -46,6 +46,7 @@ public class ClassDetailApiController_sangin {
         if (blocks.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+        System.out.println(blocks);
         return ResponseEntity.ok(blocks);
     }
     //동하형 여기 introduce 끝
