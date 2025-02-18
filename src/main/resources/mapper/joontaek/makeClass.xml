@@ -4,16 +4,22 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.greenlast.dao.joontaek.MakeClassDao">
 
+
+    <select id="getMaxClassId" resultType="_int">
+        SELECT MAX(class_id) FROM class
+    </select>
+
+
     <insert id="saveClassInfo">
         INSERT INTO class (class_id,user_id,class_title,description,class_price,class_category,class_permit,class_recom,class_level,class_create_date,file_no) values
         (NULL,#{userId},#{classTitle},#{description},#{classPrice},#{classCategory},'N',#{classRecom},#{classLevel},NOW(),#{fileNo});
     </insert>
 
 
-
-    <select id="getMaxClassId" resultType="_int">
-        SELECT MAX(class_id) FROM class
+    <select id="getClassInfo" resultType="com.example.greenlast.dto.ClassDTO">
+        SELECT * FROM class WHERE class_id = #{classId}
     </select>
+
 
     <insert id="saveSection">
         INSERT INTO class_section (section_id,class_id,section_title,class_permit) VALUES (null,#{classId},#{sectionTitle},'N')

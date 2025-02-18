@@ -7,6 +7,7 @@ import com.example.greenlast.dto.ContentRequestDTO;
 import com.example.greenlast.dto.SectionDTO;
 import com.example.greenlast.file.FileEntity;
 import com.example.greenlast.file.FileService;
+import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.joontaek.MakeClassService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ObjectBuffer;
@@ -58,30 +59,33 @@ public class MakeClassController {
 
         HttpSession session = request.getSession();
 
-        Integer classId = makeClassDao.getMaxClassId();
 
-        if (classId == null) {
-            classId = 1;
-        }
 
-//        int fileNo = makeClassDao.getMaxFileNo();       담배피고와서 추가@@@@@@@@@@
-        classInfo.setClassId(classId);
-        System.out.println("강의 기본 정보 " + classInfo);
 
-        //나중에 userId 바꿀 예정@@@
+
+        String userId = SecurityUtil.getCurrentUserId();
         classInfo.setUserId("박준택");
 
+        makeClassService.saveClassInfo(classInfo);
+        Integer classId = makeClassDao.getMaxClassId();
 //        makeClassService.saveClassInfo(classInfo);
-        if (makeClassService.saveClassInfo(classInfo) == 1) {
-            System.out.println("성공");
-            System.out.println("성공");
-            System.out.println("성공");
-            fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
-        }else {
-            System.out.println("실패");
-            System.out.println("실패");
-            System.out.println("실패");
-        }
+
+
+        fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
+
+
+//        if (makeClassService.saveClassInfo(classInfo) == 1) {
+//            System.out.println("성공");
+//            System.out.println("성공");
+//            System.out.println("성공");
+//            System.out.println("classId : "+classInfo.getClassId());
+//
+//            fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
+//        }else {
+//            System.out.println("실패");
+//            System.out.println("실패");
+//            System.out.println("실패");
+//        }
 
 
 

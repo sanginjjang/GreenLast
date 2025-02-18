@@ -59,7 +59,8 @@ public class FileService {
         int refNo = savedFile.getFileNo();
 
         System.out.println("상인@@");
-        System.out.println(refNo);
+        System.out.println("fileId : "+refNo);
+        System.out.println("classId : "+id);
         System.out.println("준택@@");
         fileRepository.save(savedFile);
 
@@ -76,7 +77,8 @@ public class FileService {
                 }
             }
             case "thumbnail" -> {
-                if (fileDao.updateThumbnail(id, refNo) == 0) {
+                int result = fileDao.updateThumbnail(id, refNo);
+                if (result== 0) {
                     fileDao.insertThumbnail(id, refNo);
                 }
             }
