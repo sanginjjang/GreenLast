@@ -78,19 +78,4 @@ public class MakeClassServiceImpl implements MakeClassService {
 
         return result;
     }
-
-    @Override
-    public List<ClassDTO> getPendingClasses() {
-        return dao.getPendingClasses();
-    }
-
-    @Override
-    public int approveClass(int classId) {
-        return dao.approveClass(classId);
-    }
-
-    @Override
-    public int rejectClass(int classId) {
-        return dao.rejectClass(classId);
-    }
 }

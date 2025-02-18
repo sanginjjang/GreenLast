@@ -27,8 +27,5 @@ public interface MakeClassService {
 
     public int saveBlock(int classId, String blockType);
 
-    //강의 승인 구현중(동하)
-    public List<ClassDTO> getPendingClasses();
-    public int approveClass(int classId);
-    public int rejectClass(int classId);
+
 }
