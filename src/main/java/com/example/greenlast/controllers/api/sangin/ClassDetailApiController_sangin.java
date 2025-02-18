@@ -1,9 +1,6 @@
 package com.example.greenlast.controllers.api.sangin;
 
-import com.example.greenlast.dto.ClassIntroduceDTO;
-import com.example.greenlast.dto.ClassReviewDTO;
-import com.example.greenlast.dto.CommunityCommentDTO;
-import com.example.greenlast.dto.CommunityPostDTO;
+import com.example.greenlast.dto.*;
 import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.sangin.ClassDetailService_sangin;
 import org.apache.coyote.Response;
@@ -38,18 +35,20 @@ public class ClassDetailApiController_sangin {
         return ResponseEntity.ok(reviews);
     }
 
+    //동하형 여기 introduce 시작
     @GetMapping("/introduce")
-    public ResponseEntity<List<ClassIntroduceDTO>> getClassIntroduces(@RequestParam("classId") Integer classId) {
+    public ResponseEntity<List<IntroduceBlockDto>> getIntroduceBlockByClassId(@RequestParam("classId") Integer classId) {
         if (classId == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        List<ClassIntroduceDTO> introduces = classDetailService.getIntroducesByClassId(classId);
-        if (introduces.isEmpty()) {
+        List<IntroduceBlockDto> blocks = classDetailService.getIntroduceBlockByClassId(classId);
+        if (blocks.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(introduces);
+        return ResponseEntity.ok(blocks);
     }
+    //동하형 여기 introduce 끝
 
     @GetMapping("/community")
     public ResponseEntity<List<CommunityPostDTO>> getClassCommnuity(@RequestParam("classId") Integer classId) {
@@ -100,5 +99,18 @@ public class ClassDetailApiController_sangin {
         } else {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/curriculum")
+    public ResponseEntity<List<ClassSectionDTO>> getCurriculumByClassId(@RequestParam("classId") Integer classId) {
+        if (classId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        List<ClassSectionDTO> sections = classDetailService.getCurriculumByClassId(classId);
+        if (sections.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        System.out.println(sections);
+        return ResponseEntity.ok(sections);
     }
 }

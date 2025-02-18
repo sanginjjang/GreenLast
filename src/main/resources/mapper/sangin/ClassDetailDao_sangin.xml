@@ -11,12 +11,18 @@
         LEFT JOIN file f ON u.file_no = f.file_no
         WHERE cr.class_id = #{classId}
     </select>
-    <select id="getIntroducesByClassId" resultType="com.example.greenlast.dto.ClassIntroduceDTO">
-        SELECT ci.*, f.file_url as fileUrl
-        FROM class_introduce ci
-        LEFT JOIN file f ON ci.file_no = f.file_no
-        WHERE ci.class_id = #{classId}
+
+    <!--동하형 여기 introduce-->
+    <select id="getIntroduceBlockByClassId" resultType="com.example.greenlast.dto.IntroduceBlockDto">
+        select * from introduce_block
+        where class_id = #{classId}
     </select>
+    <select id="getBlockElementByBlockId" resultType="com.example.greenlast.dto.BlockElementDto">
+        select * from block_element
+        where block_id = #{blockId}
+    </select>
+    <!--동하형 여기 introduce-->
+
     <select id="getClassCommunityByClassId" resultType="com.example.greenlast.dto.CommunityPostDTO">
         SELECT
         p.*,
@@ -44,6 +50,16 @@
         SET review_status = 'y'
         WHERE user_id = #{review.userId} AND class_id = #{review.classId}
     </update>
+    <select id="getSectionByClassId" resultType="com.example.greenlast.dto.ClassSectionDTO">
+        select * from class_section
+        where class_id = #{classId} and
+        class_permit = 'Y'
+    </select>
+    <select id="getLessonBySectionId" resultType="com.example.greenlast.dto.ClassLessonDTO">
+        select * from class_lesson
+        where section_id = #{sectionId}
+        <!--and lesson_permit = 'Y'-->
+    </select>
 
 
 </mapper>
