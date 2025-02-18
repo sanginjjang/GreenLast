@@ -6,11 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MakeClassDao {
 
-    public int getMaxClassId();
+    public Integer getMaxClassId();
 
     public int saveClassInfo(ClassDTO classDTO);
-
-
 
     public int saveSection(int classId, String sectionTitle);
     public int getSectionId();

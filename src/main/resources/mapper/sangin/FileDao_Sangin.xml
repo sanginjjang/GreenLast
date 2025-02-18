@@ -11,23 +11,27 @@
         WHERE user_id = #{userId}
     </update>
 
-    <update id="updatePost">
-        UPDATE community_post
+    <!-- ✅ 게시글 이미지 Upsert (post_file 중간 테이블) -->
+    <update id="updatePostFile">
+        UPDATE post_file
         SET file_no = #{refNo}
         WHERE post_id = #{postId}
     </update>
 
-    <insert id="insertPost" useGeneratedKeys="true">
-        INSERT INTO community_post (post_id, file_no)
+    <insert id="insertPostFile" useGeneratedKeys="true">
+        INSERT INTO post_file (post_id, file_no)
         VALUES (#{postId}, #{refNo})
     </insert>
 
+    <!-- ✅ 썸네일 이미지 Upsert -->
     <update id="updateThumbnail">
         UPDATE class
         SET file_no = #{refNo}
         WHERE class_id = #{classId}
     </update>
 
+
+    <!-- ✅ 소개 이미지 Upsert -->
     <update id="updateIntroduce">
         UPDATE class_introduce
         SET file_no = #{refNo}
@@ -47,7 +51,7 @@
 
     <!-- ✅ 게시글(Post) 참조 삭제 -->
     <update id="deletePostRef">
-        UPDATE community_post
+        UPDATE post_file
         SET file_no = NULL
         WHERE file_no = #{fileNo}
     </update>

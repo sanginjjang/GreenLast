@@ -26,9 +26,6 @@ public class FileEntity {
     @Column(name = "file_type")
     private String fileType;
 
-    @Column(name = "file_ref_no")
-    private int fileRefNo;
-
     @Column(name = "file_old_name")
     private String fileOldName;
 
