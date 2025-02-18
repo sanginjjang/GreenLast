@@ -1,8 +1,6 @@
 package com.example.greenlast.dao.dongha;
 
-import com.example.greenlast.dto.ClassDTO;
-import com.example.greenlast.dto.ClassLessonDTO;
-import com.example.greenlast.dto.ClassSectionDTO;
+import com.example.greenlast.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,4 +24,6 @@ public interface IPermitClassDao {
     ClassDTO getClassById(int classId);
     List<ClassSectionDTO> getSectionByClassId(int classId);
     List<ClassLessonDTO> getLessonsBySectionId(int classId);
+    List<BlockElementDto> getBlocksByClassId(int classId);
+    List<BlockElementDto> getBlockElementsByClassId(int classId);
 }
