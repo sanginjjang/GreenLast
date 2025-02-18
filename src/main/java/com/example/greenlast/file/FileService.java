@@ -59,8 +59,8 @@ public class FileService {
         int refNo = savedFile.getFileNo();
 
         System.out.println("상인@@");
-        System.out.println("fileId : "+refNo);
-        System.out.println("classId : "+id);
+        System.out.println("fileId : " + refNo);
+        System.out.println("classId : " + id);
         System.out.println("준택@@");
         fileRepository.save(savedFile);
 
@@ -68,29 +68,32 @@ public class FileService {
         switch (fileType) {
             case "introduce" -> {
                 if (fileDao.updateIntroduce((Integer) id, refNo) == 0) {
-                    fileDao.insertIntroduce((Integer) id, refNo);
+                    System.out.println("소개 업데이트 실패");
                 }
             }
             case "post" -> {
                 if (fileDao.updatePost((Integer) id, refNo) == 0) {
-                    fileDao.insertPost((Integer) id, refNo);
+                    System.out.println("커뮤니티 업데이트 실패");
                 }
             }
             case "thumbnail" -> {
                 int result = fileDao.updateThumbnail(id, refNo);
-                if (result== 0) {
-                    fileDao.insertThumbnail(id, refNo);
+                if (result == 0) {
+                    System.out.println("썸네일 업데이트 실패");
                 }
             }
 
             case "video" -> {
                 if (fileDao.updateLesson(id, refNo) == 0) {
-                    fileDao.insertLesson(id, refNo);
+                    System.out.println("비디오 업데이트 실패");
                 }
             }
 
-
-            case "profile" -> fileDao.updateProfile(SecurityUtil.getCurrentUserId(), refNo);
+            case "profile" -> {
+                if (fileDao.updateProfile(SecurityUtil.getCurrentUserId(), refNo) == 0) {
+                    System.out.println("프로필 업데이트 실패");
+                }
+            }
         }
 
         return savedFile;

@@ -4,6 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.greenlast.dao.dongha.IClassMainDao">
     <!--비키워드용-->
+    <!-- 기본 조회 -->
     <select id="findClassMain" resultType="com.example.greenlast.dto.ClassMainDTO">
         SELECT
         c.class_id AS classId,
@@ -13,9 +14,11 @@
         c.class_price AS classPrice
         FROM class c
         LEFT JOIN file f ON c.file_no = f.file_no
-        INNER JOIN user u ON c.user_id = u.user_id;
+        INNER JOIN user u ON c.user_id = u.user_id
+        WHERE c.class_permit = 'Y';
     </select>
-    <!--키워드용-->
+
+    <!-- 키워드 검색 -->
     <select id="findClassMainByKeyword" resultType="com.example.greenlast.dto.ClassMainDTO">
         SELECT
         c.class_id AS classId,
@@ -26,12 +29,14 @@
         FROM class c
         LEFT JOIN file f ON c.file_no = f.file_no
         INNER JOIN user u ON c.user_id = u.user_id
-        WHERE c.class_title LIKE CONCAT('%', #{keyword}, '%')
+        WHERE (c.class_title LIKE CONCAT('%', #{keyword}, '%')
         OR c.class_price LIKE CONCAT('%', #{keyword}, '%')
         OR c.class_category LIKE CONCAT('%', #{keyword}, '%')
         OR u.name LIKE CONCAT('%', #{keyword}, '%')
-        OR c.class_level LIKE CONCAT('%', #{keyword}, '%');
+        OR c.class_level LIKE CONCAT('%', #{keyword}, '%'))
+        AND c.class_permit = 'Y';
     </select>
+
 
     <select id="findClassDetail" parameterType="java.lang.Long" resultType="com.example.greenlast.dto.ClassDetailDTO">
         SELECT
@@ -39,15 +44,13 @@
         c.class_title AS title,
         u.name AS instructor,
         c.class_price AS price,
-        f.file_url AS thumbnail,
+        f.file_url AS fileUrl,
         c.description AS description,
-<!--        c.class_capsule AS classCapsule,-->
-<!--        c.class_subtitle AS classSubtitle,-->
         c.class_category AS classCategory,
         c.class_recom AS classRecom,
         c.class_level AS classLevel
         FROM class c
-        LEFT JOIN file f ON c.class_id = f.file_ref_no
+        LEFT JOIN file f ON c.file_no = f.file_no
         INNER JOIN user u ON c.user_id = u.user_id
         WHERE c.class_id = #{id}
     </select>
