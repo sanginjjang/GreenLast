@@ -2,6 +2,10 @@ package com.example.greenlast.service.joontaek;
 
 import com.example.greenlast.dto.ClassDTO;
 
+import com.example.greenlast.dto.ClassDTO;
+
+import java.util.List;
+
 public interface MakeClassService {
 
     public int saveClassInfo(ClassDTO classDTO);

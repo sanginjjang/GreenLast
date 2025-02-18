@@ -1,6 +1,8 @@
 package com.example.greenlast.controllers.views.dongha;
 
 import com.example.greenlast.service.dongha.AdminService;
+import com.example.greenlast.service.dongha.PermitClassService;
+import com.example.greenlast.service.joontaek.MakeClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class ViewAdminController {
     private final AdminService adminService;
+    private final PermitClassService permitClassService;
 
     @GetMapping("/chartView")
     public String chart(Model model) {
@@ -34,6 +37,7 @@ public class ViewAdminController {
 
     @GetMapping("/classView")
     public String classView(Model model) {
+        model.addAttribute("pendingClasses", permitClassService.getPendingClasses());
         return "/dongha/classView";
     }
 
