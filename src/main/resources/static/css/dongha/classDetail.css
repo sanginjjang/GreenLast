@@ -914,10 +914,12 @@
 
 
 .curriculum-section {
-    background-color: #f8f9fa;
+    overflow: hidden;
+
     display: flex;
     justify-content: space-between;
     padding: 18px;
+
 }
 
 .curriculum-section-left {
@@ -940,6 +942,7 @@
 }
 
 .curriculum-section-title {
+    font-weight: bold;
     font-size: 16px;
 }
 
@@ -960,7 +963,7 @@
     padding: 15px 30px;
     align-items: center;
     width: 100%;
-    border-bottom: 1px #ddd solid;
+    border-top: 1px #ddd solid;
 }
 
 .curriculum-lesson-title {

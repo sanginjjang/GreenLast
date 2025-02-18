@@ -46,7 +46,6 @@ public class ClassDetailApiController_sangin {
         if (blocks.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        System.out.println(blocks);
         return ResponseEntity.ok(blocks);
     }
     //동하형 여기 introduce 끝
@@ -61,7 +60,6 @@ public class ClassDetailApiController_sangin {
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        System.out.println("posts" + posts);
         return ResponseEntity.ok(posts);
     }
 
@@ -111,7 +109,6 @@ public class ClassDetailApiController_sangin {
         if (sections.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        System.out.println(sections);
         return ResponseEntity.ok(sections);
     }
 }
