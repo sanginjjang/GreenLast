@@ -6,6 +6,8 @@ public interface MakeClassService {
 
     public int saveClassInfo(ClassDTO classDTO);
 
+    public ClassDTO getClassInfo(int classId);
+
     public int saveSection(int classId, String sectionTitle);
     public int getSectionId();
     public int saveLesson(int sectionId, String lessonTitle);

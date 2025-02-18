@@ -19,6 +19,13 @@ public class MakeClassServiceImpl implements MakeClassService {
     }
 
     @Override
+    public ClassDTO getClassInfo(int classId) {
+        ClassDTO classInfo = dao.getClassInfo(classId);
+
+        return classInfo;
+    }
+
+    @Override
     public int saveSection(int classId, String sectionTitle) {
 
         int result = dao.saveSection(classId, sectionTitle);
