@@ -6,6 +6,8 @@ import com.example.greenlast.dto.ClassDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MakeClassServiceImpl implements MakeClassService {
 
@@ -75,5 +77,20 @@ public class MakeClassServiceImpl implements MakeClassService {
         int result = dao.saveBlock(classId, blockType);
 
         return result;
+    }
+
+    @Override
+    public List<ClassDTO> getPendingClasses() {
+        return dao.getPendingClasses();
+    }
+
+    @Override
+    public int approveClass(int classId) {
+        return dao.approveClass(classId);
+    }
+
+    @Override
+    public int rejectClass(int classId) {
+        return dao.rejectClass(classId);
     }
 }
