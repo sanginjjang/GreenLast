@@ -1,10 +1,8 @@
 package com.example.greenlast.dao.dongha;
 
-import com.example.greenlast.dto.AgeGroupDTO;
-import com.example.greenlast.dto.DailyUserDTO;
-import com.example.greenlast.dto.GenderDTO;
-import com.example.greenlast.dto.UserDTO;
+import com.example.greenlast.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -22,7 +20,16 @@ import java.util.List;
 @Mapper
 public interface IAdminDao {
     List<DailyUserDTO> findDailyUser();
+
     List<AgeGroupDTO> findAgeGroup();
+
     List<GenderDTO> findGender();
+
     List<UserDTO> findUser();
+
+    List<ClassDTO> findPendingClasses();
+
+    void updateClassPermit(@Param("classId") int classId, @Param("permitStatus") String permitStatus);
+
+    void updateClassRejection(@Param("classId") int classId, @Param("rejectMessage") String rejectMessage);
 }

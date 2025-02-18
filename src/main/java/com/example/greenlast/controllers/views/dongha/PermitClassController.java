@@ -1,33 +1,28 @@
-package com.example.greenlast.controllers.views.joontaek;
+package com.example.greenlast.controllers.views.dongha;
 
 
 import com.example.greenlast.dao.joontaek.MakeClassDao;
 import com.example.greenlast.dto.ClassDTO;
+import com.example.greenlast.dto.ClassSectionDTO;
 import com.example.greenlast.dto.ContentRequestDTO;
-import com.example.greenlast.dto.SectionDTO;
 import com.example.greenlast.file.FileEntity;
 import com.example.greenlast.file.FileService;
-import com.example.greenlast.security.SecurityUtil;
+import com.example.greenlast.service.dongha.PermitClassService;
 import com.example.greenlast.service.joontaek.MakeClassService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.ObjectBuffer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.webauthn.api.PublicKeyCredential;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
-
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -36,9 +31,9 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/view/makeClass")
+@RequestMapping("/view/permitClass")
 @CrossOrigin(origins = "*")
-public class MakeClassController {
+public class PermitClassController {
 
     @Autowired
     FileService fileService;
@@ -46,6 +41,8 @@ public class MakeClassController {
     MakeClassDao makeClassDao;
     @Autowired
     MakeClassService makeClassService;
+    @Autowired
+    private PermitClassService permitClassService;
 
 
     @RequestMapping("/first")
@@ -59,43 +56,23 @@ public class MakeClassController {
 
         HttpSession session = request.getSession();
 
+        int classId = makeClassDao.getMaxClassId();
 
+//        int fileNo = makeClassDao.getMaxFileNo();       담배피고와서 추가@@@@@@@@@@
+        classInfo.setClassId(classId);
+        session.setAttribute("classInfo", classInfo);
+        System.out.println("강의 기본 정보 " + classInfo);
 
-
-
-        String userId = SecurityUtil.getCurrentUserId();
+        //나중에 userId 바꿀 예정@@@
         classInfo.setUserId("박준택");
+
+
+        FileEntity file = fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
+        int fileNo = file.getFileNo();
+        classInfo.setFileNo(fileNo);
+
+
         makeClassService.saveClassInfo(classInfo);
-        Integer classId = makeClassDao.getMaxClassId();
-//        makeClassService.saveClassInfo(classInfo);
-
-
-        fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
-
-
-//        if (makeClassService.saveClassInfo(classInfo) == 1) {
-//            System.out.println("성공");
-//            System.out.println("성공");
-//            System.out.println("성공");
-//            System.out.println("classId : "+classInfo.getClassId());
-//
-//            fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
-//        }else {
-//            System.out.println("실패");
-//            System.out.println("실패");
-//            System.out.println("실패");
-//        }
-
-
-
-//        FileEntity file = fileService.saveFile(classInfo.getThumbnail(), "thumbnail", classId);
-
-//        int fileNo = file.getFileNo();
-//        classInfo.setFileNo(fileNo);
-
-
-
-//        makeClassService.saveClassInfo(classInfo);
 
 
         return "/joontaek/class/makeClassSecond";
@@ -229,6 +206,7 @@ public class MakeClassController {
                         // Base64 데이터에서 헤더 부분 제거
                         String base64Image = element.getContent().split(",")[1];
 
+
                         // 파일 이름 생성
                         String fileName = "image_" + System.currentTimeMillis() + ".jpg";
                         String filePath = "C:/classInfoImg/" + fileName;
@@ -269,68 +247,26 @@ public class MakeClassController {
                     ));
         }
     }
-//    @ResponseBody
-//    @PostMapping("/last")
-//    public ResponseEntity<?> saveContent(@RequestBody ContentRequestDTO request) {
-//        try {
-//
-//            //class_id를 최대치+1 시켜서 저장시킴
-//            int classId = makeClassDao.getMaxClassId() + 1;
-//
-//
-//            System.out.println("=== 요청 데이터 시작 ===");
-//            System.out.println("요청 객체: " + request);
-//
-//            // content 리스트 확인
-//            List<ContentRequestDTO.BlockData> blocks = request.getContent();
-//            System.out.println("블록 개수: " + blocks.size());
-//
-//            // 각 블록의 상세 정보 출력
-//            for (int i = 0; i < blocks.size(); i++) {
-//                ContentRequestDTO.BlockData block = blocks.get(i);
-//                System.out.println("\n=== 블록 " + (i + 1) + " ===");
-//                System.out.println("타입: " + block.getType());
-//
-//                int result = makeClassService.saveBlock(classId, block.getType());
-//
-//                System.out.println("@@@@@@@@@@@@@@@@@@@@");
-//                System.out.println("등록 결과.. @@@@@@@ : :"+result);
-//                System.out.println("@@@@@@@@@@@@@@@@@@@@");
-//
-//                List<ContentRequestDTO.ElementData> elements = block.getElements();
-//                System.out.println("요소 개수: " + elements.size());
-//
-//                for (int j = 0; j < elements.size(); j++) {
-//                    ContentRequestDTO.ElementData element = elements.get(j);
-//                    System.out.println("--- 요소 " + (j + 1) + " ---");
-//                    System.out.println("타입: " + element.getType());
-//                    String content = element.getContent();
-//
-////                    System.out.println("내용: " + (element.getElementType().equals("image")
-////                            ? content.substring(0, Math.min(100, content.length())) + "..."
-////                            : content));
-//
-//                    System.out.println("내용: " + content);
-//                }
-//            }
-//            System.out.println("\n=== 요청 데이터 끝 ===");
-//
-//
-//            return ResponseEntity.ok(Map.of(
-//                    "success", true,
-//                    "message", "강의 소개글이 성공적으로 저장되었습니다."
-//            ));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace(); // 에러 스택트레이스 출력
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(Map.of(
-//                            "success", false,
-//                            "message", "저장 중 오류가 발생했습니다.",
-//                            "error", e.getMessage()
-//                    ));
-//        }
-//
-//    }
-}
 
+    @RequestMapping("/detail")
+    public String viewClassDetail(@RequestParam("classId") int classId, Model model) {
+        ClassDTO classInfo = permitClassService.getClassDetail(classId);
+        model.addAttribute("classInfo", classInfo);
+        System.out.println(classInfo);
+        return "/dongha/permitClassFirst";
+    }
+
+    @GetMapping("/secondPermit")
+    public String secondPermit(@RequestParam("classId") int classId, Model model) {
+        List<ClassSectionDTO> curriculum = permitClassService.getClassCurriculum(classId);
+        model.addAttribute("curriculum", curriculum);
+        return "/dongha/permitClassSecond";
+    }
+
+    @GetMapping("/thirdPermit")
+    public String thirdPermit(@RequestParam("classId") int classId, Model model) {
+        return "/dongha/permitClassThird";
+    }
+
+
+}
