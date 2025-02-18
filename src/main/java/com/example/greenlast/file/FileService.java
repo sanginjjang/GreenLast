@@ -53,6 +53,7 @@ public class FileService {
         fileEntity.setFileSize((int) multipartFile.getSize());
         fileEntity.setFileUrl(fileUrl);
         fileEntity.setFileSeq(1);
+        fileEntity.setFileRefNo(id);
 
         FileEntity savedFile = fileRepository.save(fileEntity);
         int refNo = savedFile.getFileNo();

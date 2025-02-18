@@ -12,4 +12,7 @@ public class CommunityCommentDTO {
     private String userId;
     private String content;
     private String createdAt;
+    private String category;
+    private String pageType;
+    private String userName;
 }

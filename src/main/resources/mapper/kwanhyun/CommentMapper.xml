@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.greenlast.dao.kwanhyun.CommentDao">
+
+    <insert id="regComment" parameterType="com.example.greenlast.dto.CommunityCommentDTO">
+        INSERT INTO community_comment
+        (post_id, user_id, content)
+        VALUES
+        (#{postId}, #{userId}, #{content})
+    </insert>
+
+    <select id="getCommentList" resultType="com.example.greenlast.dto.CommunityCommentDTO">
+        SELECT cc.comment_id, cc.post_id, cc.user_id, u.name as userName, cc.content, cc.created_at
+        FROM community_comment cc
+        JOIN user u
+        ON cc.user_id = u.user_id
+        WHERE post_id = #{postId}
+        ORDER BY created_at ASC
+    </select>
+
+    <select id="getComment" resultType="com.example.greenlast.dto.CommunityCommentDTO">
+        SELECT *
+        FROM community_comment
+        WHERE comment_id = #{commentId}
+    </select>
+
+    <update id="updateComment" parameterType="com.example.greenlast.dto.CommunityCommentDTO">
+        UPDATE community_comment
+        SET
+        content = #{content}
+        WHERE comment_id = #{commentId}
+    </update>
+
+    <delete id="deleteComment">
+        DELETE FROM community_comment
+        WHERE comment_id = #{commentId}
+    </delete>
+
+    <select id="getTotalCommentCount" resultType="int">
+        SELECT COUNT(*)
+        FROM community_comment
+        WHERE post_id = #{postId}
+    </select>
+
+</mapper>

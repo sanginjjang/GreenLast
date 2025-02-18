@@ -1,6 +1,7 @@
 package com.example.greenlast.dao.kwanhyun;
 
 import com.example.greenlast.dto.CommunityPostDTO;
+import com.example.greenlast.dto.FileDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,8 @@ public interface CommunityDao {
     public void deleteCommunityPost(int postId);
     public int getTotalPostCount(@Param("search") String search, @Param("keyword") String keyword, @Param("pageType") String pageType);
     public void viewCounter(int postId);
+
+    public int getPostId();
+
+    public List<FileDTO> getPostImage(int postId);
 }

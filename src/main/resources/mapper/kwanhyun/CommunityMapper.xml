@@ -105,4 +105,12 @@
         </if>
     </select>
 
+    <select id="getPostId" resultType="_int">
+        SELECT max(post_id) FROM community_post
+    </select>
+
+    <select id="getPostImage" resultType="com.example.greenlast.dto.FileDTO">
+        SELECT file_no, file_type, file_url, file_ref_no FROM file WHERE file_ref_no = #{postId};
+    </select>
+
 </mapper>

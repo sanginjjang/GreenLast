@@ -41,7 +41,7 @@ public class CommunityRestController {
 
     // 커뮤니티 게시글 등록 API
     @PostMapping("/posts")
-    public ResponseEntity<String> createPost(@RequestBody CommunityPostDTO communityPostDto) {
+    public ResponseEntity<String> registerPost(@RequestBody CommunityPostDTO communityPostDto) {
         communityPostDto.setUserId(SecurityUtil.getCurrentUserId());
         String userRole = SecurityUtil.getCurrentUserRole();
         String pageType = communityPostDto.getPageType();
@@ -129,6 +129,7 @@ public class CommunityRestController {
 
         return "redirect:/kwanhyun/community/CommunityMain/" + pageType;
     }
+
 
 
 }

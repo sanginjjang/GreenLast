@@ -1,6 +1,6 @@
-/*
 package com.example.greenlast.file;
 
+import com.example.greenlast.service.kwanhyun.CommunityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -12,36 +12,45 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-*/
 /**
  * packageName    : com.example.greenlast.controllers.api.dongha
  * fileName       : FileController
- * author         : 이동하
- * date           : 25. 1. 27.
+ * author         : 노관현
+ * date           : 25. 2. 17.
  * description    :
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 25. 1. 27.        이동하       최초 생성
- *//*
-
+ * 25. 2. 17.        노관현       최초 생성
+ */
 @RestController
 @RequestMapping("/api/file")
 @RequiredArgsConstructor
-public class FileController {
+public class FileControllerKwanHyun {
     private final FileService fileService;
+    private final CommunityService communityService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
-                                             @RequestParam("fileType") String fileType,
-                                             @RequestParam(value = "id", required = false) int id
+    public ResponseEntity<Map<String, Object>> uploadFile(@RequestPart("file") MultipartFile file,
+                                                          @RequestParam("fileType") String fileType
+                                                         ) throws IOException {
 
-    ) throws IOException {
+        int id = communityService.getPostId() + 1;
+
         FileEntity savedFile = fileService.saveFile(file, fileType, id);
-        return ResponseEntity.ok(savedFile.getFileUrl());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("sFileURL", savedFile.getFileUrl());
+        result.put("bNewLine", true);
+        result.put("sFileName", savedFile.getFileOldName());
+
+        return ResponseEntity.ok(result);
     }
+
 
     //파일 넘버 얻기
     @GetMapping("/{fileNo}")
@@ -74,4 +83,3 @@ public class FileController {
                 .body(resource);
     }
 }
-*/

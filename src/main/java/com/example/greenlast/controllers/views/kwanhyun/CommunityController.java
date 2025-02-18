@@ -1,7 +1,9 @@
 package com.example.greenlast.controllers.views.kwanhyun;
 
+import com.example.greenlast.dto.CommunityCommentDTO;
 import com.example.greenlast.dto.CommunityPostDTO;
 import com.example.greenlast.security.SecurityUtil;
+import com.example.greenlast.service.kwanhyun.CommentService;
 import com.example.greenlast.service.kwanhyun.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +27,8 @@ import java.util.List;
 @Slf4j
 public class CommunityController {
 
-    @Autowired
-    private CommunityService communityService;
+    private final CommunityService communityService;
+    private final CommentService commentService;
 
     @GetMapping("/CommunityMain")
     public String communityMain(@RequestParam(value = "pageType", required = false) String pageType,
@@ -45,9 +47,6 @@ public class CommunityController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("pageType", pageType);
         model.addAttribute("currentUserRole", currentUserRole);
-
-        System.out.println("\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34page" + totalPages);
-        System.out.println("\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34\uD83D\uDD34post" + totalPosts);
 
         return "kwanhyun/CommunityMain";
     }
@@ -91,9 +90,12 @@ public class CommunityController {
             pageType = "class";
         }
 
+        List<CommunityCommentDTO> commentList = commentService.CommunityCommentList(postId);
+
         model.addAttribute("communityPost", post);
         model.addAttribute("currentUserId", currentUserId);
         model.addAttribute("pageType", pageType);
+        model.addAttribute("commentList", commentList);
 
         return "kwanhyun/CommunityDetail";
     }
