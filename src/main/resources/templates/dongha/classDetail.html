@@ -11,6 +11,7 @@
 </head>
 <body>
 <div layout:fragment="content100">
+    <!--thumbnail-->
     <div id="class-container1">
         <div id="container1-box1">
             <div id="container1-box1-left">
@@ -44,6 +45,7 @@
             <img src="/images/test.webp" alt="강의사진" id="container1-box1-right">
         </div>
     </div>
+    <!--aside + bar-->
     <div id="class-container2">
         <div id="container2-menu">
             <span>강의소개</span>
@@ -89,11 +91,13 @@
     </div>
     <div id="class-container3">
 
-        <!--디테일 상세-->
+        <!--디테일 상세1-->
+        <!--커뮤니티-->
         <div id="class-detail-community" style="margin-top: 20px;">
+            <!--게시글 작성-->
             <div id="community-detail-box1">
                 <span>질문</span>
-                <button>+ 질문 작성</button>
+                <button>+ 게시글 작성</button>
                 <!--검색기능-->
             </div>
             <div id="community-detail-box2">
@@ -102,115 +106,60 @@
 
         </div>
 
-        <!--디테일 상세-->
+        <!--디테일 상세2-->
         <div id="class-detail-container">
             <!--디테일 박스 순서 조정하면 됨-->
+            <!--수강평-->
             <div id="detail-container-box6" style="margin-top: 20px;">
                 수강평
             </div>
+            <!--수강평-->
             <div id="detail-container-box7">
                 <div id="average-rating-score">0.0</div>
                 <div id="average-rating-stars" style="color: gold;">★★★★★</div>
                 <div id="total-reviews-count">수강평 개</div>
             </div>
+            <!--수강평-->
             <div id="detail-container-box8">
                 <!-- 여기에 리뷰 데이터를 동적으로 추가 -->
             </div>
-
+            <!--난이도-->
             <div id="detail-container-box1" style="margin-top: 30px;">
                 설정된 강의수준은 [ [[${classDetail.classLevel}]]자 ]를 위해 준비한 강의입니다.
             </div>
+            <!--추천-->
             <div id="detail-container-box2" style="margin-top: 20px;">
                 <div id="container-box2-left">이런 분에게 추천해요!</div>
                 <div id="container-box2-right">
                     <span>[[${classDetail.classRecom}]]</span>
                 </div>
             </div>
+            <!--소개-->
             <div id="detail-container-box3">
                 <!--강의 소개 동적으로 추가-->
             </div>
+            <!--            커리큘럼 시작            -->
             <div id="curriculum-container" style="margin-top: 20px;">
                 <div id="curriculum-detail1">
                     <div id="curriculum-detail1-top">
                         <h2 id="curriculum-detail-top-left">커리큘럼</h2>
                         <div id="curriculum-detail1-top-right">
                             <div id="curriculum-detail1-top-right-total">전체</div>
-                            <div id="curriculum-detail1-top-right-number">개수</div>
+                            <div id="curriculum-detail1-top-right-number"></div>
                         </div>
                     </div>
                     <div id="curriculum-detail1-footer">
                         <div id="curriculum-detail1-footer-left">해당 강의에서 자료 제공</div>
-                        <div id="curriculum-detail1-all-btn">모두 접기</div>
+                        <div id="curriculum-detail1-all-btn">모두 펼치기</div>
                     </div>
                 </div>
                 <div id="curriculum-detail2" style="margin-top: 30px">
-                    <div class="curriculum-box">
-                        <div class="curriculum-section">
-                            <div class="curriculum-section-left">
-                                <div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-down"></i></div>
-                                <!--<div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-up"></i></div>-->
-                                <div class="curriculum-section-title">섹션 1.1 제목을 적는 공간입니다</div>
-                            </div>
-                            <div class="curriculum-section-right">
-                                <div class="curriculum-section-number">25개</div>
-                                <div>∙</div>
-                                <div class="curriculum-section-time">4시간 26분</div>
-                            </div>
-                        </div>
-                        <div class="curriculum-lesson">
-                            <div class="curriculum-lesson-title">
-                                <i class="fa-solid fa-play"></i>&nbsp;
-                                제목
-                            </div>
-                            <div class="curriculum-lesson-time">06:53</div>
-                        </div>
-                    </div>
-                    <div class="curriculum-box">
-                        <div class="curriculum-section">
-                            <div class="curriculum-section-left">
-                                <div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-down"></i></div>
-                                <!--<div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-up"></i></div>-->
-                                <div class="curriculum-section-title">섹션 1.1 제목을 적는 공간입니다</div>
-                            </div>
-                            <div class="curriculum-section-right">
-                                <div class="curriculum-section-number">25개</div>
-                                <div>∙</div>
-                                <div class="curriculum-section-time">4시간 26분</div>
-                            </div>
-                        </div>
-                        <div class="curriculum-lesson">
-                            <div class="curriculum-lesson-title">
-                                <i class="fa-solid fa-play"></i>&nbsp;
-                                제목
-                            </div>
-                            <div class="curriculum-lesson-time">06:53</div>
-                        </div>
-                    </div>
-                    <div class="curriculum-box">
-                        <div class="curriculum-section">
-                            <div class="curriculum-section-left">
-                                <div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-down"></i></div>
-                                <!--<div class="curriculum-section-chevron"><i class="fa-solid fa-chevron-up"></i></div>-->
-                                <div class="curriculum-section-title">섹션 1.1 제목을 적는 공간입니다</div>
-                            </div>
-                            <div class="curriculum-section-right">
-                                <div class="curriculum-section-number">25개</div>
-                                <div>∙</div>
-                                <div class="curriculum-section-time">4시간 26분</div>
-                            </div>
-                        </div>
-                        <div class="curriculum-lesson">
-                            <div class="curriculum-lesson-title">
-                                <i class="fa-solid fa-play"></i>&nbsp;
-                                제목
-                            </div>
-                            <div class="curriculum-lesson-time">06:53</div>
-                        </div>
-                    </div>
                 </div>
             </div>
+            <!--            커리큘럼 끝            -->
         </div>
     </div>
+    <!--커뮤니티-->
     <div id="community-modal">
         <div id="community-modal-box">
             <button id="community-modal-close-btn" onclick="closeCommunityModal()">닫기</button>
@@ -236,7 +185,7 @@
                 </div>
             </div>
 
-            <div id="community-modal-comment-section" style="margin-top: 10px;">
+            <div id="community-modal-comment-section" style="margin-top: 20px;">
                 <div class="community-comment">
                     <div style="display: flex; align-items: center; gap: 10px; padding-top: 12px; padding-left: 12px;">
                         <div class="community-comment-writer"></div>
@@ -256,5 +205,8 @@
 </html>
 <script src="/js/sangin/classReview.js"></script>
 <script src="/js/sangin/classDetailScroll.js"></script>
-<script src="/js/sangin/classDetailContent.js"></script>
+<script src="/js/sangin/classDetailCommunity.js"></script>
+<script src="/js/sangin/classDetailCurriculum.js"></script>
+<script src="/js/sangin/classDetailIntroduce.js"></script>
+<script src="/js/dongha/classDetailAside.js"></script>
 
