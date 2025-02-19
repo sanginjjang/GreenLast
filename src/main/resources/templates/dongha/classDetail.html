@@ -97,25 +97,26 @@
             <!--게시글 작성-->
             <div id="community-detail-box1">
                 <span>질문</span>
-                <button id="post-register-btn">+ 게시글 작성</button>
+                <button id="post-register-btn">질문있어요!</button>
                 <div id="post-modal-background">
                     <div id="post-modal">
                         <div id="post-modal-title">
                             <div>제목</div>
-                            <input type="text" name="post-modal-title" maxlength="25" placeholder="제목을 작성해주세요.">
+                            <input type="text" id="post-title" name="post-modal-title" maxlength="25"
+                                   placeholder="제목을 작성해주세요.">
                         </div>
                         <div id="post-modal-content" style="margin-top: 20px;">
                             <div>내용</div>
-                            <textarea placeholder="내용을 작성해주세요."></textarea>
+                            <textarea id="post-content" placeholder="내용을 작성해주세요."></textarea>
                         </div>
                         <div id="post-modal-footer" style="margin-top: 20px">
-                            <button id="post-modal-register-btn">등록하기</button>
-                            <button id="post-modal-cancel-btn">뒤로가기</button>
+                            <button id="post-modal-register-btn" onclick="registPost()">등록하기</button>
+                            <button id="post-modal-cancel-btn" onclick="closePostModal()">뒤로가기</button>
                         </div>
                     </div>
                 </div>
-                <!--검색기능-->
             </div>
+            <!--검색기능-->
             <div id="community-detail-box2">
                 <!--커뮤니티-->
             </div>
@@ -176,46 +177,44 @@
         </div>
     </div>
     <!--커뮤니티-->
+    <!-- ✅ 게시글 상세 모달 -->
     <div id="community-modal">
         <div id="community-modal-box">
             <button id="community-modal-close-btn" onclick="closeCommunityModal()">닫기</button>
             <div id="community-modal-title"></div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+            <div id="community-modal-info">
                 <div id="community-modal-writer"></div>
                 <div id="community-modal-created"></div>
             </div>
-            <div id="community-modal-content" style="margin-top: 10px;">
-            </div>
+            <div id="community-modal-content" style="margin-top: 10px;"></div>
+
+            <!-- ✅ 수정/삭제 버튼 추가 -->
+            <div id="community-modal-actions"></div>
 
             <div style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between;">
                 <div style="font-weight: bold; font-size: 20px;">댓글</div>
-                <button id="comment-register-btn" onclick="registComment()">+ 댓글 작성</button>
+                <button id="comment-register-btn">+ 댓글 작성</button>
             </div>
 
+            <!-- ✅ 댓글 작성 모달 -->
             <div id="comment-modal">
                 <div id="comment-modal-title">댓글 작성</div>
-                <textarea type="text" id="comment-modal-content" placeholder="댓글을 입력해주세요."></textarea>
+                <textarea id="comment-modal-content" placeholder="댓글을 입력해주세요."></textarea>
                 <div id="comment-modal-btn-box">
-                    <div id="comment-modal-register-btn">댓글 등록</div>
-                    <div id="comment-modal-cancel-btn">뒤로가기</div>
+                    <button id="comment-modal-register-btn" onclick="registComment()">댓글 등록</button>
+                    <button id="comment-modal-cancel-btn">뒤로가기</button>
                 </div>
             </div>
 
-            <div id="community-modal-comment-section" style="margin-top: 20px;">
-                <div class="community-comment">
-                    <div style="display: flex; align-items: center; gap: 10px; padding-top: 12px; padding-left: 12px;">
-                        <div class="community-comment-writer"></div>
-                        <div class="community-comment-createdAt"></div>
-                    </div>
-                    <div class="community-comment-content">
-                    </div>
-                </div>
-            </div>
+            <!-- ✅ 댓글 목록 -->
+            <div id="community-modal-comment-section"></div>
         </div>
     </div>
 
     <!--  중요  -->
-    <input type="hidden" id="classId" th:value="${classId}"/>
+    <input type="hidden" id="classId" th:value="${classId}">
+    <input type="hidden" id="currentUserId" th:value="${currentUserId}">
+
     <!--  중요  -->
 </div>
 </body>
