@@ -40,19 +40,11 @@ public class PermitClassService {
     }
 
     public List<ClassSectionDTO> getClassCurriculum(int classId) {
-        System.out.println(classId);
-        System.out.println(classId);
-        System.out.println(classId);
+
         List<ClassSectionDTO> sections = permitClassDao.getSectionByClassId(classId);
-        System.out.println(sections);
-        System.out.println(sections);
-        System.out.println(sections);
-        System.out.println(sections);
+
         for (ClassSectionDTO section : sections) {
             List<ClassLessonDTO> lessonDTOList = permitClassDao.getLessonsBySectionId(section.getSectionId());
-            System.out.println(section.getSectionId());
-            System.out.println(section.getSectionId());
-            System.out.println(section.getSectionId());
             section.setLessonDTOList(lessonDTOList);
         }
 
