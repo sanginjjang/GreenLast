@@ -20,10 +20,11 @@ import java.util.List;
 public interface IPermitClassDao {
     List<ClassDTO> getPendingClasses();
     int approveClass(int classId);
-    int rejectClass(int classId);
-    ClassDTO getClassById(int classId);
+    int rejectClass(int classId, String reason);
+    ClassDTO getClassDetail(int classId);
     List<ClassSectionDTO> getSectionByClassId(int classId);
     List<ClassLessonDTO> getLessonsBySectionId(int classId);
     List<BlockElementDto> getBlocksByClassId(int classId);
-    List<BlockElementDto> getBlockElementsByClassId(int classId);
+    List<BlockElementDto> getElementsByBlockId(int classId);
+    int insertRejectReason(int classId, String reason);
 }

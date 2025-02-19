@@ -2,10 +2,7 @@ package com.example.greenlast.controllers.views.dongha;
 
 
 import com.example.greenlast.dao.joontaek.MakeClassDao;
-import com.example.greenlast.dto.ClassDTO;
-import com.example.greenlast.dto.ClassSectionDTO;
-import com.example.greenlast.dto.ContentRequestDTO;
-import com.example.greenlast.dto.IntroduceBlockDto;
+import com.example.greenlast.dto.*;
 import com.example.greenlast.file.FileEntity;
 import com.example.greenlast.file.FileService;
 import com.example.greenlast.service.dongha.PermitClassService;
@@ -33,7 +30,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/view/permitClass")
-@CrossOrigin(origins = "*")
 public class PermitClassController {
     @Autowired
     private PermitClassService permitClassService;
@@ -42,7 +38,6 @@ public class PermitClassController {
     public String viewClassDetail(@RequestParam("classId") int classId, Model model) {
         ClassDTO classInfo = permitClassService.getClassDetail(classId);
         model.addAttribute("classInfo", classInfo);
-        System.out.println(classInfo);
         return "/dongha/permitClassFirst";
     }
 
@@ -56,8 +51,17 @@ public class PermitClassController {
     @GetMapping("/thirdPermit")
     public String lastPermit(@RequestParam("classId") int classId, Model model) {
         List<IntroduceBlockDto> blocks = permitClassService.getBlocksByClassId(classId);
+
+        for (IntroduceBlockDto block : blocks) {
+            List<BlockElementDto> elements = permitClassService.getElementsByBlockId(block.getBlockId());
+            block.setElements(elements);
+        }
+
         model.addAttribute("blocks", blocks);
+        model.addAttribute("classId", classId);
+        System.out.println(blocks);
         return "/dongha/permitClassThird";
     }
+
 
 }

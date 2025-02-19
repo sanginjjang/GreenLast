@@ -8,34 +8,53 @@
         SELECT * FROM class WHERE class_id = #{classId}
     </select>
 
+    <select id="getClassDetail" resultType="com.example.greenlast.dto.ClassDTO">
+        SELECT
+        c.class_id AS classId,
+        c.user_id AS userId,
+        c.class_title AS classTitle,
+        c.description,
+        c.class_price AS classPrice,
+        c.class_category AS classCategory,
+        c.class_create_date AS classCreateDate,
+        c.class_permit AS classPermit,
+        c.class_recom AS classRecom,
+        c.class_level AS classLevel,
+        c.file_no AS fileNo,
+        f.file_url AS fileUrl
+        FROM class c
+        LEFT JOIN file f ON c.file_no = f.file_no
+        WHERE c.class_id = #{classId}
+    </select>
+
     <select id="getPendingClasses" resultType="com.example.greenlast.dto.ClassDTO">
-        SELECT * FROM class WHERE class_permit = 'n'
+        SELECT * FROM class WHERE class_permit = 'N'
     </select>
 
     <update id="approveClass">
-        UPDATE class SET class_permit = 'y' WHERE class_id = #{classId}
+        UPDATE class SET class_permit = 'Y' WHERE class_id = #{classId}
     </update>
 
     <update id="rejectClass">
-        UPDATE class SET class_permit = 'n' WHERE class_id = #{classId}
+        UPDATE class SET class_permit = 'N' WHERE class_id = #{classId}
     </update>
 
     <select id="getSectionByClassId" resultType="com.example.greenlast.dto.ClassSectionDTO">
         SELECT
-            section_id AS sectionId,
-            class_id As classId,
-            section_title AS classTitle,
-            class_permit AS classPermit
+        section_id AS sectionId,
+        class_id As classId,
+        section_title AS classTitle,
+        class_permit AS classPermit
         FROM class_section
         WHERE class_id = #{classId}
     </select>
 
     <select id="getLessonsBySectionId" resultType="com.example.greenlast.dto.ClassLessonDTO">
         SELECT
-            cl.lesson_id AS lessonId,
-            cl.section_id AS sectionId,
-            cl.lesson_title AS lessonTitle,
-            cl.file_no, f.file_url
+        cl.lesson_id AS lessonId,
+        cl.section_id AS sectionId,
+        cl.lesson_title AS lessonTitle,
+        cl.file_no, f.file_url
         FROM class_lesson cl
         LEFT JOIN file f ON cl.file_no = f.file_no
         WHERE cl.section_id = #{sectionId}
@@ -44,25 +63,41 @@
 
     <select id="getBlocksByClassId" resultType="com.example.greenlast.dto.BlockElementDto">
         SELECT
-            ib.block_id AS blockId,
-            ib.class_id AS classId,
-            ib.block_type AS blockType,
-            be.element_id AS elementId,
-            be.element_type AS elementType,
-            be.element_content AS elementContent
+        ib.block_id AS blockId,
+        ib.class_id AS classId,
+        ib.block_type AS blockType,
+        be.element_id AS elementId,
+        be.element_type AS elementType,
+        be.element_content AS elementContent
         FROM introduce_block ib
         LEFT JOIN block_element be ON ib.block_id = be.block_id
         WHERE ib.class_id = #{classId}
     </select>
 
-    <!-- 특정 블록의 요소 가져오기 -->
     <select id="getElementsByBlockId" resultType="com.example.greenlast.dto.BlockElementDto">
         SELECT
-        element_id,
-        block_id,
-        element_type,
-        element_content
+        element_id AS elementId,
+        block_id AS blockId,
+        element_type AS elementType,
+        element_content AS elementContent
         FROM block_element
         WHERE block_id = #{blockId}
+    </select>
+
+    <insert id="insertRejectReason">
+        INSERT INTO admit_message (class_id, content, deny_at)
+        VALUES (#{classId}, #{reason}, NOW());
+    </insert>
+
+    <select id="findPendingClasses" resultType="com.example.greenlast.dto.ClassDTO">
+        SELECT
+        c.class_id AS classId,
+        c.user_id AS userId,
+        c.class_title AS classTitle,
+        c.class_create_date AS classCreateDate,
+        u.name AS name
+        FROM class c
+        LEFT JOIN user u ON c.user_id = u.user_id
+        WHERE c.class_permit = 'W'
     </select>
 </mapper>

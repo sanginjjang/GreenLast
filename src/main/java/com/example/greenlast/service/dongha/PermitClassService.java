@@ -29,39 +29,26 @@ public class PermitClassService {
     public List<ClassDTO> getPendingClasses() {
         return permitClassDao.getPendingClasses();
     }
-    public int approveClass(int classId) {
+    public int approveReason(int classId) {
         return permitClassDao.approveClass(classId);
     }
-
-    public int rejectClass(int classId) {
-        return permitClassDao.rejectClass(classId);
+    public int insertRejectReason(int classId, String reason) {
+        return permitClassDao.insertRejectReason(classId, reason);
     }
-
     public ClassDTO getClassDetail(int classId) {
-        return permitClassDao.getClassById(classId);
+        return permitClassDao.getClassDetail(classId);
     }
-
+    public int rejectClass(int classId, String reason) {
+        return permitClassDao.rejectClass(classId, reason);
+    }
     public List<ClassSectionDTO> getClassCurriculum(int classId) {
-        System.out.println(classId);
-        System.out.println(classId);
-        System.out.println(classId);
         List<ClassSectionDTO> sections = permitClassDao.getSectionByClassId(classId);
-        System.out.println(sections);
-        System.out.println(sections);
-        System.out.println(sections);
-        System.out.println(sections);
         for (ClassSectionDTO section : sections) {
             List<ClassLessonDTO> lessonDTOList = permitClassDao.getLessonsBySectionId(section.getSectionId());
-            System.out.println(section.getSectionId());
-            System.out.println(section.getSectionId());
-            System.out.println(section.getSectionId());
             section.setLessonDTOList(lessonDTOList);
         }
-
-        System.out.println("📌 최종 curriculum 데이터: " + sections);
         return sections;
     }
-
     public List<IntroduceBlockDto> getBlocksByClassId(int classId) {
         List<BlockElementDto> rawData = permitClassDao.getBlocksByClassId(classId);
 
@@ -70,7 +57,6 @@ public class PermitClassService {
         for (BlockElementDto element : rawData) {
             int blockId = element.getBlockId();
 
-            // IntroduceBlockDto가 없으면 생성
             blockMap.putIfAbsent(blockId, new IntroduceBlockDto());
             IntroduceBlockDto block = blockMap.get(blockId);
 
@@ -91,4 +77,22 @@ public class PermitClassService {
 
         return new ArrayList<>(blockMap.values());
     }
+    public List<BlockElementDto> getElementsByBlockId(int blockId) {
+        List<BlockElementDto> elements = permitClassDao.getElementsByBlockId(blockId);
+
+        for (BlockElementDto element : elements) {
+            if ("image".equals(element.getElementType())) {
+                String content = element.getElementContent();
+
+                if (content.startsWith("C:/classInfoImg/")) {
+                    content = content.replace("C:/classInfoImg/", "/upload/images/");
+                }
+
+                element.setElementContent(content); // 변환된 경로 저장
+            }
+        }
+        return elements;
+    }
 }
+
+
