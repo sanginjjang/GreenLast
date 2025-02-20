@@ -52,7 +52,7 @@
         FROM user_payment_history
         WHERE user_id = #{userId}
         AND class_id = #{classId}
-        AND refund_status != 'y'
+        AND refund_status != 'N'
     </select>
 
     <insert id="requestRefund">
@@ -67,7 +67,7 @@
 
     <update id="updateRefundStatus">
         UPDATE user_payment_history
-        SET refund_status = 'y', refund_date = NOW()
+        SET refund_status = 'Y', refund_date = NOW()
         WHERE payment_id = #{paymentId}
     </update>
 </mapper>

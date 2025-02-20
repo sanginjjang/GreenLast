@@ -28,4 +28,6 @@ public interface UserDao_sangin {
 
     boolean updatePassword(@Param("userId") String userId, @Param("password") String password);
 
+
+
 }
