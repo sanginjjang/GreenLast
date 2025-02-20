@@ -22,23 +22,13 @@
             <!--관현이형 여기부터-->
             <div class="header_icon"><i class="fa-solid fa-bell" id="header_bell"></i>
                 <div id="header_bell_detail">
-                    <div id="header_bell_section1">
-                        <!--뽀대용 텍스트-->
-                        알림 목록!
+                    <div id="alarmTotalCount">총 알림 개수 : <span id="totalAlarmCount">0</span>개</div>
+                    <div id="alarmList">
+                        알림 리스트 나오는곳
                     </div>
-
-                    <div id="header_bell_section2">
-                        <!--알림 목록-->
-                        <span>예시 데이터 입니다</span>
-                        <span>gap : 15px</span>
-                        <span>font size : 14px</span>
-                        <span>color: #2c2c2c</span>
-                        <span>padding : 15px</span>
-                        <span>background color : #efefef</span>
-                    </div>
-                    <div id="header_bell_section3">
-                        <!--알림 센터 링크-->
-                        <a href="/view/알림센터">더 많은 알람보기(링크 넣어요~)</a>
+                    <div id="alarmFilter">
+                        <span id="readAlarmsCount" class="clickable">열람 : <span id="readAlarmCount">0</span>개</span> |
+                        <span id="unreadAlarmsCount" class="clickable">미열람 : <span id="unreadAlarmCount">0</span>개</span>
                     </div>
                 </div>
             </div>

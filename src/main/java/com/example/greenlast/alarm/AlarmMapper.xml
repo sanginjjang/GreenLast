@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.greenlast.alarm.AlarmDao">
+
+    <insert id="createAlarm" parameterType="com.example.greenlast.alarm.AlarmDTO">
+        INSERT INTO alarm
+        (user_id, alarm_content, related_url, related_id, alarm_type)
+        VALUES
+        (#{userId}, #{alarmContent}, #{relatedUrl}, #{relatedId}, #{alarmType})
+    </insert>
+
+    <select id="getAlarms" resultType="com.example.greenlast.alarm.AlarmDTO">
+        SELECT alarm_id, user_id, alarm_content, related_url, alarm_type, read_status, alarm_date
+        FROM alarm
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="getUnreadAlarms" resultType="com.example.greenlast.alarm.AlarmDTO">
+        SELECT alarm_id, user_id, alarm_content, related_url, alarm_type, read_status, alarm_date
+        FROM alarm
+        WHERE user_id = #{userId} AND read_status = 0
+    </select>
+
+    <select id="getReadAlarms" resultType="com.example.greenlast.alarm.AlarmDTO">
+        SELECT alarm_id, user_id, alarm_content, related_url, alarm_type, read_status, alarm_date
+        FROM alarm
+        WHERE user_id = #{userId} AND read_status = 1
+    </select>
+
+    <select id="getAlarmCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM alarm
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="getUnreadAlarmCount" resultType="_int">
+        SELECT COUNT(*) FROM alarm WHERE user_id = #{userId} AND read_status = 0
+    </select>
+
+    <select id="getReadAlarmCount" resultType="_int">
+        SELECT COUNT(*) FROM alarm WHERE user_id = #{userId} AND read_status = 1
+    </select>
+
+    <delete id="deleteAlarm">
+        DELETE FROM alarm
+        WHERE alarm_id = #{alarmId} AND user_id = #{userId}
+    </delete>
+
+    <update id="markAsRead">
+        UPDATE alarm
+        SET read_status = 1
+        WHERE alarm_id = #{alarmId} AND user_id = #{userID}
+    </update>
+
+</mapper>

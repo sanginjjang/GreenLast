@@ -16,11 +16,11 @@ public interface CommunityDao {
     public void regCommunityPost(CommunityPostDTO communityPostdto);
     public CommunityPostDTO getCommunityPost(CommunityPostDTO communityPostDto);
     public List<CommunityPostDTO> getCommunityNoticeList();
-    public List<CommunityPostDTO> getCommunityPostList(    @Param("offset") int offset,
-                                                           @Param("limit") int limit,
-                                                           @Param("search") String search,
-                                                           @Param("keyword") String keyword,
-                                                           @Param("pageType") String pageType);
+    public List<CommunityPostDTO> getCommunityPostList(@Param("offset") int offset,
+                                                       @Param("limit") int limit,
+                                                       @Param("search") String search,
+                                                       @Param("keyword") String keyword,
+                                                       @Param("pageType") String pageType);
     public void updateCommunityPost(CommunityPostDTO communityPost);
     public void deleteCommunityPost(int postId);
     public int getTotalPostCount(@Param("search") String search, @Param("keyword") String keyword, @Param("pageType") String pageType);

@@ -2,6 +2,7 @@ package com.example.greenlast.controllers.views.kwanhyun;
 
 import com.example.greenlast.dto.CommunityCommentDTO;
 import com.example.greenlast.dto.CommunityPostDTO;
+import com.example.greenlast.dto.FileDTO;
 import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.kwanhyun.CommentService;
 import com.example.greenlast.service.kwanhyun.CommunityService;
@@ -77,6 +78,7 @@ public class CommunityController {
 
         CommunityPostDTO post = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
+        String currentUserRole = SecurityUtil.getCurrentUserRole();
 
         if(post.getCategory().equals("U")) {
             pageType = "free";
@@ -91,11 +93,14 @@ public class CommunityController {
         }
 
         List<CommunityCommentDTO> commentList = commentService.CommunityCommentList(postId);
+        List<FileDTO> postImageList = communityService.getCommunityImage(postId);
 
         model.addAttribute("communityPost", post);
         model.addAttribute("currentUserId", currentUserId);
+        model.addAttribute("currentUserRole", currentUserRole);
         model.addAttribute("pageType", pageType);
         model.addAttribute("commentList", commentList);
+        model.addAttribute("postImageList", postImageList);
 
         return "kwanhyun/CommunityDetail";
     }

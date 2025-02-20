@@ -289,12 +289,13 @@ footer {
     z-index: 1000;
 }
 
-#header_bell_section1 {
+#alarmTotalCount {
+    text-align: center;
     padding: 15px;
     font-weight: bold;
 }
 
-#header_bell_section2 {
+#alarmList {
     display: flex;
     flex-direction: column;
     padding: 15px;
@@ -304,10 +305,16 @@ footer {
     color: #2c2c2c;
 }
 
-#header_bell_section3 {
+#alarmFilter {
+    text-align: center;
     padding: 15px;
 }
+
+.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 #myPageAsideModalSection {
     display: none;
 }
-

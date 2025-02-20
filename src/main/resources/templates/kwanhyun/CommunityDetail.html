@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/layout/no_aside.html}">
+      layout:decorate="~{/layout/layout/layout}">
 <head>
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,7 +13,7 @@
         }
 
         .detail-container {
-            width: 80%;
+            width: 1000px;
             margin: 30px auto;
             border: 1px solid #ddd;
             padding: 20px;
@@ -33,6 +33,16 @@
             margin-bottom: 20px;
         }
 
+        .post-image {
+            max-width: 300px;
+            max-height: 300px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            margin: 10px auto;
+        }
+
         .detail-content {
             font-size: 18px;
             line-height: 1.6;
@@ -43,6 +53,12 @@
             justify-content: flex-end;
             gap: 10px;
             margin-top: 20px;
+        }
+
+        .button-group a {
+            display: inline-block;
+            color: red;
+            font-size: 16px;
         }
 
         .button-group a,
@@ -58,6 +74,7 @@
             display: inline-block;
             min-width: 120px;
             text-align: center;
+            height: 40px;
         }
 
         .button-group a:hover,
@@ -67,6 +84,7 @@
 
         .delete-btn {
             background-color: #dc3545;
+            font-size: 16px;
         }
 
         .delete-btn:hover {
@@ -139,6 +157,9 @@
             font-weight: bold;
             cursor: pointer;
             white-space: nowrap;
+            height: 35px;
+            width: 50px;
+            font-size: 14px;
         }
 
         .submit-btn:hover {
@@ -161,9 +182,8 @@
 </head>
 <body>
 
-<th:block layout:fragment="header"></th:block>
 
-<div layout:fragment="content">
+<div layout:fragment="content100">
     <div class="detail-container">
         <input type="hidden" id="pageType" th:value="${pageType}">
         <input type="hidden" id="currentPage" th:value="${currentPage}">
@@ -179,22 +199,28 @@
             조회수: <span th:text="${communityPost.views}">조회수</span>
         </div>
 
-<!--        <div class="detail-image" th:if="${postImageList != null and #lists.size(postImageList) > 0}">
-            <th:block th:each="postimagelist, iterStat : ${postImageList}">
-                <img th:src="${postimagelist.fileUrl}" alt="게시글 이미지" class="post-image"/>
+        <div class="detail-image" th:if="${postImageList != null and #lists.size(postImageList) > 0}">
+            <th:block th:each="postImage : ${postImageList}">
+                <img th:src="${postImage.fileUrl}" alt="게시글 이미지" class="post-image"/>
             </th:block>
-        </div>-->
+        </div>
 
-        <div class="detail-content" th:text="${communityPost.content}">
+        <div class="detail-content" th:text="${communityPost.content}"></div>
 
         <div class="button-group">
-            <a th:href="@{/kwanhyun/community/CommunityMain(pageType=${pageType}, page=${currentPage}, search=${param.search}, keyword=${param.keyword})}">
+            <a th:href="@{/kwanhyun/community/CommunityMain(
+                pageType=${pageType != null ? pageType : 'free'},
+                page=${currentPage != null ? currentPage : 1},
+                search=${search != null ? search : ''},
+                keyword=${keyword != null ? keyword : ''}
+            )}">
                 목록으로 돌아가기
             </a>
+
             <a th:if="${communityPost.userId == currentUserId}"
                th:href="@{/kwanhyun/community/CommunityEdit(postId=${communityPost.postId}, pageType=${pageType}, page=${currentPage}, search=${param.search}, keyword=${param.keyword})}"
                class="edit-btn">수정하기</a>
-            <button th:if="${communityPost.userId == currentUserId}"
+            <button th:if="${communityPost.userId == currentUserId or currentUserRole == 'ROLE_ADMIN'}"
                     class="delete-btn"
                     th:data-post-id="${communityPost.postId}">삭제하기
             </button>
@@ -306,8 +332,6 @@
         });
     </script>
 </div>
-
-<th:block layout:fragment="footer"></th:block>
 
 </body>
 </html>
