@@ -18,6 +18,16 @@ public interface UpdateClassDao {
     public List<Long> getOriSectionId();
     public List<Long> getOriLessonId();
 
+    public int updateSection(String sectionTitle, Long sectionId);
+    public int updateNewSection(int classId, String sectionTitle);
+
+    public int updateLesson(String lessonTitle, Long lessonId);
+    public int updateNewLesson(Long sectionId, String lessonTitle);
+
+    public int deleteSection(Long sectionId);
+    public int deleteLesson(Long lessonId);
+
+
     List<ClassSectionDTO> getSectionByClassId(int classId);
     List<ClassLessonDTO> getLessonsBySectionId(int classId);
 }

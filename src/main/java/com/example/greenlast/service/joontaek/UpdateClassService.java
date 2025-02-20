@@ -17,6 +17,22 @@ public interface UpdateClassService {
 
     public List<SectionDTO> getSections(int classId);
 
+
+
+
+    public int updateSection(String sectionTitle, Long sectionId);
+    public int updateNewSection(int classId, String sectionTitle);
+
+    public int updateLesson(String lessonTitle, Long lessonId);
+    public int updateNewLesson(Long sectionId, String lessonTitle);
+
+    public int deleteSection(Long sectionId);
+    public int deleteLesson(Long lessonId);
+
+
+
+
+
     public List<Long> getOriSectionId();
     public List<Long> getOriLessonId();
 }

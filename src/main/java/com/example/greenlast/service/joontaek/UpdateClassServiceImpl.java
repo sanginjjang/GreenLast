@@ -55,6 +55,42 @@ public class UpdateClassServiceImpl implements UpdateClassService {
     }
 
     @Override
+    public int updateSection(String sectionTitle, Long sectionId) {
+        int result = dao.updateSection(sectionTitle, sectionId);
+        return result;
+    }
+
+    @Override
+    public int updateNewSection(int classId, String sectionTitle) {
+        int result = dao.updateNewSection(classId, sectionTitle);
+        return result;
+    }
+
+    @Override
+    public int updateLesson(String lessonTitle, Long lessonId) {
+        int result = dao.updateLesson(lessonTitle, lessonId);
+        return result;
+    }
+
+    @Override
+    public int updateNewLesson(Long sectionId, String lessonTitle) {
+        int result = dao.updateNewLesson(sectionId, lessonTitle);
+        return result;
+    }
+
+    @Override
+    public int deleteSection(Long sectionId) {
+        int result = dao.deleteSection(sectionId);
+        return result;
+    }
+
+    @Override
+    public int deleteLesson(Long lessonId) {
+        int result = dao.deleteLesson(lessonId);
+        return result;
+    }
+
+    @Override
     public List<Long> getOriSectionId() {
 
         List<Long> sectionIdList = dao.getOriSectionId();

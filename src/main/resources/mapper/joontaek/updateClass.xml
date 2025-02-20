@@ -94,6 +94,32 @@
         SELECT lesson_id FROM class_lesson
     </select>
 
+    <update id="updateSection">
+        UPDATE class_section SET section_title = #{sectionTitle} , class_permit = 'N' where section_id = #{sectionId}
+    </update>
+
+    <insert id="updateNewSection">
+        INSERT INTO class_section (section_id,class_id,section_title,class_permit)
+        VALUES
+        (NULL,#{classId},#{sectionTitle},'N')
+    </insert>
+
+    <update id="updateLesson">
+        UPDATE class_lesson SET lesson_title = #{lessonTitle} WHERE lesson_id = #{lessonId}
+    </update>
+
+    <insert id="updateNewLesson">
+        INSERT INTO class_lesson (lesson_id,section_id,lesson_title) VALUES
+        (null,#{sectionId},#{lessonTitle})
+    </insert>
+
+    <delete id="deleteSection">
+        DELETE FROM class_section WHERE section_id = #{sectionId}
+    </delete>
+
+    <delete id="deleteLesson">
+        DELETE FROM class_lesson WHERE lesson_id = #{lessonId}
+    </delete>
 
 
 </mapper>

@@ -23,8 +23,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/view/classUpdate")
@@ -105,8 +107,13 @@ public class UpdateClassController {
             @RequestPart("curriculumData") String curriculumDataJson, // JSON 데이터
             @RequestPart(value = "videos", required = false) List<MultipartFile> videos) { // 동영상 파일들
 
-        List<Long> sectionIdList = updateClassService.getOriSectionId(); // 기존에 있던 sectionId 모두 들고오기
-        List<Long> lessonIdList = updateClassService.getOriLessonId();
+        HttpSession session = request.getSession();
+        int classId = (Integer) session.getAttribute("classId");
+        List<Long> sectionIdList = updateClassService.getOriSectionId(); // 기존 섹션 ID 리스트
+        List<Long> lessonIdList = updateClassService.getOriLessonId();   // 기존 레슨 ID 리스트
+
+        Set<Long> existingSectionIds = new HashSet<>(sectionIdList); // 기존 섹션 ID를 Set으로 변환
+        Set<Long> existingLessonIds = new HashSet<>(lessonIdList);   // 기존 레슨 ID를 Set으로 변환
 
         System.out.println("📌 강의 커리큘럼 업데이트 요청 들어옴!");
         System.out.println("✅ JSON 데이터: " + curriculumDataJson);
@@ -117,31 +124,55 @@ public class UpdateClassController {
             ObjectMapper objectMapper = new ObjectMapper();
             List<SectionDTO> sections = objectMapper.readValue(curriculumDataJson, new TypeReference<List<SectionDTO>>() {});
 
-            // ✅ 데이터 검증 & 출력
+            // ✅ 새로 넘어온 ID를 담을 Set
+            Set<Long> receivedSectionIds = new HashSet<>();
+            Set<Long> receivedLessonIds = new HashSet<>();
+
             for (SectionDTO section : sections) {
                 System.out.println("✅ 섹션 ID: " + section.getSectionId());
                 System.out.println("✅ 섹션 제목: " + section.getTitle());
-                for(int a=0; a<sectionIdList.size(); a++) {
 
-                    if(sectionIdList.get(a) == section.getSectionId()) {
-                        //여기서 section.getSectionId() 로 업데이트 로직
-                    }else{
-                        //여기서 sectionId null로 classId 들고가서 새로운 섹션 추가 로직
+                receivedSectionIds.add(section.getSectionId()); // 프론트에서 넘어온 섹션 ID 저장
+
+                boolean isNewSection = true; // 새로운 섹션 여부 플래그
+
+                for (Long existingSectionId : sectionIdList) {
+                    if (existingSectionId.equals(section.getSectionId())) {
+                        // ✅ 기존 섹션이면 업데이트 수행
+                        updateClassService.updateSection(section.getTitle(), section.getSectionId());
+                        isNewSection = false;
+                        break;
                     }
+                }
 
+                // ✅ 기존 ID가 없으면 새로운 섹션 추가
+                if (isNewSection) {
+                    updateClassService.updateNewSection(classId, section.getTitle());
                 }
 
                 for (SectionDTO.Lesson lesson : section.getLessons()) {
                     System.out.println("   📚 레슨 ID: " + lesson.getLessonId());
                     System.out.println("   📚 레슨 제목: " + lesson.getTitle());
 
-                    for(int a=0; a<lessonIdList.size(); a++) {
-                        if(lessonIdList.get(a) == lesson.getLessonId()) {
-                            //여기서 lesson.getLessonId()로 업데이트 로직
-                        }else{
-                            //여기서 lessonId null로 section.getSectionId() 들고가서 새로운 레슨 추가 로직
+                    receivedLessonIds.add(lesson.getLessonId()); // 프론트에서 넘어온 레슨 ID 저장
+
+                    boolean isNewLesson = true;
+
+                    for (Long existingLessonId : lessonIdList) {
+                        if (existingLessonId.equals(lesson.getLessonId())) {
+                            // ✅ 기존 레슨이면 업데이트 수행
+                            updateClassService.updateLesson(lesson.getTitle(), lesson.getLessonId());
+                            isNewLesson = false;
+                            break;
                         }
                     }
+
+                    // ✅ 기존 ID가 없으면 새로운 레슨 추가
+                    if (isNewLesson) {
+                        updateClassService.updateNewLesson(section.getSectionId(), lesson.getTitle());
+                    }
+
+                    // ✅ 비디오 정보 출력
                     if (lesson.getVideo() != null) {
                         System.out.println("   🎥 비디오 파일명: " + lesson.getVideo().getFileName());
                         System.out.println("   🎥 비디오 파일 크기: " + lesson.getVideo().getFileSize());
@@ -149,21 +180,25 @@ public class UpdateClassController {
                         System.out.println("   🚫 영상 없음");
                     }
                 }
-                System.out.println("------------------------------------");
             }
 
-            System.out.println(videos.toString());
+            System.out.println("------------------------------------");
 
-            // ✅ 동영상 파일 검증
-            if (videos != null && !videos.isEmpty()) {
-                for (MultipartFile video : videos) {
-                    System.out.println("🎥 업로드된 비디오: " + video.getOriginalFilename() + " (" + video.getSize() + " bytes)");
-                }
-            } else {
-                System.out.println("🚫 업로드된 영상 없음");
+            // ✅ **삭제할 섹션과 레슨을 식별**
+            existingSectionIds.removeAll(receivedSectionIds); // 기존 섹션 중에서 프론트에서 넘어오지 않은 것만 남김
+            existingLessonIds.removeAll(receivedLessonIds);   // 기존 레슨 중에서 프론트에서 넘어오지 않은 것만 남김
+
+            // ✅ **실제로 삭제 실행**
+            for (Long sectionId : existingSectionIds) {
+//                updateClassService.deleteSection(sectionId);
+                System.out.println("🗑️ 삭제된 섹션 ID: " + sectionId);
+            }
+            for (Long lessonId : existingLessonIds) {
+//                updateClassService.deleteLesson(lessonId);
+                System.out.println("🗑️ 삭제된 레슨 ID: " + lessonId);
             }
 
-            // 🛠️ TODO: 업데이트된 데이터 DB에 저장하는 로직 추가
+            System.out.println("✅ 삭제 완료!");
 
             return ResponseEntity.ok("강의 커리큘럼이 성공적으로 업데이트되었습니다!");
 
