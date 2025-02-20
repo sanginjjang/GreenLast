@@ -334,10 +334,7 @@
     	var tempFile,
     		sUploadURL;
     	
-    	sUploadURL= '/api/file/upload'; 	//upload URL
-
-		console.log("관현짱");
-		console.log(sUploadURL);
+    	sUploadURL= '/api/file/upload/kwanhyun'; 	//upload URL
     	
     	//파일을 하나씩 보내고, 결과를 받음.
     	for(var j=0, k=0; j < nImageInfoCnt; j++) {

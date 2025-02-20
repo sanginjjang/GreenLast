@@ -54,6 +54,7 @@ public class FileService {
         fileEntity.setFileSize((int) multipartFile.getSize());
         fileEntity.setFileUrl(fileUrl);
         fileEntity.setFileSeq(1);
+        fileEntity.setFileRefNo(id);
 
         FileEntity savedFile = fileRepository.save(fileEntity);
         int refNo = savedFile.getFileNo();
@@ -68,18 +69,17 @@ public class FileService {
         switch (fileType) {
             case "introduce" -> {
                 if (fileDao.updateIntroduce((Integer) id, refNo) == 0) {
-                    System.out.println("소개 업데이트 실패");
+                    fileDao.insertIntroduce((Integer) id, refNo);
                 }
             }
             case "post" -> {
-                if (fileDao.updatePost((Integer) id, refNo) == 0) {
-                    System.out.println("커뮤니티 업데이트 실패");
+                if (fileDao.updatePostFile((Integer) id, refNo) == 0) {
+                    fileDao.insertPostFile((Integer) id, refNo);
                 }
             }
             case "thumbnail" -> {
-                int result = fileDao.updateThumbnail(id, refNo);
-                if (result == 0) {
-                    System.out.println("썸네일 업데이트 실패");
+                if (fileDao.updateThumbnail(id, refNo) == 0) {
+                    fileDao.insertThumbnail(id, refNo);
                 }
             }
 
@@ -171,8 +171,8 @@ public class FileService {
                 }
             }
             case "post" -> {
-                if (fileDao.updatePost((Integer) id, refNo) == 0) {
-                    fileDao.insertPost((Integer) id, refNo);
+                if (fileDao.updatePostFile((Integer) id, refNo) == 0) {
+                    fileDao.insertPostFile((Integer) id, refNo);
                 }
             }
             case "thumbnail" -> {

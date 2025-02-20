@@ -1,4 +1,3 @@
-/*
 package com.example.greenlast.file;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.util.List;
 
-*/
-/**
+/*
  * packageName    : com.example.greenlast.controllers.api.dongha
  * fileName       : FileController
  * author         : 이동하
@@ -25,7 +23,8 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 25. 1. 27.        이동하       최초 생성
- *//*
+*/
+
 
 @RestController
 @RequestMapping("/api/file")
@@ -74,4 +73,3 @@ public class FileController {
                 .body(resource);
     }
 }
-*/

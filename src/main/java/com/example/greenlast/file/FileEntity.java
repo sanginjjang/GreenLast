@@ -43,4 +43,7 @@ public class FileEntity {
 
     @Column(name = "file_seq")
     private Integer fileSeq;
+
+    @Column(name = "file_ref_no")
+    private Integer fileRefNo;
 }

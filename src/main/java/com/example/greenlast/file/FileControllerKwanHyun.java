@@ -34,7 +34,7 @@ public class FileControllerKwanHyun {
     private final FileService fileService;
     private final CommunityService communityService;
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/kwanhyun")
     public ResponseEntity<Map<String, Object>> uploadFile(@RequestPart("file") MultipartFile file,
                                                           @RequestParam("fileType") String fileType
                                                          ) throws IOException {
