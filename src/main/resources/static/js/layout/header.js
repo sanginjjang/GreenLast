@@ -110,3 +110,10 @@ function markAsRead(alarmId) {
         })
         .catch(error => console.error("읽음 처리 실패", error));
 }
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+document.getElementById("toggle-dark-mode").addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark-mode");
+});
+})
