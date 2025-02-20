@@ -59,8 +59,8 @@ public class SecurityConfig {
                                 "/fonts/**",
                                 "/images/**",
                                 "/js/**",
-                                "/api/file/upload",
-                                "/**" //나중에 이거 주석 처리 하시오
+                                "/api/file/upload"
+                                //"/**" //나중에 이거 주석 처리 하시오
                         ).permitAll()
 
                         // 🔹 PICLE 접근 차단 (USER, ADMIN만 허용)

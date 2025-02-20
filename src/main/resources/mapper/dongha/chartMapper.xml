@@ -31,7 +31,15 @@
 
     <select id="findUser" resultType="com.example.greenlast.dto.UserDTO">
         SELECT
-        user_id AS userId, PASSWORD, NAME, phone_number AS phoneNumber, email, birth, gender, created_at AS createdAt
+        user_id AS userId,
+        PASSWORD,
+        NAME,
+        phone_number AS phoneNumber,
+        email,
+        birth,
+        gender,
+        created_at AS createdAt,
+        role
         FROM user
         ORDER BY created_at ASC
     </select>
