@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             curriculumDetail2.innerHTML = ""; // 기존 데이터 초기화
             const sections = response.data;
-            totalNumber.textContent = '';
+            totalNumber.textContent = "";
             let lessonNumber = 0;
 
             sections.forEach(section => {
@@ -29,18 +29,18 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="curriculum-section-right">
                                 <div class="curriculum-section-number">${section.lessonDTOList.length}개</div>
                                 <div>∙</div>
-                                <div class="curriculum-section-time">${section.totalTime ? section.totalTime : "4시간 26분"}</div>
+                                <div class="curriculum-section-time">${section.totalTime ? section.totalTime : "1시간 08분"}</div>
                             </div>
                         </div>
                         <div class="curriculum-lesson-list" data-section-id="${section.sectionId}" style="display: none;">
                 `;
 
                 section.lessonDTOList.forEach(lesson => {
-                    lessonNumber ++;
+                    lessonNumber++;
                     sectionHTML += `
                         <div class="curriculum-lesson">
                             <div class="curriculum-lesson-title">
-                                <a th:href="@{/${lesson.fileUrl}">
+                                <a href="${lesson.fileUrl}" target="_blank">
                                 <i class="fa-solid fa-play"></i>&nbsp;
                                 ${lesson.lessonTitle}
                                 </a>
@@ -49,12 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>`;
                 });
 
-                sectionHTML += `</div></div>`; // ✅ lesson-list 및 section 닫기
+                sectionHTML += `</div></div>`;
                 curriculumDetail2.innerHTML += sectionHTML;
             });
-            totalNumber.textContent = lessonNumber + "개∙ 4시간 26분";
+
+            totalNumber.textContent = `${lessonNumber}개 ∙ 4시간 24분`;
 
             setToggleEventListeners();
+            setAllCollapseEventListener();
         })
         .catch(error => {
             console.error("❌ 커리큘럼 로딩 오류:", error);
@@ -67,31 +69,44 @@ document.addEventListener("DOMContentLoaded", function () {
                 const sectionId = this.getAttribute("data-section-id");
                 const lessonList = document.querySelector(`.curriculum-lesson-list[data-section-id="${sectionId}"]`);
 
-                let isVisible = lessonList.style.display === "flex";
-                lessonList.style.display = isVisible ? "none" : "flex";
+                let isVisible = lessonList.style.display === "block";
+                lessonList.style.display = isVisible ? "none" : "block";
 
                 // 아이콘 변경
                 this.innerHTML = isVisible
-                    ? '<i class="fa-solid fa-chevron-down"></i>'
-                    : '<i class="fa-solid fa-chevron-up"></i>';
+                    ? `<i class="fa-solid fa-chevron-down"></i>`
+                    : `<i class="fa-solid fa-chevron-up"></i>`;
+
+                updateAllCollapseButton();
             });
         });
     }
 
-    allCollapseButton.addEventListener("click", function () {
-        let allLessonLists = document.querySelectorAll(".curriculum-lesson-list");
-        let isAllVisible = Array.from(allLessonLists).some(list => list.style.display !== "none");
+    function setAllCollapseEventListener() {
+        allCollapseButton.addEventListener("click", function () {
+            const allLessonLists = document.querySelectorAll(".curriculum-lesson-list");
+            const allChevrons = document.querySelectorAll(".curriculum-section-chevron i");
 
-        allLessonLists.forEach(list => {
-            list.style.display = isAllVisible ? "none" : "flex";
+            let isAllClosed = Array.from(allLessonLists).every(list => list.style.display === "none");
+
+            allLessonLists.forEach(list => {
+                list.style.display = isAllClosed ? "block" : "none";
+            });
+
+            allChevrons.forEach(icon => {
+                icon.className = isAllClosed
+                    ? "fa-solid fa-chevron-up"
+                    : "fa-solid fa-chevron-down";
+            });
+
+            allCollapseButton.textContent = isAllClosed ? "모두 접기" : "모두 펼치기";
         });
+    }
 
-        document.querySelectorAll(".curriculum-section-chevron").forEach(chevron => {
-            chevron.innerHTML = isAllVisible
-                ? '<i class="fa-solid fa-chevron-down"></i>'
-                : '<i class="fa-solid fa-chevron-up"></i>';
-        });
+    function updateAllCollapseButton() {
+        const allLessonLists = document.querySelectorAll(".curriculum-lesson-list");
+        const isAllOpened = Array.from(allLessonLists).every(list => list.style.display === "block");
 
-        allCollapseButton.textContent = isAllVisible ? "모두 펼치기" : "모두 접기";
-    });
+        allCollapseButton.textContent = isAllOpened ? "모두 접기" : "모두 펼치기";
+    }
 });

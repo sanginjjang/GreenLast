@@ -3,6 +3,7 @@ package com.example.greenlast.dao.sangin;
 import com.example.greenlast.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -26,11 +27,27 @@ public interface ClassDetailDao_sangin {
 
     public List<ClassLessonDTO> getLessonBySectionId(Integer sectionId);
 
+    public int postQuestionByClassId(@Param("classId") Integer classId
+            , @Param("userId") String userId
+            , @Param("title") String title
+            , @Param("content") String content);
+
+    public int postCommentByPostId(@Param("postId") Integer postId
+            , @Param("userId") String userId
+            , @Param("content") String content);
+
     //동하형 여기 introduce
     public List<IntroduceBlockDto> getIntroduceBlockByClassId(int classId);
+
     public List<BlockElementDto> getBlockElementByBlockId(int blockId);
     //동하형 여기 introduce
 
+    public int updatePost(@Param("postId") Integer postId, @Param("title") String title, @Param("content") String content);
 
+    public int deletePost(Integer postId);
+
+    int updateComment(@Param("commentId") Integer commentId, @Param("content") String content);
+
+    int deleteComment(@Param("commentId") Integer commentId);
 
 }

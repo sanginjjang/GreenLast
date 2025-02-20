@@ -12,4 +12,5 @@ public class CommunityCommentDTO {
     private String userId;
     private String content;
     private String createdAt;
+    private String username;
 }

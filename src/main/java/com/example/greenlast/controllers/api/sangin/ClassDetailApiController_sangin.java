@@ -46,7 +46,6 @@ public class ClassDetailApiController_sangin {
         if (blocks.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        System.out.println(blocks);
         return ResponseEntity.ok(blocks);
     }
     //동하형 여기 introduce 끝
@@ -61,7 +60,6 @@ public class ClassDetailApiController_sangin {
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        System.out.println("posts" + posts);
         return ResponseEntity.ok(posts);
     }
 
@@ -86,6 +84,7 @@ public class ClassDetailApiController_sangin {
         if (comments.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
+        System.out.println(comments);
         return ResponseEntity.ok(comments);
     }
 
@@ -102,6 +101,39 @@ public class ClassDetailApiController_sangin {
         }
     }
 
+    @PostMapping("/question")
+    public ResponseEntity<String> postQuestionByClassId(@RequestParam("classId") Integer classId,
+                                                        @RequestParam("title") String title,
+                                                        @RequestParam("content") String content) {
+        if (classId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (title == null || content == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        String userId = SecurityUtil.getCurrentUserId();
+        if (classDetailService.postQuestionByClassId(classId, userId, title, content) != 1) {
+            return ResponseEntity.badRequest().body("등록이 올바로 이루어지지 않았습니다.");
+        }
+        return ResponseEntity.ok("질문이 등록되었습니다.");
+    }
+
+    @PostMapping("/comment")
+    public ResponseEntity<String> postCommentByPostId(@RequestParam("postId") Integer postId,
+                                                      @RequestParam("content") String content) {
+        if (postId == null) {
+            return ResponseEntity.badRequest().body("포스트 아이디가 없습니다");
+        }
+        if (content == null) {
+            return ResponseEntity.badRequest().body("내용이 없습니다");
+        }
+        String userId = SecurityUtil.getCurrentUserId();
+        if (classDetailService.postCommentByPostId(postId, userId, content) != 1) {
+            return ResponseEntity.badRequest().body("등록이 올바로 이루어지지 않았습니다.");
+        }
+        return ResponseEntity.ok("댓글이 등록되었습니다.");
+    }
+
     @GetMapping("/curriculum")
     public ResponseEntity<List<ClassSectionDTO>> getCurriculumByClassId(@RequestParam("classId") Integer classId) {
         if (classId == null) {
@@ -111,7 +143,69 @@ public class ClassDetailApiController_sangin {
         if (sections.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        System.out.println(sections);
         return ResponseEntity.ok(sections);
     }
+
+    @PutMapping("/updatePost/{postId}")
+    public ResponseEntity<String> updatePost(@PathVariable("postId") Integer postId,
+                                             @RequestBody CommunityPostDTO postDTO) {  // ✅ JSON body를 받도록 변경
+        if (postDTO.getTitle() == null || postDTO.getContent() == null) {
+            return ResponseEntity.badRequest().body("제목과 내용을 입력해주세요.");
+        }
+
+        int result = classDetailService.updatePost(postId, postDTO.getTitle(), postDTO.getContent());
+
+        if (result != 1) {
+            return ResponseEntity.badRequest().body("게시글 수정에 실패했습니다.");
+        }
+
+        return ResponseEntity.ok("게시글이 수정되었습니다.");
+    }
+
+
+    @DeleteMapping("/deletePost/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable("postId") Integer postId) {
+        if (postId == null) {
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        }
+
+        int result = classDetailService.deletePost(postId);
+        if (result == 1) {
+            return ResponseEntity.ok("게시글이 삭제되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("게시글 삭제 중 오류가 발생했습니다.");
+        }
+    }
+
+    @PutMapping("/updateComment/{commentId}")
+    public ResponseEntity<String> updateComment(@PathVariable("commentId") Integer commentId,
+                                                @RequestBody CommunityPostDTO postDTO) {
+        if (commentId == null || postDTO.getContent() == null || postDTO.getContent().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        }
+        int result = classDetailService.updateComment(commentId, postDTO.getContent());
+
+        if (result != 1) {
+            return ResponseEntity.badRequest().body("댓글 수정 실패");
+        }
+
+        return ResponseEntity.ok("댓글이 수정되었습니다.");
+    }
+
+    @DeleteMapping("/deleteComment/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Integer commentId) {
+        if (commentId == null) {
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        }
+
+        int result = classDetailService.deleteComment(commentId);
+
+        if (result != 1) {
+            return ResponseEntity.badRequest().body("댓글 삭제 실패");
+        }
+
+        return ResponseEntity.ok("댓글이 삭제되었습니다.");
+    }
+
+
 }

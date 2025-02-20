@@ -53,7 +53,10 @@ public class HomePgaeController {
             model.addAttribute("userId", null);
         }
         model.addAttribute("classId", id);
-
+        if (SecurityUtil.getCurrentUserId() != null) {
+            String currentUserId = SecurityUtil.getCurrentUserId();
+            model.addAttribute("currentUserId", currentUserId);
+        }
         return "dongha/classDetail";
     }
 
