@@ -87,12 +87,12 @@ header {
     background-color: #f6f6f6;
     color: #3e3e3e;
 }
-#header_center input {
+#header_center > input {
     font-family: 'Arial', sans-serif !important;
 }
 
 
-#header_center input:focus {
+#header_center > input:focus {
     outline: 2px #0092ff solid;
     box-sizing: border-box;
 }
@@ -115,10 +115,13 @@ header {
     gap: 30px;
 }
 
-#header_right i {
-    font-size: 22px;
+#header_right > i {
     color: #000000;
-    line-height: 100px;
+    font-size: 22px
+}
+.header_icon{
+    color: #000000;
+    font-size: 22px;
 }
 
 
@@ -241,6 +244,9 @@ footer {
     background-color: white;
     display: none;
     z-index: 1000;
+}
+header_profile_detail i {
+    line-height: 0;
 }
 
 #header_profile_detail_section1 {
