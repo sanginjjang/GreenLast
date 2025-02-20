@@ -34,23 +34,38 @@ public class SecurityConfig {
                         .contentSecurityPolicy(csp -> csp.policyDirectives("frame-src *; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline';")) // ✅ CSP 정책 적용
                 )
                 .authorizeHttpRequests(auth -> auth
+                        // 🔹 업로드된 파일들 (`/uploads/**`) 최우선 허용
                         .requestMatchers(
+                                "/uploads/**",
+                                "/C:/upload-dir/uploads" // 만약 윈도우 경로 그대로 써야 한다면 허용
+                        ).permitAll()
+
+                        // 🔹 인증 없이 접근 가능한 경로들
+                        .requestMatchers(
+                                "/",
                                 "/view/loginForm",
+                                "/view/registUserForm",
                                 "/view/findIdByPhoneForm",
                                 "/view/findIdByEmailForm",
                                 "/view/findPwByPhoneForm",
                                 "/view/findPwByEmailForm",
                                 "/login",
                                 "/logout",
+                                "/api/mypage/getUserById",
+                                "/api/users/**",
                                 "/css/**",
                                 "/static/**",
                                 "/mapper/**",
                                 "/fonts/**",
                                 "/images/**",
                                 "/js/**",
-                                "/api/file/upload"
+                                "/api/file/upload",
+                                "/**" //나중에 이거 주석 처리 하시오
                         ).permitAll()
-                        .anyRequest().permitAll() // ✅ 모든 요청 허용 (테스트용)
+
+                        // 🔹 PICLE 접근 차단 (USER, ADMIN만 허용)
+                        .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/view/loginForm")
@@ -95,7 +110,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 
 
     @Bean

@@ -6,7 +6,8 @@ body {
 * {
     box-sizing: border-box;
 }
-a{
+
+a {
     text-decoration: none;
     color: inherit;
 }
@@ -47,6 +48,14 @@ a{
     margin-bottom: 40px;
 }
 
+#login_logo > img {
+    height: 70px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #login_inputId,
 #login_inputPw {
     padding-left: 10px;
@@ -85,7 +94,7 @@ a{
     margin-bottom: 20px;
 }
 
-#find_userDetails>div {
+#find_userDetails > div {
     padding: 0 10px;
     color: gray;
 }
@@ -94,7 +103,8 @@ a{
     display: flex;
     width: 100%;
 }
-#simple_loginText{
+
+#simple_loginText {
     width: 300px;
     display: flex;
     align-items: center;
@@ -108,7 +118,8 @@ a{
     margin-top: 10px;
     border-top: 1px #ddd solid;
 }
+
 /* 0auth */
-#login_0auth img{
+#login_0auth img {
     max-height: 50px;
 }
