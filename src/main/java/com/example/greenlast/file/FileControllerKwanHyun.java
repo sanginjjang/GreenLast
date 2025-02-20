@@ -51,35 +51,4 @@ public class FileControllerKwanHyun {
         return ResponseEntity.ok(result);
     }
 
-
-    //파일 넘버 얻기
-    @GetMapping("/{fileNo}")
-    public ResponseEntity<FileEntity> getFile(@PathVariable int fileNo) {
-        FileEntity file = fileService.getFileById(fileNo);
-        return ResponseEntity.ok(file);
-    }
-
-    // 모든 파일 얻기
-    @GetMapping
-    public ResponseEntity<List<FileEntity>> getAllFiles() {
-        return ResponseEntity.ok(fileService.getAllFiles());
-    }
-
-    // 삭제
-    @DeleteMapping("/{fileNo}")
-    public ResponseEntity<String> deleteFile(@PathVariable int fileNo) {
-        fileService.deleteFile(fileNo);
-        return ResponseEntity.ok("파일이 성공적으로 삭제되었습니다.");
-    }
-
-    // 다운로드
-    @GetMapping("/download/{fileNo}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable int fileNo) throws MalformedURLException {
-        FileEntity file = fileService.getFileById(fileNo);
-        Resource resource = new UrlResource(Paths.get("C:/upload-dir/" + file.getFileNewName()).toUri());
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileOldName() + "\"")
-                .body(resource);
-    }
 }
