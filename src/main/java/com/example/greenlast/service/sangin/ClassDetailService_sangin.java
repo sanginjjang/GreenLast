@@ -49,6 +49,31 @@ public class ClassDetailService_sangin {
         return sections;
     }
 
+    public int postQuestionByClassId(Integer classId, String userId, String title, String content) {
+        return classDetailDao.postQuestionByClassId(classId, userId, title, content);
+    }
+
+    public int postCommentByPostId(Integer postId, String userId, String content) {
+        return classDetailDao.postCommentByPostId(postId, userId, content);
+    }
+
+    public int updatePost(Integer postId, String title, String content) {
+        return classDetailDao.updatePost(postId, title, content);
+    }
+
+    public int deletePost(Integer postId) {
+        return classDetailDao.deletePost(postId);
+    }
+
+    public int updateComment(Integer commentId,String content) {
+        return classDetailDao.updateComment(commentId, content);
+    }
+
+    public int deleteComment(Integer commentId) {
+        return classDetailDao.deleteComment(commentId);
+    }
+
+
     //동하형 여기 introduce
     public List<IntroduceBlockDto> getIntroduceBlockByClassId(Integer classId) {
         List<IntroduceBlockDto> blocks = classDetailDao.getIntroduceBlockByClassId(classId);

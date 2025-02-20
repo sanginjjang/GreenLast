@@ -30,16 +30,18 @@ public class PermitClassControllerBack {
     @PostMapping("/approve")
     public ResponseEntity<?> approveClass(@RequestBody Map<String, Object> requestData) {
         int classId = (int) requestData.get("classId");
-        permitClassService.approveClass(classId);
+        permitClassService.approveReason(classId);
         return ResponseEntity.ok().body("승인 완료");
     }
 
-//    @PostMapping("/reject")
-//    public ResponseEntity<?> rejectClass(@RequestBody Map<String, Object> requestData) {
-//        int classId = (int) requestData.get("classId");
-//        String reason = (String) requestData.get("reason");
-//        permitClassService.rejectClass(classId, reason);
-//        return ResponseEntity.ok().body("반려 처리 완료");
-//    }
+    @PostMapping("/reject")
+    public ResponseEntity<?> rejectClass(@RequestBody Map<String, Object> requestData) {
+        int classId = (int) requestData.get("classId");
+        String reason = requestData.get("reason").toString();
+        permitClassService.insertRejectReason(classId, reason);
+        permitClassService.rejectClass(classId, reason);
+        return ResponseEntity.ok().body("반려 처리 완료");
+    }
+
 
 }

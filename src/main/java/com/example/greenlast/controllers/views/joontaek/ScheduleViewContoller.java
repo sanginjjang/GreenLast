@@ -12,6 +12,7 @@ public class ScheduleViewContoller {
     public String index() {
 
 
-        return "/joontaek/schedule";
+//        return "/joontaek/schedule";
+        return "/joontaek/schedule2";
     }
 }
