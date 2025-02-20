@@ -9,6 +9,5 @@
 
     <delete id="deleteUser">
         DELETE FROM user WHERE user_id = #{userId}
-
     </delete>
 </mapper>
