@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 소개글 작성</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+
+        #blocks-container {
+            min-height: 50px; /* 블록이 없을 때도 최소 높이 유지 */
+        }
+
+        .add-block-wrapper {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+            clear: both; /* 이전 요소들과 겹치지 않도록 */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content-block {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .content-block.two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .add-block-wrapper {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .add-block-button {
+            background: none;
+            border: 2px dashed #ccc;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #666;
+            font-size: 14px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .add-block-button:hover {
+            border-color: #999;
+            background: #f8f8f8;
+        }
+
+        .plus-icon {
+            font-size: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .popover-menu {
+            position: absolute;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 8px 0;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #333;
+        }
+
+        .menu-item:hover {
+            background: #f0f0f0;
+        }
+
+        .menu-item i {
+            margin-right: 8px;
+            width: 20px;
+        }
+
+        .element-placeholder {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            background: #f8f8f8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .element-placeholder:hover {
+            border-color: #999;
+            background: #f0f0f0;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            border: 2px dashed #e0e0e0;
+            padding: 30px;
+            text-align: center;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload:hover {
+            border-color: #999;
+            background: #f0f0f0;
+        }
+
+        .block-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .content-block:hover .block-controls {
+            opacity: 1;
+        }
+
+        .control-button {
+            background: #f0f0f0;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin: 0 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .control-button:hover {
+            background: #e0e0e0;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .save-button-wrapper {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .save-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+
+        .save-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .save-button i {
+            font-size: 18px;
+        }
+    </style>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 40%;
+            box-shadow: 0px 0px 10px #000;
+            text-align: center;
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="aside">
+</th:block>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>강의 소개 확인</h1>
+        <div id="content-container">
+            <div id="blocks-container">
+                <div th:each="block : ${blocks}" class="content-block" th:classappend="${block.blockType == 'double' ? 'two-column' : ''}">
+                    <div th:each="element : ${block.elements}">
+                        <textarea class="text-input" th:if="${element.elementType == 'text'}" th:text="${element.elementContent}" readonly></textarea>
+                        <div class="image-preview" th:if="${element.elementType == 'image'}">
+                            <img th:src="@{${element.elementContent}}" alt="사진들" style="max-width: 100%; max-height: 300px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-wrapper">
+            <input type="hidden" id="classId" th:value="${classId}">
+            <button type="button" class="approve-button" onclick="approveClass()">승인</button>
+            <button type="button" class="reject-button" onclick="openRejectModal()">반려</button>
+        </div>
+    </div>
+    <div id="rejectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRejectModal()">&times;</span>
+            <h2>반려 사유 입력</h2>
+            <textarea id="rejectReason" placeholder="반려 사유를 입력하세요..." rows="4"></textarea>
+            <button onclick="submitReject()">반려 처리</button>
+        </div>
+    </div>
+</div>
+<div layout:fragment="scripts">
+    <script src="/js/dongha/approve.js"></script>
+</div>
+</body>
+</html>

@@ -35,4 +35,24 @@
         FROM user
         ORDER BY created_at ASC
     </select>
+
+    <select id="findPendingClasses" resultType="com.example.greenlast.dto.ClassDTO">
+        SELECT
+        c.class_id AS classId,
+        c.user_id AS userId,
+        c.class_title AS classTitle,
+        c.class_create_date AS classCreateDate,
+        u.name AS name
+        FROM class c
+        LEFT JOIN user u ON c.user_id = u.user_id
+        WHERE c.class_permit = 'W'
+    </select>
+
+    <update id="updateClassPermit">
+        UPDATE class SET class_permit = #{permitStatus} WHERE class_id = #{classId}
+    </update>
+
+    <update id="updateClassRejection">
+        UPDATE class SET class_permit = 'N', reject_message = #{rejectMessage} WHERE class_id = #{classId}
+    </update>
 </mapper>

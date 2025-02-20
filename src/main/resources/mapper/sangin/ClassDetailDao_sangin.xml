@@ -11,12 +11,46 @@
         LEFT JOIN file f ON u.file_no = f.file_no
         WHERE cr.class_id = #{classId}
     </select>
-    <select id="getIntroducesByClassId" resultType="com.example.greenlast.dto.ClassIntroduceDTO">
-        SELECT ci.*, f.file_url as fileUrl
-        FROM class_introduce ci
-        LEFT JOIN file f ON ci.file_no = f.file_no
-        WHERE ci.class_id = #{classId}
+
+    <!--동하형 여기 introduce-->
+    <select id="getIntroduceBlockByClassId" resultType="com.example.greenlast.dto.IntroduceBlockDto">
+        select * from introduce_block
+        where class_id = #{classId}
     </select>
+    <select id="getBlockElementByBlockId" resultType="com.example.greenlast.dto.BlockElementDto">
+        select * from block_element
+        where block_id = #{blockId}
+    </select>
+    <!--동하형 여기 introduce-->
+
+    <select id="getClassCommunityByClassId" resultType="com.example.greenlast.dto.CommunityPostDTO">
+        SELECT
+        p.*,
+        u.name AS username,
+        COUNT(c.comment_id) AS commentCount
+        FROM community_post p
+        LEFT JOIN community_comment c ON p.post_id = c.post_id
+        LEFT JOIN user u ON p.user_id = u.user_id
+        WHERE p.class_id = #{classId}
+        GROUP BY p.post_id
+        ORDER BY p.post_id DESC;
+    </select>
+
+    <select id="getCommunityPostByPostId" resultType="com.example.greenlast.dto.CommunityPostDTO">
+        SELECT cp.*, u.name AS username
+        FROM community_post cp
+        INNER JOIN user u ON cp.user_id = u.user_id
+        WHERE cp.post_id = #{postId}
+    </select>
+
+    <select id="getCommunityCommentByPostId" resultType="com.example.greenlast.dto.CommunityCommentDTO">
+        SELECT c.*, u.name AS username
+        FROM community_comment c
+        INNER JOIN user u ON c.user_id = u.user_id
+        WHERE c.post_id = #{postId}
+        ORDER BY c.comment_id DESC;
+    </select>
+
     <insert id="postReview" parameterType="com.example.greenlast.dto.ClassReviewDTO">
         insert into class_review (user_id, class_id, rating, content, created_at)
         values(#{review.userId},#{review.classId},#{review.rating},#{review.content},now())
@@ -26,7 +60,45 @@
         SET review_status = 'y'
         WHERE user_id = #{review.userId} AND class_id = #{review.classId}
     </update>
+    <select id="getSectionByClassId" resultType="com.example.greenlast.dto.ClassSectionDTO">
+        select * from class_section
+        where class_id = #{classId} and
+        class_permit = 'Y'
+    </select>
+    <select id="getLessonBySectionId" resultType="com.example.greenlast.dto.ClassLessonDTO">
+        select c.*, f.file_url as fileUrl from class_lesson c
+        LEFT JOIN file f ON c.file_no = f.file_no
+        where section_id = #{sectionId}
+        <!--and lesson_permit = 'Y'-->
+    </select>
+    <insert id="postQuestionByClassId">
+        insert into community_post (class_id, user_id, title, content, created_at, category)
+        values (#{classId}, #{userId}, #{title}, #{content}, now(), 'C')
+    </insert>
+    <insert id="postCommentByPostId">
+        insert into community_comment (post_id, user_id, content, created_at)
+        values (#{postId}, #{userId}, #{content}, now())
+    </insert>
 
+    <update id="updatePost">
+        UPDATE community_post
+        SET title = #{title}, content = #{content}, created_at = NOW()
+        WHERE post_id = #{postId}
+    </update>
 
+    <delete id="deletePost">
+        DELETE FROM community_post WHERE post_id = #{postId}
+    </delete>
+
+    <update id="updateComment">
+        UPDATE community_comment
+        SET content = #{content}
+        WHERE comment_id = #{commentId}
+    </update>
+
+    <delete id="deleteComment">
+        DELETE FROM community_comment
+        WHERE comment_id = #{commentId}
+    </delete>
 
 </mapper>

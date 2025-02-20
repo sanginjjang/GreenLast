@@ -20,38 +20,52 @@
     <!--스타일은 크기를 보여주기 위함입니다 지우시고 작업하시면 됩니다-->
     <div class="filter-container">
         <div class="category-item" data-category="전체">
+            <a href="/">
             <i class="fas fa-th"></i>
-            <span>전체</span>
+                전체
+            </a>
         </div>
         <div class="category-item" data-category="개발">
-            <i class="fas fa-laptop-code"></i>
-            <span>개발</span>
+            <a href="/?keyword=개발">
+                <i class="fas fa-laptop-code"></i>
+                개발
+            </a>
         </div>
         <div class="category-item" data-category="게임 개발">
-            <i class="fas fa-robot"></i>
-            <span>게임 개발</span>
+            <a href="/?keyword=게임">
+                <i class="fas fa-robot"></i>
+                게임 개발
+            </a>
         </div>
         <div class="category-item" data-category="데이터 사이언스">
-            <i class="fas fa-database"></i>
-            <span>데이터 사이언스</span>
+            <a href="/?keyword=데이터">
+                <i class="fas fa-database"></i>
+                데이터
+            </a>
         </div>
         <div class="category-item" data-category="인공지능">
-            <i class="fas fa-brain"></i>
-            <span>인공지능</span>
+            <a href="/?keyword=인공지능">
+                <i class="fas fa-brain"></i>
+                인공지능
+            </a>
         </div>
         <div class="category-item" data-category="보안">
-            <i class="fas fa-shield-alt"></i>
-            <span>보안</span>
+            <a href="/?keyword=보안">
+                <i class="fas fa-shield-alt"></i>
+                보안
+            </a>
         </div>
         <div class="category-item" data-category="하드웨어">
-            <i class="fas fa-microchip"></i>
-            <span>하드웨어</span>
+            <a href="/?keyword=하드웨어">
+                <i class="fas fa-microchip"></i>
+                하드웨어
+            </a>
         </div>
     </div>
     <div class="class-grid">
         <a th:href="@{'/home/detail/' + ${class.classId}}" class="class-card" th:each="class : ${class}">
             <div>
-                <img th:src="@{${class.fileUrl}}"  alt="강의 썸네일" width="auto" height="180px"/>
+                <img th:src="@{${class.fileUrl}}" alt="강의 썸네일" width="auto" height="180px"/>
                 <p th:text="${class.classTitle}">강의 제목</p>
                 <p th:text="${class.userId}">강사명</p>
                 <p th:text="${#numbers.formatInteger(class.classPrice, 0, 'COMMA')} + '원'">가격</p>

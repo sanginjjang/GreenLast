@@ -12,4 +12,7 @@ public class ClassLessonDTO {
     private String lessonTitle;
     private String lessonContent;
     private String lessonFree;
+    private int fileNo;
+    private String fileUrl;
+    private String duration;
 }

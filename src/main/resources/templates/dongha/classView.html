@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Class</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/dongha/classView.css">
 </head>
 <body>
 <!-- aside (사용 버전) -->
@@ -19,15 +21,45 @@
 
 <!-- content -->
 <div layout:fragment="content">
-    <!--스타일은 크기를 보여주기 위함입니다 지우시고 작업하시면 됩니다-->
     <h1>강의 검토 페이지</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>대표 사진</th>
+            <th>강의 제목</th>
+            <th>강사명</th>
+            <th>요청일시</th>
+        </tr>
+        </thead>
+        <tbody id="classTableBody"></tbody>
+    </table>
 </div>
 </body>
 
 <!--이거밖에서 스크립트 작성하면 안돌아갑니다...-->
 <div layout:fragment="scripts">
     <script>
-        <!--스크립트 여기 안에서 작성하시면 돼요~-->
+        function loadPendingClasses() {
+            axios.get('/admin-api/pending-classes')
+                .then(response => {
+                    console.log(response.data)
+                    const tbody = document.getElementById("classTableBody");
+                    tbody.innerHTML = "";
+                    response.data.forEach(cls => {
+                        tbody.innerHTML += `
+                        <tr>
+                            <td><img src="${cls.thumbnail}" alt="강의 썸네일"></td>
+                            <td><a href="/view/permitClass/detail?classId=${cls.classId}">${cls.classTitle}</a></td>
+                            <td>${cls.name}</td>
+                            <td>${new Date(cls.classCreateDate).toISOString().split('T')[0]}</td>
+                        </tr>
+                    `;
+                    });
+                })
+                .catch(error => console.error("강의 목록 불러오기 실패:", error));
+        }
+
+        loadPendingClasses();
     </script>
 </div>
 </html>

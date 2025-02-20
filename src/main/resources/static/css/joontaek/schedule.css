@@ -14,19 +14,16 @@ a{
 /* 캘린더 컨테이너 */
 #calendar {
     width: 1400px;
-    margin: 0 auto;
+    margin: 30px auto;
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 30px;
     border: 1px solid #ddd;
-    margin-top: 30px;
-    margin-bottom: 30px;
 }
 
 /* FullCalendar 헤더 스타일 */
 .fc-toolbar {
-
     background-color: black !important;
     border-radius: 10px;
     padding: 20px;
@@ -66,7 +63,6 @@ a{
 .fc-day-thu .fc-daygrid-day-number,
 .fc-day-fri .fc-daygrid-day-number {
     color: black;
-    font-family: 'arial', sans-serif;
 }
 
 .fc-day-sun .fc-col-header-cell-cushion,

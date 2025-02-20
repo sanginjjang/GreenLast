@@ -138,17 +138,15 @@
 }
 
 #container1-box1-right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 300px;
-    max-width: 300px;
-    height: auto;
-    max-height: 240px;
+    height: 285px;
+    object-fit: contain;
     margin-left: 240px;
     border-radius: 10px;
-
+    background-color: white;
+    border: 1px #150404 solid;
+    overflow: hidden;
 }
+
 
 /*class-container2*/
 #class-container2 {
@@ -182,7 +180,7 @@
     transition: color 0.1s ease-in-out, text-shadow 0.1s ease-in-out, transform 0.1s ease-in-out;
 }
 
-#container2-menu span:hover {
+#container2-menu > span:hover {
     color: #7b68ee; /* blueviolet 대신 더 깊고 부드러운 보라색 */
     /*text-shadow: 2px 2px 10px rgba(123, 104, 238, 0.5); !* 빛나는 느낌 추가 *!*/
     transform: scale(1.05); /* 마우스를 올리면 살짝 확대 */
@@ -200,11 +198,15 @@
     display: flex;
     width: 1400px;
     margin-bottom: 100px;
+    display: flex;
+    flex-direction: column;
 }
 
 /*class-detail-container*/
-.class-detail-container {
+#class-detail-container {
     padding: 0 40px;
+    display: flex;
+    flex-direction: column;
 }
 
 #detail-container-box1 {
@@ -287,12 +289,30 @@
     display: flex;
     flex-direction: column;
     margin-top: 40px;
+    max-width: 700px;
+    overflow: hidden;
 }
 
-.intro-content > p {
-    font-weight: bold;
-    font-size: 16px;
+.intro-single {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
 }
+
+.intro-double {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.intro-element {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 #detail-container-box4 {
     margin-top: 20px;
@@ -433,53 +453,85 @@
 }
 
 /*aside*/
-/*aside*/
-/*aside*/
-/*aside*/
-/*#aside-container {*/
-/*    position: fixed;*/
-/*    width: 340px;*/
-/*    padding: 20px;*/
-/*    background-color: #fff;*/
-/*    border-radius: 10px;*/
-/*    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
-/*    transition: top 0.2s ease-in-out; !* 부드러운 이동 *!*/
-/*    right: calc((100vw - 1400px) / 2 - 10px);*/
-/*}*/
+
 #aside-container {
     position: absolute;
     top: 60px;
     width: 340px;
-    padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: top 0.2s ease-in-out; /* 부드러운 이동 */
     /*right: calc((100vw - 1400px) / 2 - 10px);*/
     right: 0px; /* 이거 값 변동시키면 됩니다 동하형*/
+    overflow: hidden;
 }
 
-#aside_thumbnail_box {
-    display: flex;
+#aside-fake-time {
     width: 100%;
+    background-color: #f03e3e;
+    color: white;
+    display: flex;
     align-items: center;
     justify-content: center;
-    max-height: 150px;
-    border-radius: 10px;
-    border: 1px #ddd solid;
+    font-size: 14px;
+    height: 30px;
+    font-weight: bold;
 }
 
-.class-thumbnail {
-    width: auto;
-    max-height: 150px;
-    border-radius: 10px;
+#aside-container-detail1 {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+#aside-container-detail2 {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-top: 1px #ddd solid;
+}
+
+#aside-container-detail2-left {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    gap: 6px;
+}
+
+#aside-container-detail2-left > span {
+    font-size: 14px;
+    color: #868e96;
+}
+
+#aside-container-detail2-right {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    gap: 6px;
+}
+
+#aside-container-detail2-right > span {
+    font-size: 14px;
+    color: #212529;
+}
+
+#aside-fake-text1 {
+    color: #00894f;
+    background-color: #e5f9f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px #ddd solid;
 }
 
 
 .class-price {
     font-size: 24px;
     font-weight: bold;
-    color: #d9534f;
 }
 
 .btn {
@@ -491,6 +543,7 @@
     font-size: 18px;
     cursor: pointer;
     margin-top: 10px;
+    font-weight: bold;
 }
 
 .btn-primary {
@@ -498,86 +551,700 @@
     color: white;
 }
 
+/*커뮤니티*/
+#class-detail-community {
+    display: none;
+    /*display: flex;*/
+    padding-left: 40px;
+    flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
 
+#community-detail-box1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 700px;
+    position: relative;
+}
 
-
-/*커리큘럼*/
-.curriculum-wrapper {
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
+#community-detail-box1 > span {
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 3px;
     border: 1px #ddd solid;
 }
 
-.curriculum-title {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.curriculum-info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.expand-btn {
-    background: #0092ff;
-    color: white;
-    border: none;
-    padding: 10px;
+#community-detail-box1 > button {
+    padding: 8px 20px;
     border-radius: 5px;
+    background-color: #0092ff;
+    border: 1px solid #0092ff;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
+}
+
+/*게시글 등록 모달*/
+#post-modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    margin-bottom: 10px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* 기본적으로 숨김 */
+    /*display: flex;*/
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }
 
-.expand-btn:hover {
-    background: #0056b3;
+/* 모달 박스 */
+#post-modal {
+    background-color: #fff;
+    width: 500px;
+    max-width: 90%;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    /*display: none;*/
+    flex-direction: column;
+    gap: 20px;
 }
 
-.curriculum-section {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-
-.section-header {
-    width: 100%;
-    text-align: left;
+/* 제목 */
+#post-modal-title {
     font-size: 18px;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 제목 입력 */
+#post-modal-title input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#post-modal-title input:focus {
+    border-color: #0092ff;
+    outline: none;
+    background-color: #fff;
+}
+
+#post-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#post-modal-content textarea {
+    width: 100%;
+    height: 200px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    resize: none;
+}
+
+#post-modal-content textarea:focus {
+    border-color: #0092ff;
+    outline: none;
+    background-color: #fff;
+}
+
+#post-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#post-modal-footer button {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* 등록 버튼 */
+#post-modal-register-btn {
+    background-color: #0092ff;
+    color: white;
+}
+
+#post-modal-register-btn:hover {
+    background-color: #007acc;
+}
+
+/* 취소 버튼 */
+#post-modal-cancel-btn {
+    background-color: #ccc;
+    color: black;
+}
+
+#post-modal-cancel-btn:hover {
+    background-color: #999;
+}
+
+/*모달 끝*/
+
+
+#community-detail-box2 {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    max-height: 1400px;
+}
+
+.question-box {
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+    margin-top: 16px;
+    width: 700px;
+    height: auto;
+    border: 1px;
+    border: 1px #ddd solid;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.question-box-top {
+    padding: 20px 24px 10px 24px;
+}
+
+.question-status {
+    height: 15px;
+    background-color: #868296;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.question-title {
+    margin-top: 10px;
+    width: 650px;
+    color: #212529;
+    font-size: 18px;
+}
+
+.question-content {
+    margin-top: 5px;
+    color: #495057;
+    font-size: 15px;
+}
+
+.question-box-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    height: 40px;
+    align-items: center;
+    border-top: 1px #ddd solid;
+    padding: 0 24px;
+}
+
+.question-box-footer-left {
+    display: flex;
+    gap: 3px;
+}
+
+.question-box-footer-left > span {
+    color: #868e96;
+    font-size: 12px;
+}
+
+.question-box-footer-right {
+    display: flex;
+    gap: 10px;
+}
+
+.question-box-footer-right > span {
+    color: #868e96;
+    font-size: 12px;
+}
+
+/*커뮤니티 모달*/
+/* 커뮤니티 모달 (배경) */
+#community-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+/* 커뮤니티 모달 내부 박스 */
+#community-modal-box {
+    background: white;
+    width: 600px;
+    max-width: 90%;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}
+
+/* 닫기 버튼 */
+#community-modal-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
     background: none;
     border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 모달 제목 */
+#community-modal-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #212529;
+}
+
+/* 작성자 및 날짜 */
+#community-modal-info {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: #868e96;
+    margin-top: 20px;
+}
+
+/* 게시글 내용 */
+#community-modal-content {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    max-height: 200px;
+    overflow-y: auto;
+}
+#comment-register-btn {
+    background-color: #0092ff; /* 기본 파란색 */
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+#comment-register-btn:hover {
+    background-color: #007acc; /* 더 진한 파란색 */
+    transform: scale(1.05); /* 살짝 확대 */
+}
+
+
+/* 댓글 목록 */
+#community-modal-comment-section {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f1f3f5;
+    border-radius: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* 개별 댓글 */
+.community-comment {
+    padding: 8px;
+    background: white;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.community-comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #868e96;
+}
+
+/* 댓글 내용 */
+.community-comment-content {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #212529;
+}
+
+#comment-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    background: white;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 10001;
+}
+
+/* 댓글 작성 제목 */
+#comment-modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #212529;
+}
+
+/* 댓글 입력 창 */
+#comment-modal-content {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+#comment-modal-content:focus {
+    border-color: #0092ff;
+}
+
+/* 버튼 컨테이너 */
+#comment-modal-btn-box {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* 버튼 공통 스타일 */
+.comment-modal-btn {
+    width: 120px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* 댓글 등록 버튼 */
+#comment-modal-register-btn {
+    background-color: #0092ff;
+    color: white;
+}
+
+#comment-modal-register-btn:hover {
+    background-color: #007acc;
+}
+
+/* 취소 버튼 */
+#comment-modal-cancel-btn {
+    background-color: #adb5bd;
+    color: white;
+}
+
+#comment-modal-cancel-btn:hover {
+    background-color: #6c757d;
+}
+
+
+/*댓글 모달*/
+#comment-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 250px;
+    background-color: white;
+    z-index: 1001;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    flex-direction: column;
+    align-items: center;
+    display: none;
+}
+
+#comment-modal-title {
+    height: 50px;
+    background-color: #0092ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#comment-modal-content {
+    padding: 8px;
+    display: flex;
+    height: 100px;
+    width: 85%;
+    font-size: 17px;
+    color: #0d514c;
+    border: gray 1px solid;
+    border-radius: 10px;
+    margin-top: 20px;
+    resize: none;
+}
+
+#comment-modal-content:focus {
+    outline: none;
+    border: gray 1px solid;
+}
+
+#comment-modal-btn-box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 15px; /* 버튼 간격 조정 */
+    margin-top: 20px;
+}
+
+#comment-modal-register-btn,
+#comment-modal-cancel-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 120px;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 추가 */
+}
+
+#comment-modal-register-btn {
+    background-color: #007bff; /* 밝고 선명한 파란색 */
+}
+
+#comment-modal-register-btn:hover {
+    background-color: #0056b3; /* 어두운 파란색으로 변경 */
+    transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
+#comment-modal-cancel-btn {
+    background-color: #6c757d; /* 회색 */
+}
+
+#comment-modal-cancel-btn:hover {
+    background-color: #495057; /* 어두운 회색으로 변경 */
+    transform: scale(1.05); /* 살짝 확대 효과 */
+}
+
+
+/*커리큘럼*/
+#curriculum-container {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+}
+
+#curriculum-detail1 {
+    display: flex;
+    flex-direction: column;
+}
+
+#curriculum-detail1-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+#curriculum-detail-top-left {
+    /*font-weight: bold;*/
+    color: #212529;
+}
+
+#curriculum-detail1-top-right {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+#curriculum-detail1-top-right-total {
+    color: #868e96;
+    font-size: 15px;
+}
+
+#curriculum-detail1-top-right-number {
+    font-size: 15px;
+}
+
+#curriculum-detail1-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
 }
 
-.section-header:hover {
-    color: #007bff;
-}
-
-.lesson-list {
-    list-style: none;
-    padding: 10px;
-    margin: 0;
-}
-
-.lesson-list li {
-    padding: 5px 0;
-}
-
-.lesson-list a {
-    text-decoration: none;
-    color: #333;
-}
-
-.lesson-list a:hover {
-    color: #007bff;
-}
-
-.chevron {
-    font-size: 16px;
+#curriculum-detail1-footer-left {
     color: #868e96;
 }
+
+#curriculum-detail1-all-btn {
+    padding: 5px 18px;
+    border: 1px #ddd solid;
+    border-radius: 5px;
+    background-color: white;
+}
+
+#curriculum-detail2 {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-right: 1px #ddd solid;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.curriculum-box {
+    border-top: 1px #ddd solid;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.curriculum-section {
+    overflow: hidden;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 18px;
+
+}
+
+.curriculum-section-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.curriculum-section-right {
+    display: flex;
+    gap: 5px;
+}
+
+.curriculum-section-right {
+
+}
+
+.curriculum-section-chevron {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.curriculum-section-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.curriculum-section-time {
+    font-size: 16px;
+}
+
+.curriculum-lesson-list {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 700px;
+}
+
+.curriculum-lesson {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    align-items: center;
+    width: 100%;
+    border-top: 1px #ddd solid;
+}
+
+.curriculum-lesson-title {
+    color: #212529;
+    font-size: 15px;
+}
+
+.curriculum-lesson-time {
+    color: #868e96;
+    font-size: 15px;
+}
+
+/*스크롤바 전용*/
+
+/* ✅ 공통 스크롤바 디자인 */
+#community-modal-content::-webkit-scrollbar,
+#community-modal-comment-section::-webkit-scrollbar {
+    width: 30px; /* ✅ 두꺼운 스크롤바 */
+}
+
+#community-modal-content::-webkit-scrollbar-thumb,
+#community-modal-comment-section::-webkit-scrollbar-thumb {
+    background: #b0b0b0; /* ✅ 중간 회색 */
+    border-radius: 10px; /* ✅ 둥근 모서리 */
+    border: 3px solid #e0e0e0; /* ✅ 입체감 추가 */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* ✅ 살짝 그림자 효과 */
+    transition: background 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+#community-modal-content::-webkit-scrollbar-track,
+#community-modal-comment-section::-webkit-scrollbar-track {
+    background: #f5f5f5; /* ✅ 밝은 회색 */
+    border-radius: 10px;
+}
+
+/* ✅ 마우스 올렸을 때 */
+#community-modal-content::-webkit-scrollbar-thumb:hover,
+#community-modal-comment-section::-webkit-scrollbar-thumb:hover {
+    background: #909090; /* ✅ 더 진한 회색 */
+    border: 3px solid #d0d0d0;
+}
+
+
+/* ✅ Edge & IE 전용 */
+#community-modal-content::-ms-scrollbar,
+#community-modal-comment-section::-ms-scrollbar {
+    width: 30px;
+}
+
+#community-modal-content::-ms-scrollbar-thumb,
+#community-modal-comment-section::-ms-scrollbar-thumb {
+    background: #b0b0b0;
+    border-radius: 10px;
+    border: 3px solid #e0e0e0;
+}
+

@@ -30,6 +30,7 @@
         WHERE class_id = #{classId}
     </update>
 
+
     <!-- ✅ 소개 이미지 Upsert -->
     <update id="updateIntroduce">
         UPDATE class_introduce
@@ -68,5 +69,13 @@
         SET file_no = NULL
         WHERE file_no = #{fileNo}
     </update>
+
+
+    <!-- 준택 비디오 추가 !-->
+
+    <update id="updateLesson">
+        UPDATE class_lesson SET file_no = #{refNo} WHERE lesson_id = #{lessonId}
+    </update>
+
 
 </mapper>

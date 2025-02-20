@@ -11,6 +11,7 @@
 </head>
 <body>
 <div layout:fragment="content100">
+    <!--thumbnail-->
     <div id="class-container1">
         <div id="container1-box1">
             <div id="container1-box1-left">
@@ -41,127 +42,187 @@
                     <span class="tech-stack">swr</span>
                 </div>
             </div>
-            <img src="/images/test.webp" alt="강의사진" id="container1-box1-right">
+            <img th:src="@{${classDetail.fileUrl}}" alt="강의사진" id="container1-box1-right">
         </div>
     </div>
+    <!--aside + bar-->
     <div id="class-container2">
         <div id="container2-menu">
             <span>강의소개</span>
             <span>커리큘럼</span>
             <span>수강평</span>
             <span>커뮤니티</span>
+            <span>새소식</span>
             <!--right aside bar-->
             <div id="aside-container">
-                <div id="aside_thumbnail_box">
-                    <img th:src="@{${classDetail.fileUrl}}" class="class-thumbnail" alt="강의 썸네일"/>
+                <div id="aside-fake-time">
+                    이동하님 첫 구매 할인 중 (21:23:20 남음)
                 </div>
-                <p class="class-price">
-                    <span th:text="${#numbers.formatInteger(classDetail.price, 0, 'COMMA')} + ' 원'"></span>
-                </p>
+                <div id="aside-container-detail1">
+                    <div class="class-price">
+                        <span th:text="${'₩' + #numbers.formatInteger(classDetail.price, 0, 'COMMA')}"></span>
+                    </div>
 
-                <button class="btn btn-primary" id="addToCartButton"
-                        th:data-class-id="${classDetail.classId}" onclick="addToCart()">
-                    수강 신청하기
-                </button>
-                <button class="btn" id="addCart"
-                        th:data-class-id="${classDetail.classId}" onclick="addCart()">
-                    바구니에 담기
-                </button>
+                    <button class="btn btn-primary" id="addToCartButton"
+                            th:data-class-id="${classDetail.classId}" onclick="addToCart()">
+                        수강 신청하기
+                    </button>
+                    <button class="btn" id="addCart"
+                            th:data-class-id="${classDetail.classId}" onclick="addCart()">
+                        바구니에 담기
+                    </button>
 
-                <p th:text="'지식공유자 : ' + ${classDetail.instructor}"></p>
-                <p th:text="'난이도 : ' + ${classDetail.classLevel}"></p>
+                </div>
+                <div id="aside-container-detail2">
+                    <div style="display: flex;">
+                        <div id="aside-container-detail2-left">
+                            <span>지식공유자</span>
+                            <span>난이도</span>
+                        </div>
+                        <div id="aside-container-detail2-right">
+                            <span>[[${classDetail.instructor}]]</span>
+                            <span>[[${classDetail.classLevel}]]</span>
+                        </div>
+                    </div>
+                    <div id="aside-fake-text1" style="margin-top: 15px;">지식공유자 답변이 제공되는 강의입니다.</div>
+                </div>
             </div>
         </div>
     </div>
-    <!--여기 원래 있던 자리-->
     <div id="class-container3">
 
-        <!--class-detail-container-->
-        <div class="class-detail-container">
+        <!--디테일 상세1-->
+        <!--커뮤니티-->
+        <div id="class-detail-community" style="margin-top: 20px;">
+            <!--게시글 작성-->
+            <div id="community-detail-box1">
+                <span>질문</span>
+                <button id="post-register-btn">질문있어요!</button>
+                <div id="post-modal-background">
+                    <div id="post-modal">
+                        <div id="post-modal-title">
+                            <div>제목</div>
+                            <input type="text" id="post-title" name="post-modal-title" maxlength="25"
+                                   placeholder="제목을 작성해주세요.">
+                        </div>
+                        <div id="post-modal-content" style="margin-top: 20px;">
+                            <div>내용</div>
+                            <textarea id="post-content" placeholder="내용을 작성해주세요."></textarea>
+                        </div>
+                        <div id="post-modal-footer" style="margin-top: 20px">
+                            <button id="post-modal-register-btn" onclick="registPost()">등록하기</button>
+                            <button id="post-modal-cancel-btn" onclick="closePostModal()">뒤로가기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--검색기능-->
+            <div id="community-detail-box2">
+                <!--커뮤니티-->
+            </div>
+
+        </div>
+
+        <!--디테일 상세2-->
+        <div id="class-detail-container">
             <!--디테일 박스 순서 조정하면 됨-->
+            <!--수강평-->
             <div id="detail-container-box6" style="margin-top: 20px;">
                 수강평
             </div>
+            <!--수강평-->
             <div id="detail-container-box7">
                 <div id="average-rating-score">0.0</div>
                 <div id="average-rating-stars" style="color: gold;">★★★★★</div>
                 <div id="total-reviews-count">수강평 개</div>
             </div>
+            <!--수강평-->
             <div id="detail-container-box8">
-                <!-- 여기에 JavaScript에서 리뷰 데이터를 동적으로 추가 -->
+                <!-- 여기에 리뷰 데이터를 동적으로 추가 -->
             </div>
-
+            <!--난이도-->
             <div id="detail-container-box1" style="margin-top: 30px;">
                 설정된 강의수준은 [ [[${classDetail.classLevel}]]자 ]를 위해 준비한 강의입니다.
             </div>
+            <!--추천-->
             <div id="detail-container-box2" style="margin-top: 20px;">
                 <div id="container-box2-left">이런 분에게 추천해요!</div>
                 <div id="container-box2-right">
                     <span>[[${classDetail.classRecom}]]</span>
                 </div>
             </div>
+            <!--소개-->
             <div id="detail-container-box3">
-                강사가 입력한 강의소개 텍스트 및 이미지
+                <!--강의 소개 동적으로 추가-->
             </div>
-            <div id="curriculum-container" class="curriculum-wrapper" style="margin-top: 20px;">
-                <h2 class="curriculum-title">커리큘럼</h2>
-                <div class="curriculum-info">
-                    <p>전체</p>
-                    <p id="total-lessons">총 0개 강의 ∙ (0시간 0분)</p>
+            <!--            커리큘럼 시작            -->
+            <div id="curriculum-container" style="margin-top: 20px;">
+                <div id="curriculum-detail1">
+                    <div id="curriculum-detail1-top">
+                        <h2 id="curriculum-detail-top-left">커리큘럼</h2>
+                        <div id="curriculum-detail1-top-right">
+                            <div id="curriculum-detail1-top-right-total">전체</div>
+                            <div id="curriculum-detail1-top-right-number"></div>
+                        </div>
+                    </div>
+                    <div id="curriculum-detail1-footer">
+                        <div id="curriculum-detail1-footer-left">해당 강의에서 자료 제공</div>
+                        <div id="curriculum-detail1-all-btn">모두 펼치기</div>
+                    </div>
                 </div>
-                <button id="expand-all-btn" class="expand-btn">모두 펼치기</button>
-                <div id="curriculum-sections" class="curriculum-sections"></div>
+                <div id="curriculum-detail2" style="margin-top: 30px">
+                </div>
+            </div>
+            <!--            커리큘럼 끝            -->
+        </div>
+    </div>
+    <!--커뮤니티-->
+    <!-- ✅ 게시글 상세 모달 -->
+    <div id="community-modal">
+        <div id="community-modal-box">
+            <button id="community-modal-close-btn" onclick="closeCommunityModal()">닫기</button>
+            <div id="community-modal-title"></div>
+            <div id="community-modal-info">
+                <div id="community-modal-writer"></div>
+                <div id="community-modal-created"></div>
+            </div>
+            <div id="community-modal-content" style="margin-top: 10px;"></div>
+
+            <!-- ✅ 수정/삭제 버튼 추가 -->
+            <div id="community-modal-actions"></div>
+
+            <div style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-weight: bold; font-size: 20px;">댓글</div>
+                <button id="comment-register-btn">+ 댓글 작성</button>
             </div>
 
+            <!-- ✅ 댓글 작성 모달 -->
+            <div id="comment-modal">
+                <div id="comment-modal-title">댓글 작성</div>
+                <textarea id="comment-modal-content" placeholder="댓글을 입력해주세요."></textarea>
+                <div id="comment-modal-btn-box">
+                    <button id="comment-modal-register-btn" onclick="registComment()">댓글 등록</button>
+                    <button id="comment-modal-cancel-btn">뒤로가기</button>
+                </div>
+            </div>
 
+            <!-- ✅ 댓글 목록 -->
+            <div id="community-modal-comment-section"></div>
         </div>
-
-
     </div>
 
+    <!--  중요  -->
+    <input type="hidden" id="classId" th:value="${classId}">
+    <input type="hidden" id="currentUserId" th:value="${currentUserId}">
 
-    <input type="hidden" id="classId" th:value="${classId}"/>
-
-</div>
-
-
-<div layout:fragment="scripts">
-    <script>
-        function addToCart() {
-            const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
-
-            axios.post('/cart-api/add', {classId: classId})
-                .then(response => {
-                    const data = response.data;
-                    alert(data.message);
-                    if (data.success) {
-                        window.location.href = "/cart";
-                    }
-                })
-                .catch(error => {
-                    console.error('에러 발생:', error);
-                    alert('장바구니 추가 중 오류가 발생했습니다!');
-                });
-        }
-
-        function addCart() {
-            const classId = document.getElementById("addToCartButton").getAttribute("data-class-id");
-
-            axios.post('/cart-api/add', {classId: classId})
-                .then(response => {
-                    const data = response.data;
-                    alert(data.message);
-                })
-                .catch(error => {
-                    console.error('에러 발생:', error);
-                    alert('장바구니 추가 중 오류가 발생했습니다!');
-                });
-        }
-    </script>
+    <!--  중요  -->
 </div>
 </body>
 </html>
 <script src="/js/sangin/classReview.js"></script>
 <script src="/js/sangin/classDetailScroll.js"></script>
-<script src="/js/sangin/classDetailContent.js"></script>
+<script src="/js/sangin/classDetailCommunity.js"></script>
+<script src="/js/sangin/classDetailCurriculum.js"></script>
+<script src="/js/sangin/classDetailIntroduce.js"></script>
+<script src="/js/dongha/classDetailAside.js"></script>
 

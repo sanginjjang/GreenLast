@@ -30,6 +30,109 @@ public class FileService {
             case "post" -> "post";
             case "profile" -> "profile";
             case "thumbnail" -> "thumbnail";
+            case "video" -> "video";
+            default -> "others";
+        };
+
+        String fileDir = uploadPath + "/" + subFolder;
+        String fileUrl = "/uploads/" + subFolder + "/" + newFileName;
+
+        File uploadDir = new File(fileDir);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        File file = new File(fileDir, newFileName);
+        multipartFile.transferTo(file);
+
+        // ✅ 파일 메타데이터 저장
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFileType(fileType);
+        fileEntity.setFileOldName(originalFilename);
+        fileEntity.setFileNewName(newFileName);
+        fileEntity.setFileExt(fileExt);
+        fileEntity.setFileSize((int) multipartFile.getSize());
+        fileEntity.setFileUrl(fileUrl);
+        fileEntity.setFileSeq(1);
+
+        FileEntity savedFile = fileRepository.save(fileEntity);
+        int refNo = savedFile.getFileNo();
+
+        System.out.println("상인@@");
+        System.out.println("fileId : " + refNo);
+        System.out.println("classId : " + id);
+        System.out.println("준택@@");
+        fileRepository.save(savedFile);
+
+        // ✅ Upsert 처리 (Update 실패 시 Insert 수행)
+        switch (fileType) {
+            case "introduce" -> {
+                if (fileDao.updateIntroduce((Integer) id, refNo) == 0) {
+                    System.out.println("소개 업데이트 실패");
+                }
+            }
+            case "post" -> {
+                if (fileDao.updatePost((Integer) id, refNo) == 0) {
+                    System.out.println("커뮤니티 업데이트 실패");
+                }
+            }
+            case "thumbnail" -> {
+                int result = fileDao.updateThumbnail(id, refNo);
+                if (result == 0) {
+                    System.out.println("썸네일 업데이트 실패");
+                }
+            }
+
+            case "video" -> {
+                if (fileDao.updateLesson(id, refNo) == 0) {
+                    System.out.println("비디오 업데이트 실패");
+                }
+            }
+
+            case "profile" -> {
+                if (fileDao.updateProfile(SecurityUtil.getCurrentUserId(), refNo) == 0) {
+                    System.out.println("프로필 업데이트 실패");
+                }
+            }
+        }
+
+        return savedFile;
+    }
+
+    public FileEntity getFileById(int fileNo) {
+        return fileRepository.findById(fileNo)
+                .orElseThrow(() -> new IllegalArgumentException("파일이 존재하지 않습니다."));
+    }
+
+    public List<FileEntity> getAllFiles() {
+        return fileRepository.findAll();
+    }
+
+    public void deleteFile(int fileNo) {
+        FileEntity fileEntity = getFileById(fileNo);
+        String fullFilePath = uploadPath + fileEntity.getFileUrl().replace("/uploads", "");
+
+        File file = new File(fullFilePath);
+        if (file.exists()) {
+            file.delete();
+        }
+
+        fileRepository.deleteById(fileNo);
+    }
+
+    //준택
+
+    public FileEntity saveVideo(MultipartFile multipartFile, String fileType, int id) throws IOException {
+        System.out.println("fileService...");
+        String originalFilename = multipartFile.getOriginalFilename();
+        String fileExt = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        String newFileName = UUID.randomUUID().toString() + "." + fileExt;
+
+        String subFolder = switch (fileType) {
+            case "introduce" -> "introduce";
+            case "post" -> "post";
+            case "profile" -> "profile";
+            case "thumbnail" -> "thumbnail";
             default -> "others";
         };
 
@@ -68,8 +171,8 @@ public class FileService {
                 }
             }
             case "post" -> {
-                if (fileDao.updatePostFile((Integer) id, refNo) == 0) {
-                    fileDao.insertPostFile((Integer) id, refNo);
+                if (fileDao.updatePost((Integer) id, refNo) == 0) {
+                    fileDao.insertPost((Integer) id, refNo);
                 }
             }
             case "thumbnail" -> {
@@ -82,26 +185,5 @@ public class FileService {
         }
 
         return savedFile;
-    }
-
-    public FileEntity getFileById(int fileNo) {
-        return fileRepository.findById(fileNo)
-                .orElseThrow(() -> new IllegalArgumentException("파일이 존재하지 않습니다."));
-    }
-
-    public List<FileEntity> getAllFiles() {
-        return fileRepository.findAll();
-    }
-
-    public void deleteFile(int fileNo) {
-        FileEntity fileEntity = getFileById(fileNo);
-        String fullFilePath = uploadPath + fileEntity.getFileUrl().replace("/uploads", "");
-
-        File file = new File(fullFilePath);
-        if (file.exists()) {
-            file.delete();
-        }
-
-        fileRepository.deleteById(fileNo);
     }
 }

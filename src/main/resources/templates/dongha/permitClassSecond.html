@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 검토</title>
+</head>
+<body>
+<div layout:fragment="content" class="content-container">
+    <div class="curriculum-container">
+        <h2>강의 커리큘럼</h2>
+
+        <div th:each="section : ${curriculum}" class="section">
+            <h3 th:text="${section.sectionTitle}"></h3> <!-- 섹션 제목 -->
+
+            <!-- 레슨 반복 -->
+            <ul>
+                <li th:each="lesson : ${section.lessonDTOList}">
+                    <span th:text="${lesson.lessonTitle}"></span><br/>
+
+                    <!-- 영상 링크로 변경 -->
+                    <a th:if="${lesson.fileUrl != null}" th:href="${lesson.fileUrl}" target="_blank">➡️ 강의 영상 보기</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <form action="/view/permitClass/thirdPermit" method="get">
+                <input type="hidden" name="classId" th:value="${curriculum[0].classId}">
+                <input type="submit" value="다음">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

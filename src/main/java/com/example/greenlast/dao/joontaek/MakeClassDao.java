@@ -1,0 +1,34 @@
+package com.example.greenlast.dao.joontaek;
+
+import com.example.greenlast.dto.ClassDTO;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+@Mapper
+public interface MakeClassDao {
+
+    public Integer getMaxClassId();
+
+    public int saveClassInfo(ClassDTO classDTO);
+
+    public ClassDTO getClassInfo(int classId);
+
+    public int saveSection(int classId, String sectionTitle);
+    public int getSectionId();
+    public int saveLesson(int sectionId, String lessonTitle);
+
+    public int getLessonId();
+
+    public int getFileNo();
+
+
+
+    public int saveElement(int blockId, String type, String content);
+
+    public int getBlockNum();
+
+    public int saveBlock(int classId, String blockType);
+
+
+}

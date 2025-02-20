@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 소개글 작성</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+
+        #blocks-container {
+            min-height: 50px; /* 블록이 없을 때도 최소 높이 유지 */
+        }
+
+        .add-block-wrapper {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+            clear: both; /* 이전 요소들과 겹치지 않도록 */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content-block {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .content-block.two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .add-block-wrapper {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .add-block-button {
+            background: none;
+            border: 2px dashed #ccc;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #666;
+            font-size: 14px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .add-block-button:hover {
+            border-color: #999;
+            background: #f8f8f8;
+        }
+
+        .plus-icon {
+            font-size: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .popover-menu {
+            position: absolute;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 8px 0;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #333;
+        }
+
+        .menu-item:hover {
+            background: #f0f0f0;
+        }
+
+        .menu-item i {
+            margin-right: 8px;
+            width: 20px;
+        }
+
+        .element-placeholder {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            background: #f8f8f8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .element-placeholder:hover {
+            border-color: #999;
+            background: #f0f0f0;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            border: 2px dashed #e0e0e0;
+            padding: 30px;
+            text-align: center;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload:hover {
+            border-color: #999;
+            background: #f0f0f0;
+        }
+
+        .block-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .content-block:hover .block-controls {
+            opacity: 1;
+        }
+
+        .control-button {
+            background: #f0f0f0;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin: 0 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .control-button:hover {
+            background: #e0e0e0;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .save-button-wrapper {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .save-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+
+        .save-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .save-button i {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="aside">
+</th:block>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>강의 소개글 작성</h1>
+        <div id="content-container">
+            <div id="blocks-container">
+                <!-- 블록들이 여기에 추가됩니다 -->
+            </div>
+            <div class="add-block-wrapper">
+                <button class="add-block-button">
+                    <span class="plus-icon">+</span>
+                    <span class="button-text">블록 추가</span>
+                </button>
+                <div class="popover-menu">
+                    <div class="menu-item" onclick="addBlock(1)">
+                        <i class="fas fa-grip-lines"></i> 1열 블록
+                    </div>
+                    <div class="menu-item" onclick="addBlock(2)">
+                        <i class="fas fa-grip-horizontal"></i> 2열 블록
+                    </div>
+                </div>
+            </div>
+            <div class="save-button-wrapper">
+                <button type="button" class="save-button" onclick="saveContent()">
+                    <i class="fas fa-save"></i> 저장하기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('click', function(e) {
+            const buttons = document.querySelectorAll('.add-block-button');
+            buttons.forEach(button => {
+                const popover = button.nextElementSibling;
+                if (e.target === button || button.contains(e.target)) {
+                    popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
+                } else if (!popover.contains(e.target)) {
+                    popover.style.display = 'none';
+                }
+            });
+        });
+        function moveBlock(button, direction) {
+            const block = button.closest('.content-block');
+            const blocksContainer = document.getElementById('blocks-container');
+
+            if (direction === 'up' && block.previousElementSibling) {
+                blocksContainer.insertBefore(block, block.previousElementSibling);
+            } else if (direction === 'down' && block.nextElementSibling) {
+                blocksContainer.insertBefore(block.nextElementSibling, block);
+            }
+        }
+        function addBlock(columns) {
+            const blocksContainer = document.getElementById('blocks-container'); // 변경된 부분
+            const block = document.createElement('div');
+            block.className = `content-block ${columns === 2 ? 'two-column' : ''}`;
+
+            let placeholdersHTML = '';
+            for (let i = 0; i < columns; i++) {
+                placeholdersHTML += `
+            <div class="element-placeholder" onclick="showElementOptions(this)">
+                <i class="fas fa-plus"></i>
+                <p>요소 추가하기</p>
+            </div>
+        `;
+            }
+
+            block.innerHTML = `
+        ${placeholdersHTML}
+        <div class="block-controls">
+            <button class="control-button" onclick="moveBlock(this, 'up')" title="위로 이동"><i class="fas fa-arrow-up"></i></button>
+            <button class="control-button" onclick="moveBlock(this, 'down')" title="아래로 이동"><i class="fas fa-arrow-down"></i></button>
+            <button class="control-button" onclick="deleteBlock(this)" title="삭제"><i class="fas fa-trash"></i></button>
+        </div>
+    `;
+
+            blocksContainer.appendChild(block); // 변경된 부분
+            closePopover(document.querySelector('.popover-menu'));
+        }
+
+        function showElementOptions(placeholder) {
+            const popover = document.createElement('div');
+            popover.className = 'popover-menu';
+            popover.style.display = 'block';
+            popover.style.position = 'absolute';
+
+            popover.innerHTML = `
+                <div class="menu-item" onclick="addElement(this, 'text')">
+                    <i class="fas fa-font"></i> 텍스트
+                </div>
+                <div class="menu-item" onclick="addElement(this, 'image')">
+                    <i class="fas fa-image"></i> 이미지
+                </div>
+            `;
+
+            placeholder.appendChild(popover);
+
+            // 클릭 이벤트 리스너 추가
+            const closeElementPopover = (e) => {
+                if (!popover.contains(e.target) && e.target !== placeholder) {
+                    popover.remove();
+                    document.removeEventListener('click', closeElementPopover);
+                }
+            };
+
+            setTimeout(() => {
+                document.addEventListener('click', closeElementPopover);
+            }, 0);
+        }
+
+        function addElement(menuItem, type) {
+            const placeholder = menuItem.closest('.element-placeholder');
+
+            if (type === 'text') {
+                placeholder.innerHTML = `
+                    <textarea class="text-input" placeholder="내용을 입력하세요..."></textarea>
+                `;
+            } else if (type === 'image') {
+                placeholder.innerHTML = `
+                    <div class="image-upload">
+                        <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;" id="imageInput_${Date.now()}">
+                        <label for="imageInput_${Date.now()}" style="cursor: pointer;">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 24px; color: #666;"></i>
+                            <p>클릭하여 이미지를 업로드하세요</p>
+                            <p style="font-size: 12px; color: #999;">권장 크기: 960px, 최대 20MB</p>
+                        </label>
+                        <div class="image-preview"></div>
+                    </div>
+                `;
+            }
+
+            placeholder.classList.remove('element-placeholder');
+        }
+
+        function closePopover(popover) {
+            popover.style.display = 'none';
+        }
+
+        function previewImage(input) {
+            const preview = input.parentElement.querySelector('.image-preview');
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 300px;">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function moveBlock(button, direction) {
+            const block = button.closest('.content-block');
+            const blocksContainer = document.getElementById('blocks-container');
+
+            if (direction === 'up' && block.previousElementSibling) {
+                blocksContainer.insertBefore(block, block.previousElementSibling);
+            } else if (direction === 'down' && block.nextElementSibling) {
+                blocksContainer.insertBefore(block.nextElementSibling, block);
+            }
+        }
+
+        function deleteBlock(button) {
+            const block = button.closest('.content-block');
+            block.remove();
+        }
+
+        async function saveContent() {
+            try {
+                const saveButton = document.querySelector('.save-button');
+                const originalContent = saveButton.innerHTML;
+                saveButton.innerHTML = '<div class="loading-spinner"></div> 저장 중...';
+                saveButton.disabled = true;
+
+                const blocks = document.querySelectorAll('.content-block');
+                const contentData = [];
+
+                blocks.forEach(block => {
+                    const isDoubleColumn = block.classList.contains('two-column');
+                    const elements = block.querySelectorAll('.text-input, .image-upload');
+
+                    const blockData = {
+                        type: isDoubleColumn ? 'double' : 'single',
+                        elements: []
+                    };
+
+                    elements.forEach(element => {
+                        if (element.classList.contains('text-input')) {
+                            blockData.elements.push({
+                                type: 'text',
+                                content: element.value
+                            });
+                        } else if (element.classList.contains('image-upload')) {
+                            const img = element.querySelector('img');
+                            if (img) {
+                                blockData.elements.push({
+                                    type: 'image',
+                                    content: img.src
+                                });
+                            }
+                        }
+                    });
+
+                    contentData.push(blockData);
+                });
+
+                // API 호출
+                const response = await axios.post('/view/makeClass/last', {
+                    content: contentData
+                });
+
+                if (response.data.success) {
+                    showToast('성공적으로 저장되었습니다!', 'success');
+                } else {
+                    throw new Error('저장에 실패했습니다.');
+                }
+
+            } catch (error) {
+                console.error('저장 중 오류 발생:', error);
+                showToast('저장 중 오류가 발생했습니다.', 'error');
+            } finally {
+                const saveButton = document.querySelector('.save-button');
+                saveButton.innerHTML = '<i class="fas fa-save"></i> 저장하기';
+                saveButton.disabled = false;
+            }
+        }
+
+        // 토스트 메시지 표시 함수
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                window.location.href = '/view/makeClass/thirdd';
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // 토스트 메시지 스타일
+        const toastStyle = document.createElement('style');
+        toastStyle.textContent = `
+            .toast {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                border-radius: 4px;
+                color: white;
+                opacity: 0;
+                transition: opacity 0.3s;
+                z-index: 1000;
+            }
+            .toast.show {
+                opacity: 1;
+            }
+            .toast-success {
+                background-color: #4CAF50;
+            }
+            .toast-error {
+                background-color: #f44336;
+            }
+        `;
+        document.head.appendChild(toastStyle);
+
+    </script>
+</div>
+</body>
+</html>
