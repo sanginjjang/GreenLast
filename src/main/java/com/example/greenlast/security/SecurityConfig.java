@@ -37,7 +37,7 @@ public class SecurityConfig {
                         // 🔹 업로드된 파일들 (`/uploads/**`) 최우선 허용
                         .requestMatchers(
                                 "/uploads/**",
-                                "/C:/upload-dir/uploads" // 만약 윈도우 경로 그대로 써야 한다면 허용
+                                "/C:/upload-dir/uploads"
                         ).permitAll()
 
                         // 🔹 인증 없이 접근 가능한 경로들
@@ -59,12 +59,15 @@ public class SecurityConfig {
                                 "/fonts/**",
                                 "/images/**",
                                 "/js/**",
-                                "/api/file/upload",
-                                "/**" //나중에 이거 주석 처리 하시오
+                                "/api/file/upload"
                         ).permitAll()
+
+                        // 🔹 **ADMIN 전용 경로 ("/admin/**")**
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         // 🔹 PICLE 접근 차단 (USER, ADMIN만 허용)
                         .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -88,6 +91,7 @@ public class SecurityConfig {
                 )
                 .build();
     }
+
 
 
     @Bean
