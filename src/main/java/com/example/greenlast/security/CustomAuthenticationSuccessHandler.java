@@ -1,5 +1,6 @@
 package com.example.greenlast.security;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
             // JWT를 쿠키에 추가
             CookieUtil.addTokenToCookie(response, token);
+
+            // ✅ 로그인 성공 메시지 쿠키 추가
+            Cookie loginCookie = new Cookie("loginMessage", "로그인했습니다!");
+            loginCookie.setPath("/");
+            loginCookie.setMaxAge(5); // 5초 후 자동 삭제
+            response.addCookie(loginCookie);
 
             // 로그인 성공 후 "특정 페이지"로 리다이렉트
             response.sendRedirect("/"); // 원하는 URL로 리다이렉트 //나중에 수정예정

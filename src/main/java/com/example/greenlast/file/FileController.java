@@ -13,7 +13,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.util.List;
 
-/**
+/*
  * packageName    : com.example.greenlast.controllers.api.dongha
  * fileName       : FileController
  * author         : 이동하
@@ -23,7 +23,9 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 25. 1. 27.        이동하       최초 생성
- */
+*/
+
+
 @RestController
 @RequestMapping("/api/file")
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class FileController {
 
     ) throws IOException {
         FileEntity savedFile = fileService.saveFile(file, fileType, id);
-        return ResponseEntity.ok("파일 업로드 성공! 저장된 경로: " + savedFile.getFileUrl());
+        return ResponseEntity.ok(savedFile.getFileUrl());
     }
 
     //파일 넘버 얻기

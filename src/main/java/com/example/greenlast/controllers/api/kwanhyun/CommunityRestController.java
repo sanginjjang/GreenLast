@@ -5,6 +5,7 @@ import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.kwanhyun.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class CommunityRestController {
 
     // 커뮤니티 게시글 등록 API
     @PostMapping("/posts")
-    public ResponseEntity<String> createPost(@RequestBody CommunityPostDTO communityPostDto) {
+    public ResponseEntity<String> registerPost(@RequestBody CommunityPostDTO communityPostDto) {
         communityPostDto.setUserId(SecurityUtil.getCurrentUserId());
         String userRole = SecurityUtil.getCurrentUserRole();
         String pageType = communityPostDto.getPageType();
@@ -63,6 +64,8 @@ public class CommunityRestController {
                 communityPostDto.setCategory("Q");
             } else if ("class".equals(pageType)) {
                 communityPostDto.setCategory("C");
+            } else if ("faq".equals(pageType)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("일반 사용자는 작성할 수 없습니다.");
             }
         }
 
@@ -112,6 +115,7 @@ public class CommunityRestController {
         } else if(post.getCategory().equals("Q")) {
             pageType = "qna";
         } else if(post.getCategory().equals("F")) {
+
             pageType = "faq";
         } else if(post.getCategory().equals("C")) {
             pageType = "class";
@@ -125,6 +129,7 @@ public class CommunityRestController {
 
         return "redirect:/kwanhyun/community/CommunityMain/" + pageType;
     }
+
 
 
 }

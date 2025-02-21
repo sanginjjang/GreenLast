@@ -46,7 +46,7 @@ public class PaymentService {
         payment.setClassId(classId);
         payment.setPrice(price);
         payment.setClassTitle(classTitle);
-        payment.setRefundStatus("y");
+        payment.setRefundStatus("N");
         payment.setReceiptId(receiptId);
 
         paymentDao.insertPayment(payment);
@@ -91,7 +91,7 @@ public class PaymentService {
             boolean refundSuccess = callBootpayRefund(payment.getReceiptId(), payment.getPrice());
 
             if (refundSuccess) {
-                paymentDao.updateRefundStatus(paymentId, "n");
+                paymentDao.updateRefundStatus(paymentId, "Y");
             } else {
                 throw new RuntimeException("환불 처리 중 오류가 발생했습니다.");
             }

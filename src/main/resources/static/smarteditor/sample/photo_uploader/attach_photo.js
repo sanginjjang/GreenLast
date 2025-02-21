@@ -334,7 +334,7 @@
     	var tempFile,
     		sUploadURL;
     	
-    	sUploadURL= 'file_uploader_html5.php'; 	//upload URL
+    	sUploadURL= '/api/file/upload/kwanhyun'; 	//upload URL
     	
     	//파일을 하나씩 보내고, 결과를 받음.
     	for(var j=0, k=0; j < nImageInfoCnt; j++) {
@@ -349,32 +349,60 @@
     		tempFile = null;
     	}
 	}
-    
-    function callAjaxForHTML5 (tempFile, sUploadURL){
-    	var oAjax = jindo.$Ajax(sUploadURL, {
-			type: 'xhr',
-			method : "post",
-			onload : function(res){ // 요청이 완료되면 실행될 콜백 함수
-				var sResString = res._response.responseText;
-				if (res.readyState() == 4) {
-					if(sResString.indexOf("NOTALLOW_") > -1){
-						var sFileName = sResString.replace("NOTALLOW_", "");
-						alert("이미지 파일(jpg,gif,png,bmp)만 업로드 하실 수 있습니다. ("+sFileName+")");
-					}else{
-						//성공 시에  responseText를 가지고 array로 만드는 부분.
-						makeArrayFromString(res._response.responseText);
-					}
-				}
-			},
-			timeout : 3,
-			onerror :  jindo.$Fn(onAjaxError, this).bind()
-		});
-		oAjax.header("contentType","multipart/form-data");
-		oAjax.header("file-name",encodeURIComponent(tempFile.name));
-		oAjax.header("file-size",tempFile.size);
-		oAjax.header("file-Type",tempFile.type);
-		oAjax.request(tempFile);
-    }
+	function callAjaxForHTML5(tempFile, sUploadURL) {
+		let formData = new FormData();
+		formData.append("file", tempFile);
+		formData.append("fileType", "post");
+
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST", sUploadURL, true);
+
+		xhr.onload = function () {
+			if (xhr.status === 200) {
+				console.log("✅ 업로드 성공:", xhr.responseText);
+				makeArrayFromString(xhr.responseText); // 성공 시 파일 정보 처리
+			} else {
+				console.error("❌ 업로드 실패:", xhr.responseText);
+				alert("파일 업로드에 실패하였습니다.");
+			}
+		};
+
+		xhr.onerror = function () {
+			console.error("❌ 네트워크 에러 발생!");
+			alert("파일 업로드 중 오류가 발생했습니다.");
+		};
+
+		xhr.send(formData); // 🚀 `FormData`를 직접 전송!!!
+	}
+
+
+
+
+	// function callAjaxForHTML5 (tempFile, sUploadURL){
+    // 	var oAjax = jindo.$Ajax(sUploadURL, {
+	// 		type: 'xhr',
+	// 		method : "post",
+	// 		onload : function(res){ // 요청이 완료되면 실행될 콜백 함수
+	// 			var sResString = res._response.responseText;
+	// 			if (res.readyState() == 4) {
+	// 				if(sResString.indexOf("NOTALLOW_") > -1){
+	// 					var sFileName = sResString.replace("NOTALLOW_", "");
+	// 					alert("이미지 파일(jpg,gif,png,bmp)만 업로드 하실 수 있습니다. ("+sFileName+")");
+	// 				}else{
+	// 					//성공 시에  responseText를 가지고 array로 만드는 부분.
+	// 					makeArrayFromString(res._response.responseText);
+	// 				}
+	// 			}
+	// 		},
+	// 		timeout : 3,
+	// 		onerror :  jindo.$Fn(onAjaxError, this).bind()
+	// 	});
+	// 	oAjax.header("contentType","multipart/form-data");
+	// 	oAjax.header("file-name",encodeURIComponent(tempFile.name));
+	// 	oAjax.header("file-size",tempFile.size);
+	// 	oAjax.header("file-Type",tempFile.type);
+	// 	oAjax.request(tempFile);
+    // }
     
     function makeArrayFromString(sResString){
     	var	aTemp = [],

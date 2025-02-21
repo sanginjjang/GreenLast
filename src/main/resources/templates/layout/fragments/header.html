@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 스타일 파일 추가 가능 -->
+</head>
+<body>
 <header th:fragment="header">
+    <button id="toggle-dark-mode">🌙 다크 모드</button>
     <div id="header_container">
         <div id="header_left">
             <a href="/">
@@ -8,59 +16,47 @@
             </a>
         </div>
         <div id="header_center">
-            <input type="text" id="header_search" placeholder="나의 진짜 성장을 도와줄 실무 강의를 찾아보세요" maxlength="60" autocomplete="true">
+            <input type="text" id="header_search" placeholder="나의 진짜 성장을 도와줄 실무 강의를 찾아보세요" maxlength="60"
+                   autocomplete="true">
             <div id="header_btn"><i class="fa-solid fa-magnifying-glass"></i>검색</div>
         </div>
         <div id="header_right">
             <div class="header_icon">
-                <a href="/cart" >
+                <a href="/cart">
                     <i class="fa-solid fa-cart-shopping" style="line-height: 100px; font-size: 22px;"></i>
                 </a>
             </div>
 
-
-            <!--관현이형 여기부터-->
-            <div class="header_icon"><i class="fa-solid fa-bell" id="header_bell" style="line-height: 100px; font-size: 22px;"></i>
+            <!-- 🔹 알림 아이콘 -->
+            <div class="header_icon">
+                <i class="fa-solid fa-bell" id="header_bell" style="line-height: 100px; font-size: 22px;"></i>
                 <div id="header_bell_detail">
-                    <div id="header_bell_section1">
-                        <!--뽀대용 텍스트-->
-                        알림 목록!
+                    <div id="alarmTotalCount">총 알림 개수 : <span id="totalAlarmCount">0</span>개</div>
+                    <div id="alarmList">
+                        알림 리스트 나오는곳
                     </div>
-
-                    <div id="header_bell_section2" >
-                        <!--알림 목록-->
-                        <span>예시 데이터 입니다</span>
-                        <span>gap : 15px</span>
-                        <span>font size : 14px</span>
-                        <span>color: #2c2c2c</span>
-                        <span>padding : 15px</span>
-                        <span>background color : #efefef</span>
-                    </div>
-                    <div id="header_bell_section3">
-                        <!--알림 센터 링크-->
-                        <a href="/view/알림센터">더 많은 알람보기(링크 넣어요~)</a>
+                    <div id="alarmFilter">
+                        <span id="readAlarmsCount" class="clickable">열람 : <span id="readAlarmCount">0</span>개</span> |
+                        <span id="unreadAlarmsCount" class="clickable">미열람 : <span id="unreadAlarmCount">0</span>개</span>
                     </div>
                 </div>
             </div>
-            <!--관현이형 여기까지-->
 
-
-            <div class="header_icon"><i class="fa-solid fa-user" id="header_profile_icon"  style="line-height: 100px;  font-size: 22px;"></i>
+            <!-- 🔹 프로필 아이콘 -->
+            <div class="header_icon">
+                <i class="fa-solid fa-user" id="header_profile_icon" style="line-height: 100px; font-size: 22px;"></i>
                 <div id="header_profile_detail">
                     <div id="header_profile_detail_section1">
                         <img id="header_profile_img">
                         <div style="display: flex; flex-direction: column;">
-                            <a href="/view/mypage/infoForm"><i class="fa fa-home"></i>&nbsp;<span
-                                    style="font-weight: bold;vertical-align: top;" id="header_profile_name">Guest</span></a>
+                            <a href="/view/mypage/infoForm"><i class="fa fa-home"></i>&nbsp;
+                                <span style="font-weight: bold;vertical-align: top;" id="header_profile_name">Guest</span></a>
                             <a href="/view/class/main" style="color: blueviolet; font-weight: bold;">지식공유방</a>
                         </div>
                     </div>
                     <div id="header_profile_detail_section2">
-                        <div><i class="fa-solid fa-user-graduate"></i><a href="/view/mypage/purchaseHistoryForm">강의목록</a>
-
-                        </div>
-<!--                        <div><i class="fa-solid fa-heart"></i><a href="/view/좋아요">좋아요(아직)</a></div>-->
-                        <div><i class="fa-solid fa-gear"></i><a href="/view/설정">설정</a></div>
+                        <div><i class="fa-solid fa-user-graduate"></i><a href="/view/mypage/purchaseHistoryForm">강의목록</a></div>
+                        <div><i class="fa-solid fa-gear"></i><a href="/view/setting">설정</a></div>
                     </div>
                     <div id="header_profile_detail_section3">
                         <div th:if="${user != null}">
@@ -69,11 +65,12 @@
                         <div th:if="${user == null}">
                             <a href="/view/loginForm">로그인</a>
                         </div>
-
                         <a href="/view/고객센터">고객센터</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </header>
+</body>
 </html>

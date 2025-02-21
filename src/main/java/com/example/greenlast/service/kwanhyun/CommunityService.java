@@ -2,6 +2,8 @@ package com.example.greenlast.service.kwanhyun;
 
 import com.example.greenlast.dao.kwanhyun.CommunityDao;
 import com.example.greenlast.dto.CommunityPostDTO;
+import com.example.greenlast.dto.FileDTO;
+import com.example.greenlast.file.FileEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,11 +77,34 @@ public class CommunityService {
     }
 
     public int getTotalPostCount(String search, String keyword, String pageType) {
-        if (search != null && keyword != null && !search.isEmpty() && !keyword.isEmpty()) {
-            return communityDao.getTotalPostCount(search, keyword, pageType);
+        if (pageType != null) {
+            switch (pageType) {
+                case "free":
+                    pageType = "U";
+                    break;
+                case "qna":
+                    pageType = "Q";
+                    break;
+                case "faq":
+                    pageType = "F";
+                    break;
+                case "class":
+                    pageType = "C";
+                    break;
+            }
         }
-
-        return communityDao.getTotalPostCount(null, null, null);
+        return communityDao.getTotalPostCount(search, keyword, pageType);
     }
+
+    public int getPostId() {
+        int postId = communityDao.getPostId();
+
+        return postId;
+    }
+
+    public List<FileDTO> getCommunityImage(int postId) {
+        return communityDao.getPostImage(postId);
+    }
+
 
 }

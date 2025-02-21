@@ -1,6 +1,7 @@
 .cart-container {
     width: 1400px;
     margin: auto;
+    min-height: 420px;
 }
 
 h1 {
@@ -81,6 +82,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 200px;
     padding: 20px 0;
     font-size: 18px;
 }

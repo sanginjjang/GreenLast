@@ -7,12 +7,22 @@ document.addEventListener("DOMContentLoaded", function () {
             contentSection.innerHTML = '';
 
             paymentHistory.forEach(history => {
-                const refundButton = history.refundStatus === 'n'
-                    ? '<div class="pur_right_refund">환불완료</div>'
+                const refundButton = history.refundStatus === 'y'
+                    ? '<div class="pur_right_refund_btn" style="background-color: #d0d0d0">환불완료</div>'
                     : `<button class="pur_right_refund_btn" onclick="requestRefund(${history.paymentId})">환불신청</button>`;
-                const reviewButton = history.reviewStatus === 'y'
-                    ? '<div class="pur_right_review">작성완료</div>'
-                    : `<button class="pur_right_review_btn" onclick="requestReview(${history.classId})">리뷰작성</button>`;
+                let reviewButton = ``;
+
+                if (history.refundStatus === 'y') {
+                    // 환불된 상태
+                    reviewButton = '<div class="pur_right_review_btn" style="background-color: #d0d0d0">작성불가</div>';
+                } else if (history.reviewStatus === 'y') {
+                    // 이미 리뷰 작성한 상태
+                    reviewButton = '<div class="pur_right_review_btn" style="background-color: #d0d0d0">작성완료</div>';
+                } else {
+                    // 환불되지 않았고, 리뷰도 작성하지 않은 상태
+                    reviewButton = `<button class="pur_right_review_btn" onclick="requestReview(${history.classId})" style="cursor: pointer;">리뷰작성</button>`;
+                }
+
 
                 contentSection.innerHTML += `
                     <div class="pur_box">
@@ -22,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <a href="/home/detail/${history.classId}">
                                     ${history.classTitle}
                                 </a>
+                                <div class="pur_center_teacherName">
+                                강사 : ${history.teacherName}
+                                </div>
                             </div>
                         </div>
                         <div class="pur_box_right">

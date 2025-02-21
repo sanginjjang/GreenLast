@@ -1,7 +1,10 @@
 package com.example.greenlast.controllers.views.kwanhyun;
 
+import com.example.greenlast.dto.CommunityCommentDTO;
 import com.example.greenlast.dto.CommunityPostDTO;
+import com.example.greenlast.dto.FileDTO;
 import com.example.greenlast.security.SecurityUtil;
+import com.example.greenlast.service.kwanhyun.CommentService;
 import com.example.greenlast.service.kwanhyun.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +28,8 @@ import java.util.List;
 @Slf4j
 public class CommunityController {
 
-    @Autowired
-    private CommunityService communityService;
+    private final CommunityService communityService;
+    private final CommentService commentService;
 
     @GetMapping("/CommunityMain")
     public String communityMain(@RequestParam(value = "pageType", required = false) String pageType,
@@ -38,13 +41,15 @@ public class CommunityController {
         List<CommunityPostDTO> postList = communityService.CommunityPostList(page, search, keyword, pageType);
         int totalPosts = communityService.getTotalPostCount(search, keyword, pageType);
         int totalPages = (int) Math.ceil((double) totalPosts / 10);
+        String currentUserRole = SecurityUtil.getCurrentUserRole();
 
         model.addAttribute("postList", postList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("pageType", pageType);
+        model.addAttribute("currentUserRole", currentUserRole);
 
-        return "kwanhyun/CommunityMain"; // 템플릿 파일
+        return "kwanhyun/CommunityMain";
     }
 
 
@@ -55,9 +60,9 @@ public class CommunityController {
                                     @RequestParam(value = "keyword", required = false) String keyword,
                                     Model model) {
         model.addAttribute("pageType", pageType);
-        model.addAttribute("currentPage", 1);
-        model.addAttribute("search", "");
-        model.addAttribute("keyword", "");
+        model.addAttribute("currentPage", page);
+        model.addAttribute("search", search);
+        model.addAttribute("keyword", keyword);
         return "kwanhyun/CommunityRegister";
     }
 
@@ -65,7 +70,6 @@ public class CommunityController {
     @GetMapping("/CommunityDetail")
     public String communityDetail(@RequestParam("postId") int postId,
                                   @RequestParam(value = "pageType", required = false) String pageType,
-                                  @RequestParam(value = "classId", required = false) String classId,
                                   Model model) {
         communityService.viewCounter(postId);
 
@@ -74,27 +78,29 @@ public class CommunityController {
 
         CommunityPostDTO post = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
+        String currentUserRole = SecurityUtil.getCurrentUserRole();
 
-        if (post.getCategory().equals("U")) {
+        if(post.getCategory().equals("U")) {
             pageType = "free";
-        } else if (post.getCategory().equals("N")) {
+        } else if(post.getCategory().equals("N")) {
             pageType = "free";
-        } else if (post.getCategory().equals("Q")) {
+        } else if(post.getCategory().equals("Q")) {
             pageType = "qna";
-        } else if (post.getCategory().equals("F")) {
+        } else if(post.getCategory().equals("F")) {
             pageType = "faq";
-        } else if (post.getCategory().equals("C")) {
+        } else if(post.getCategory().equals("C")) {
             pageType = "class";
         }
-        if (classId != null) {
-            pageType = "class";
-        }
-        System.out.println("pageType: " + pageType);
-        System.out.println("classId: " + classId);
+
+        List<CommunityCommentDTO> commentList = commentService.CommunityCommentList(postId);
+        List<FileDTO> postImageList = communityService.getCommunityImage(postId);
+
         model.addAttribute("communityPost", post);
         model.addAttribute("currentUserId", currentUserId);
+        model.addAttribute("currentUserRole", currentUserRole);
         model.addAttribute("pageType", pageType);
-        model.addAttribute("classId", classId);
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("postImageList", postImageList);
 
         return "kwanhyun/CommunityDetail";
     }
@@ -110,15 +116,15 @@ public class CommunityController {
         CommunityPostDTO post = communityService.getCommunityPost(postDto);
         String currentUserId = SecurityUtil.getCurrentUserId();
 
-        if (post.getCategory().equals("U")) {
+        if(post.getCategory().equals("U")) {
             pageType = "free";
-        } else if (post.getCategory().equals("N")) {
+        } else if(post.getCategory().equals("N")) {
             pageType = "free";
-        } else if (post.getCategory().equals("Q")) {
+        } else if(post.getCategory().equals("Q")) {
             pageType = "qna";
-        } else if (post.getCategory().equals("F")) {
+        } else if(post.getCategory().equals("F")) {
             pageType = "faq";
-        } else if (post.getCategory().equals("C")) {
+        } else if(post.getCategory().equals("C")) {
             pageType = "class";
         }
 
@@ -131,6 +137,5 @@ public class CommunityController {
 
         return "kwanhyun/CommunityEdit";
     }
-
 
 }

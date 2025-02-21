@@ -48,4 +48,10 @@
         WHERE user_id = #{userId}
     </update>
 
+
+
+    <select id="getUserByUserId" resultType="com.example.greenlast.dto.UserDTO">
+        select * from user where user_id = #{userId}
+    </select>
+
 </mapper>

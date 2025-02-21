@@ -5,26 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>User View</title>
-    <style>
-        .user-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 16px;
-            text-align: center;
-            border-radius: 15px;
-        }
-
-        .user-table thead {
-            background-color: #0092ff;
-            color: #ffffff;
-        }
-
-        .user-table th, .user-table td {
-            padding: 12px 20px;
-            border: 1px solid #ddd;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/dongha/userView.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <!-- aside (사용 버전) -->
@@ -38,7 +21,7 @@
 </th:block>
 
 <!-- content -->
-<div layout:fragment="content">
+<div layout:fragment="content" style="min-height: 1000px" >
     <h1>사용자 목록</h1><Br>
     <table border="1" class="user-table">
         <thead>
@@ -50,18 +33,31 @@
             <th>생년월일</th>
             <th>성별</th>
             <th>계정 생성일시</th>
+            <th>계정 상태</th>
+            <th>계정 삭제</th>
         </tr>
         </thead>
         <tbody>
-            <tr th:each="user : ${user}">
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.userId}"></td>
-                <td th:text="${user.phoneNumber}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.birth}"></td>
-                <td th:text="${user.gender}"></td>
-                <td th:text="${user.createdAt}"></td>
-            </tr>
+        <tr th:each="user : ${user}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.birth}"></td>
+            <td th:text="${user.gender}"></td>
+            <td th:text="${user.createdAt}"></td>
+            <td>
+                <span th:if="${user.role eq 'ROLE_USER'}">활성화</span>
+                <span th:if="${user.role eq 'ROLE_ADMIN'}">활성화</span>
+                <span th:if="${user.role eq 'ROLE_PICLE'}" style="color: red;">비활성화</span><br>
+                <button class="role-change-btn" th:data-user-id="${user.userId}" onclick="changeUserRole(this)">
+                    역할 변경
+                </button>
+            </td>
+            <td>
+                <i class="fas fa-times delete-icon" onclick="deleteUser(this)" th:data-user-id="${user.userId}"></i>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -70,7 +66,49 @@
 <!--이거밖에서 스크립트 작성하면 안돌아갑니다...-->
 <div layout:fragment="scripts">
     <script>
-        <!--스크립트 여기 안에서 작성하시면 돼요~-->
+        function deleteUser(iconElement) {
+            let userId = iconElement.getAttribute("data-user-id");
+
+            if (!confirm("정말로 이 사용자를 삭제하시겠습니까?")) {
+                return;
+            }
+
+            axios.delete(`/admin-api/deleteUser/${userId}`)
+                .then(response => {
+                    if (response.data.success) {
+                        alert("사용자가 삭제되었습니다!");
+                        location.reload(); // 페이지 새로고침
+                    } else {
+                        alert("삭제에 실패했습니다. 다시 시도해주세요.");
+                    }
+                })
+                .catch(error => {
+                    console.error("에러 발생:", error);
+                    alert("서버 오류가 발생했습니다.");
+                });
+        }
+
+        function changeUserRole(buttonElement) {
+            let userId = buttonElement.getAttribute("data-user-id");
+
+            if (!confirm("이 사용자의 역할을 변경하시겠습니까?")) {
+                return;
+            }
+
+            axios.post('/admin-api/changeUserRole', { userId: userId })
+                .then(response => {
+                    if (response.data.success) {
+                        alert("사용자 역할이 변경되었습니다!");
+                        location.reload(); // 변경 후 새로고침
+                    } else {
+                        alert("변경에 실패했습니다. 다시 시도해주세요.");
+                    }
+                })
+                .catch(error => {
+                    console.error("에러 발생:", error);
+                    alert("서버 오류가 발생했습니다.");
+                });
+        }
     </script>
 </div>
 </html>

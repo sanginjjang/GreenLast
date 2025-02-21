@@ -29,6 +29,7 @@
     padding-right: 20px;
     align-items: center;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .pur_box_left {
@@ -58,7 +59,7 @@
     max-height: 70px;
 }
 
-.pur_center_term {
+.pur_center_teacherName {
     margin-top: 5px;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.5);
@@ -87,12 +88,17 @@
     cursor: pointer;
     padding: 3px 7px;
 }
-.pur_right_review_btn, .pur_right_refund_btn{
+
+.pur_right_review_btn, .pur_right_refund_btn {
     width: 100%;
-    padding: 5px 0;
+    height: 30px;
+    font-size: 15px;
     border: none;
     border-radius: 3px;
     background-color: #0092ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
 }
 
@@ -134,7 +140,8 @@
     justify-content: center;
     margin-top: 5px;
 }
-#review-modal-star > span{
+
+#review-modal-star > span {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -154,8 +161,10 @@
     border: gray 1px solid;
     border-radius: 10px;
     margin-top: 20px;
+    resize: none;
 }
-#review-modal-content:focus{
+
+#review-modal-content:focus {
     outline: none;
     border: gray 1px solid;
 }

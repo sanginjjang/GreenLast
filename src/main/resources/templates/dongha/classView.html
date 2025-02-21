@@ -20,12 +20,11 @@
 </th:block>
 
 <!-- content -->
-<div layout:fragment="content">
+<div layout:fragment="content" style="min-height: 700px">
     <h1>강의 검토 페이지</h1>
     <table>
         <thead>
         <tr>
-            <th>대표 사진</th>
             <th>강의 제목</th>
             <th>강사명</th>
             <th>요청일시</th>
@@ -48,7 +47,6 @@
                     response.data.forEach(cls => {
                         tbody.innerHTML += `
                         <tr>
-                            <td><img src="${cls.thumbnail}" alt="강의 썸네일"></td>
                             <td><a href="/view/permitClass/detail?classId=${cls.classId}">${cls.classTitle}</a></td>
                             <td>${cls.name}</td>
                             <td>${new Date(cls.classCreateDate).toISOString().split('T')[0]}</td>

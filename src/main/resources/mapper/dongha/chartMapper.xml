@@ -31,7 +31,15 @@
 
     <select id="findUser" resultType="com.example.greenlast.dto.UserDTO">
         SELECT
-        user_id AS userId, PASSWORD, NAME, phone_number AS phoneNumber, email, birth, gender, created_at AS createdAt
+        user_id AS userId,
+        PASSWORD,
+        NAME,
+        phone_number AS phoneNumber,
+        email,
+        birth,
+        gender,
+        created_at AS createdAt,
+        role
         FROM user
         ORDER BY created_at ASC
     </select>
@@ -45,7 +53,7 @@
         u.name AS name
         FROM class c
         LEFT JOIN user u ON c.user_id = u.user_id
-        WHERE c.class_permit = 'W'
+        WHERE c.class_permit = 'N'
     </select>
 
     <update id="updateClassPermit">
@@ -53,6 +61,6 @@
     </update>
 
     <update id="updateClassRejection">
-        UPDATE class SET class_permit = 'N', reject_message = #{rejectMessage} WHERE class_id = #{classId}
+        UPDATE class SET class_permit = 'W', reject_message = #{rejectMessage} WHERE class_id = #{classId}
     </update>
 </mapper>

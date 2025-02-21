@@ -21,7 +21,7 @@
     <div class="filter-container">
         <div class="category-item" data-category="전체">
             <a href="/">
-            <i class="fas fa-th"></i>
+                <i class="fas fa-th"></i>
                 전체
             </a>
         </div>
@@ -65,7 +65,9 @@
     <div class="class-grid">
         <a th:href="@{'/home/detail/' + ${class.classId}}" class="class-card" th:each="class : ${class}">
             <div>
-                <img th:src="@{${class.fileUrl}}" alt="강의 썸네일" width="auto" height="180px"/>
+                <div class="class-thumbnail">
+                    <img th:src="@{${class.fileUrl}}" alt="강의 썸네일"/>
+                </div>
                 <p th:text="${class.classTitle}">강의 제목</p>
                 <p th:text="${class.userId}">강사명</p>
                 <p th:text="${#numbers.formatInteger(class.classPrice, 0, 'COMMA')} + '원'">가격</p>

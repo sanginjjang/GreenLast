@@ -13,6 +13,7 @@
         SELECT
         uph.payment_id AS paymentId,
         uph.user_id AS userId,
+        u.name AS teacherName,
         uph.class_id AS classId,
         c.class_title AS classTitle,
         uph.price,
@@ -24,12 +25,15 @@
         user_payment_history uph
         JOIN
         class c ON uph.class_id = c.class_id
+        JOIN
+        user u ON uph.user_id = u.user_id  -- ✅ user 테이블과 INNER JOIN 추가
         LEFT JOIN
         file f ON f.file_no = c.file_no
         WHERE
         uph.user_id = #{userId}
         ORDER BY
         uph.payment_date DESC;
+
     </select>
 
     <select id="getPaymentById" resultType="com.example.greenlast.dto.UserPaymentHistoryDTO">
@@ -52,7 +56,7 @@
         FROM user_payment_history
         WHERE user_id = #{userId}
         AND class_id = #{classId}
-        AND refund_status != 'y'
+        AND refund_status != 'N'
     </select>
 
     <insert id="requestRefund">
@@ -67,7 +71,7 @@
 
     <update id="updateRefundStatus">
         UPDATE user_payment_history
-        SET refund_status = 'y', refund_date = NOW()
+        SET refund_status = 'Y', refund_date = NOW()
         WHERE payment_id = #{paymentId}
     </update>
 </mapper>
