@@ -26,13 +26,12 @@ public class ClassViewController {
     @RequestMapping("/main")
     public String main(Model model) {
 
-
-        String userId = SecurityUtil.getCurrentUserId();
-        int allStudentCnt = dashboardService.allStudentCnt(userId);
-        int allClassCnt = dashboardService.allClassCnt(userId);
-        String allRevenue = dashboardService.allRevenue(userId);
-        int newStudentCnt = dashboardService.newStudentCnt(userId);
-        double ratingAvg = dashboardService.ratingAvg(userId);
+//        String userId = SecurityUtil.getCurrentUserId(); 나중에 로그인 합치면 구현예정
+        int allStudentCnt = dashboardService.allStudentCnt("dlehdgk123");
+        int allClassCnt = dashboardService.allClassCnt("dlehdgk123");
+        String allRevenue = dashboardService.allRevenue("dlehdgk123");
+        int newStudentCnt = dashboardService.newStudentCnt("dlehdgk123");
+        double ratingAvg = dashboardService.ratingAvg("dlehdgk123");
 
         model.addAttribute("studentCnt",allStudentCnt);
         model.addAttribute("classCnt",allClassCnt);
@@ -48,8 +47,7 @@ public class ClassViewController {
     public String classManagement(Model model) {
 
         //나중에 userId로 바꿀 예정@@
-        String userId = SecurityUtil.getCurrentUserId();
-        List<ClassManagementDTO> classManagements = classManagementService.getClassManagementInfo(userId);
+        List<ClassManagementDTO> classManagements = classManagementService.getClassManagementInfo("dlehdgk123");
 
 
         System.out.println("@@@@@@@@@@@@@@@@@@");
