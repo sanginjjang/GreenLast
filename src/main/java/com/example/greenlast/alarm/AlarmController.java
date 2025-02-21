@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/alarm")
@@ -24,15 +25,11 @@ public class AlarmController {
         return alarmService.subscribe(userId);
     }
 
-    @GetMapping("/sendAlarm/{userId}/{alarmType}")
-    public String sendAlarm(@PathVariable("userId") String userId, @PathVariable("alarmType") String alarmType) {
-        String message = setMessageByAlarmType(alarmType);
-        alarmService.sendAlarm(userId, message);
-        return "알림 발송된 아이디 : " + userId + "알림 내용 :" + message;
-    }
+    // Todo : Sse 사용해서 알람 실시간으로 보내는 메소드
 
-    public String setMessageByAlarmType(String alarmType) {
-        switch (alarmType) {
+
+    public String setContentByAlarmType(AlarmDTO alarmDTO) {
+        switch (alarmDTO.getAlarmType()) {
             case "COMMENT" :
                 return "등록한 게시글에 댓글이 달렸습니다.";
             case "NOTICE":
@@ -43,8 +40,11 @@ public class AlarmController {
     }
 
     @PostMapping("/alarm")
-    public void createAlarm(@RequestBody AlarmDTO alarmdto) {
+    public String createAlarm(@RequestBody AlarmDTO alarmdto) {
+        alarmdto.setAlarmContent(setContentByAlarmType(alarmdto));
 
+        alarmService.createAlarm(alarmdto);
+        return "알림 발송된 아이디 : " + alarmdto.getUserId() + "알림 내용 :" + alarmdto.getAlarmContent();
     }
 
     @GetMapping("/alarms")
@@ -57,34 +57,19 @@ public class AlarmController {
         return alarmService.getAlarmCount(userId);
     }
 
-    @GetMapping("/alarms/unread")
-    public List<AlarmDTO> getUnreadAlarms(@RequestParam("userId") String userId) {
-        return alarmService.getUnreadAlarms(userId);
-    }
-
-    @GetMapping("/alarms/unread/count")
-    public int getUnreadAlarmCount(@RequestParam("userId") String userId) {
-        return alarmService.getUnreadAlarmCount(userId);
-    }
-
-    @GetMapping("/alarms/read")
-    public List<AlarmDTO> getReadAlarms(@RequestParam("userId") String userId) {
-        return alarmService.getReadAlarms(userId);
-    }
-
-    @GetMapping("/alarms/read/count")
-    public int getReadAlarmCount(@RequestParam("userId") String userId) {
-        return alarmService.getReadAlarmCount(userId);
-    }
-
     @DeleteMapping("/alarms/{alarmId}")
     public String deleteAlarm(@PathVariable("alarmId") int alarmId, @RequestParam("userId") String userId) {
+        System.out.println(alarmId);
+        System.out.println(alarmId);
+        System.out.println(userId);
+        System.out.println(userId);
         alarmService.deleteAlarm(alarmId, userId);
         return "알림 삭제 완료";
     }
 
-    @PatchMapping("/alarms/read/{alarmId}")
-    public String markAsRead(@PathVariable("alarmId") int alarmId, @RequestParam("userId") String userId) {
+    @PatchMapping("/read/{alarmId}")
+    public String markAsRead(@PathVariable("alarmId") int alarmId, @RequestBody Map<String, String> requestData) {
+        String userId = requestData.get("userId");
         alarmService.markAsRead(alarmId, userId);
         return "알림 읽음 처리 완료";
     }
