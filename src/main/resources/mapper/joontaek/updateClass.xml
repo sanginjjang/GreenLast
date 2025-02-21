@@ -94,32 +94,52 @@
         SELECT lesson_id FROM class_lesson
     </select>
 
-    <update id="updateSection">
-        UPDATE class_section SET section_title = #{sectionTitle} , class_permit = 'N' where section_id = #{sectionId}
-    </update>
 
-    <insert id="updateNewSection">
-        INSERT INTO class_section (section_id,class_id,section_title,class_permit)
-        VALUES
-        (NULL,#{classId},#{sectionTitle},'N')
-    </insert>
+    <select id="getSectionIdByClassId" resultType="java.lang.Long">
+        SELECT section_id FROM class_section WHERE class_id = #{classId}
+    </select>
 
-    <update id="updateLesson">
-        UPDATE class_lesson SET lesson_title = #{lessonTitle} WHERE lesson_id = #{lessonId}
-    </update>
-
-    <insert id="updateNewLesson">
-        INSERT INTO class_lesson (lesson_id,section_id,lesson_title) VALUES
-        (null,#{sectionId},#{lessonTitle})
-    </insert>
-
-    <delete id="deleteSection">
-        DELETE FROM class_section WHERE section_id = #{sectionId}
+    <delete id="deleteAllSectionsByClassId">
+        DELETE FROM class_section WHERE class_id = #{classId}
     </delete>
 
-    <delete id="deleteLesson">
-        DELETE FROM class_lesson WHERE lesson_id = #{lessonId}
+    <delete id="deleteAllLessonsBySectionId">
+        DELETE FROM class_lesson WHERE section_id = #{sectionId}
     </delete>
 
+
+    <insert id="insertOriSection">
+        INSERT INTO class_section (section_id, class_id, section_title, class_permit) VALUES
+        (#{sectionId} , #{classId}, #{sectionTitle}, 'N')
+    </insert>
+
+    <insert id="insertNewSection">
+        INSERT INTO class_section (section_id, class_id, section_title, class_permit) VALUES
+        (null , #{classId}, #{sectionTitle}, 'N')
+    </insert>
+
+    <select id="getMaxSectionId" resultType="java.lang.Long">
+        SELECT MAX(section_id) FROM class_section
+    </select>
+
+    <insert id="insertLesson">
+        INSERT INTO class_lesson (lesson_id, section_id, lesson_title,file_no) VALUES
+        (#{lessonId} , #{sectionId}, #{lessonTitle} , #{fileNo})
+    </insert>
+
+
+
+    <select id="getLessonInfoByLessonId" resultType="com.example.greenlast.dto.LessonDTO">
+        SELECT * FROM class_lesson WHERE lesson_id = #{lessonId}
+    </select>
+
+    <select id="getMaxFileNo" resultType="_int">
+        SELECT MAX(file_no) FROM file;
+    </select>
+
+    <insert id="insertNewLesson">
+        INSERT INTO class_lesson (lesson_id,section_id,lesson_title,file_no) VALUES
+        (null,#{sectionId},#{lessonTitle},#{fileNo})
+    </insert>
 
 </mapper>

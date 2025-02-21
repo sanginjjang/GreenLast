@@ -62,7 +62,7 @@ public class MakeClassController {
 
 
         String userId = SecurityUtil.getCurrentUserId();
-        classInfo.setUserId("박준택");
+        classInfo.setUserId(userId);
         makeClassService.saveClassInfo(classInfo);
         Integer classId = makeClassDao.getMaxClassId();
 //        makeClassService.saveClassInfo(classInfo);

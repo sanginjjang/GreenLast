@@ -176,6 +176,38 @@ aside ul li a:hover {
     color: white;
 }
 
+.class-table form button {
+    background-color: #007bff; /* 파란색 */
+    color: white;
+    padding: 8px 14px; /* 버튼 크기 조정 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* 마우스 호버 효과 */
+.class-table form button:hover {
+    background-color: #0056b3; /* 더 진한 파란색 */
+    transform: scale(1.05); /* 약간 커지는 효과 */
+}
+
+/* 버튼 클릭 시 효과 */
+.class-table form button:active {
+    background-color: #004080;
+    transform: scale(0.95);
+}
+
+/* 반응형 스타일 (작은 화면에서도 보기 좋게) */
+@media (max-width: 768px) {
+    .class-table form button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
 
 
 

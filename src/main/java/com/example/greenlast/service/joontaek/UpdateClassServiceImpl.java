@@ -55,53 +55,78 @@ public class UpdateClassServiceImpl implements UpdateClassService {
     }
 
     @Override
-    public int updateSection(String sectionTitle, Long sectionId) {
-        int result = dao.updateSection(sectionTitle, sectionId);
+    public List<Long> getSectionIdByClassId(int classId) {
+        List<Long> sectionIdList = dao.getSectionIdByClassId(classId);
+        return sectionIdList;
+    }
+
+    @Override
+    public int deleteAllSectionsByClassId(int classId) {
+        int result = dao.deleteAllSectionsByClassId(classId);
         return result;
     }
 
     @Override
-    public int updateNewSection(int classId, String sectionTitle) {
-        int result = dao.updateNewSection(classId, sectionTitle);
+    public int deleteAllLessonsBySectionId(Long sectionId) {
+        int result = dao.deleteAllLessonsBySectionId(sectionId);
         return result;
     }
 
     @Override
-    public int updateLesson(String lessonTitle, Long lessonId) {
-        int result = dao.updateLesson(lessonTitle, lessonId);
+    public int insertOriSection(Long sectionId,int classId, String sectionTitle) {
+        int result = dao.insertOriSection(sectionId,classId, sectionTitle);
         return result;
     }
 
     @Override
-    public int updateNewLesson(Long sectionId, String lessonTitle) {
-        int result = dao.updateNewLesson(sectionId, lessonTitle);
+    public int insertNewSection(int classId, String sectionTitle) {
+        int result = dao.insertNewSection(classId, sectionTitle);
         return result;
     }
 
     @Override
-    public int deleteSection(Long sectionId) {
-        int result = dao.deleteSection(sectionId);
+    public Long getMaxSectionId() {
+        Long maxSectionId = dao.getMaxSectionId();
+        return maxSectionId;
+    }
+
+    @Override
+    public int insertLesson(Long lessonId,Long sectionId, String lessonTitle,int fileNo) {
+        int result = dao.insertLesson(lessonId,sectionId, lessonTitle,fileNo);
         return result;
     }
 
     @Override
-    public int deleteLesson(Long lessonId) {
-        int result = dao.deleteLesson(lessonId);
+    public int getMaxFileNo() {
+        int fileNo = dao.getMaxFileNo();
+        return fileNo;
+    }
+
+    @Override
+    public int insertNewLesson(Long sectionId, String lessonTitle, int fileNo) {
+        int result = dao.insertNewLesson(sectionId, lessonTitle, fileNo);
         return result;
     }
 
     @Override
     public List<Long> getOriSectionId() {
-
-        List<Long> sectionIdList = dao.getOriSectionId();
-        return sectionIdList;
-
+        return List.of();
     }
 
     @Override
     public List<Long> getOriLessonId() {
-        List<Long> lessonIdList = dao.getOriLessonId();
-        return lessonIdList;
+        return List.of();
     }
+
+    @Override
+    public List<LessonDTO> getLessonInfoByLessonId(Long lessonId) {
+        List<LessonDTO> lessonInfos = dao.getLessonInfoByLessonId(lessonId);
+        return lessonInfos;
+    }
+
 }
+
+
+
+
 

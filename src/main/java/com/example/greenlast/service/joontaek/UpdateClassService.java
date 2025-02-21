@@ -1,9 +1,6 @@
 package com.example.greenlast.service.joontaek;
 
-import com.example.greenlast.dto.ClassDTO;
-import com.example.greenlast.dto.ClassSectionDTO;
-import com.example.greenlast.dto.FileDTO;
-import com.example.greenlast.dto.SectionDTO;
+import com.example.greenlast.dto.*;
 
 import java.util.List;
 
@@ -18,21 +15,27 @@ public interface UpdateClassService {
     public List<SectionDTO> getSections(int classId);
 
 
+    public List<Long> getSectionIdByClassId(int classId);
+
+    public int deleteAllSectionsByClassId(int classId);
+    public int deleteAllLessonsBySectionId(Long sectionId);
 
 
-    public int updateSection(String sectionTitle, Long sectionId);
-    public int updateNewSection(int classId, String sectionTitle);
+    public int insertOriSection(Long sectionId, int classId, String sectionTitle);
+    public int insertNewSection(int classId, String sectionTitle);
 
-    public int updateLesson(String lessonTitle, Long lessonId);
-    public int updateNewLesson(Long sectionId, String lessonTitle);
+    public Long getMaxSectionId();
 
-    public int deleteSection(Long sectionId);
-    public int deleteLesson(Long lessonId);
-
-
+    public int insertLesson(Long lessonId,Long sectionId, String lessonTitle,int fileNo);
+    public int getMaxFileNo();
+    public int insertNewLesson(Long sectionId, String lessonTitle, int fileNo);
 
 
 
     public List<Long> getOriSectionId();
     public List<Long> getOriLessonId();
+
+    public List<LessonDTO> getLessonInfoByLessonId(Long lessonId);
+
+
 }
