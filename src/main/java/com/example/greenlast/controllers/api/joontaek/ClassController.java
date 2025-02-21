@@ -3,6 +3,7 @@ package com.example.greenlast.controllers.api.joontaek;
 import com.example.greenlast.dto.AgeGraphDTO;
 import com.example.greenlast.dto.RevenueGraphDTO;
 import com.example.greenlast.dto.ScheduleDTO;
+import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.joontaek.ClassDashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,8 @@ public class ClassController {
     @RequestMapping("revenueGraph")
     public ResponseEntity<List<RevenueGraphDTO>> revenueGraph() {
         // 나중에 시큐리티 값 넣을 예정
-        List<RevenueGraphDTO> revenueGraph = dashboardService.getRevenueGraph("dlehdgk123");
+        String userId = SecurityUtil.getCurrentUserId();
+        List<RevenueGraphDTO> revenueGraph = dashboardService.getRevenueGraph(userId);
 
 
         return ResponseEntity.ok(revenueGraph);
@@ -33,7 +35,8 @@ public class ClassController {
     @RequestMapping("ageGraph")
     public ResponseEntity<List<AgeGraphDTO>> ageGraph() {
         // 나중에 시큐리티 값 넣을 예정
-        List<AgeGraphDTO> ageGraph = dashboardService.getAgeGraph("dlehdgk123");
+        String userId = SecurityUtil.getCurrentUserId();
+        List<AgeGraphDTO> ageGraph = dashboardService.getAgeGraph(userId);
 
 
 
