@@ -60,7 +60,6 @@ public class SecurityConfig {
                                 "/images/**",
                                 "/js/**",
                                 "/api/file/upload"
-                                "/api/file/upload"
                                 //"/**" //나중에 이거 주석 처리 하시오
                         ).permitAll()
 
