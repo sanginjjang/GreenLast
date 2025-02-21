@@ -142,4 +142,37 @@
         (null,#{sectionId},#{lessonTitle},#{fileNo})
     </insert>
 
+
+
+    <!-- 강의소개수정@@@@@@@@@@@ !-->
+    <!-- 강의소개수정@@@@@@@@@@@ !-->
+    <!-- 강의소개수정@@@@@@@@@@@ !-->
+
+    <resultMap id="IntroduceResultMap" type="com.example.greenlast.dto.IntroduceDTO">
+        <collection property="content" ofType="com.example.greenlast.dto.IntroduceDTO$BlockData">
+            <id property="blockId" column="block_id"/>
+            <result property="blockType" column="block_type"/>
+
+            <collection property="elements" ofType="com.example.greenlast.dto.IntroduceDTO$ElementData">
+                <id property="elementId" column="element_id"/>
+                <result property="elementType" column="element_type"/>
+                <result property="content" column="element_content"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="getIntroduceInfo" resultMap="IntroduceResultMap">
+        SELECT
+        ib.block_id,
+        ib.block_type,
+        be.element_id,
+        be.element_type,
+        be.element_content
+        FROM class c
+        LEFT JOIN introduce_block ib ON ib.class_id = c.class_id
+        LEFT JOIN block_element be ON be.block_id = ib.block_id
+        WHERE c.class_id = #{classId}
+    </select>
+
+
 </mapper>

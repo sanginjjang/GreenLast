@@ -1,10 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>강의 소개글 수정</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #blocks-container {
+            min-height: 50px;
+        }
+        .content-block {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 두 개의 요소가 있을 경우 가로 정렬 */
+        .content-block.two-column {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .content-wrapper > div {
+            flex: 1;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .save-button-wrapper {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .save-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 <body>
-<h1>라스트씨빨@@@@@@@@@@@</h1>
+
+<div layout:fragment="content" class="container">
+    <h1>강의 소개글 수정</h1>
+
+    <div id="blocks-container">
+        <div th:each="intro : ${introduceInfoList}">
+            <div th:each="block, iterStat : ${intro.content}"
+                 th:class="'content-block ' + (${block.blockType} == 'double' ? 'two-column' : '')">
+
+                <!-- two-column 일 때는 content-wrapper 내부에 배치 -->
+                <div th:if="${block.blockType == 'double'}" class="content-wrapper">
+                    <div th:each="element : ${block.elements}">
+                        <div th:switch="${element.elementType}">
+                            <div th:case="'text'">
+                                <textarea class="text-input" th:text="${element.content}"></textarea>
+                            </div>
+                            <div th:case="'image'" class="image-preview">
+                                <img th:src="@{${element.content}}"
+                                     alt="강의 이미지"
+                                     onerror="this.onerror=null; this.src='/default-image.png'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- single일 때는 기존 방식 유지 -->
+                <div th:if="${block.blockType == 'single'}">
+                    <div th:each="element : ${block.elements}">
+                        <div th:switch="${element.elementType}">
+                            <div th:case="'text'">
+                                <textarea class="text-input" th:text="${element.content}"></textarea>
+                            </div>
+                            <div th:case="'image'" class="image-preview">
+                                <img th:src="@{${element.content}}"
+                                     alt="강의 이미지"
+                                     onerror="this.onerror=null; this.src='/default-image.png'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="save-button-wrapper">
+        <button type="button" class="save-button" onclick="saveEditedContent()">
+            <i class="fas fa-save"></i> 저장하기
+        </button>
+    </div>
+</div>
+
+<script>
+    async function saveEditedContent() {
+        try {
+            const saveButton = document.querySelector('.save-button');
+            saveButton.innerHTML = '저장 중...';
+            saveButton.disabled = true;
+
+            const blocks = document.querySelectorAll('.content-block');
+            const contentData = [];
+
+            blocks.forEach(block => {
+                const isDoubleColumn = block.classList.contains('two-column');
+                const elements = block.querySelectorAll('.text-input, .image-preview img');
+
+                const blockData = {
+                    blockType: isDoubleColumn ? 'double' : 'single',
+                    elements: []
+                };
+
+                elements.forEach(element => {
+                    if (element.classList.contains('text-input')) {
+                        blockData.elements.push({
+                            elementType: 'text',
+                            content: element.value
+                        });
+                    } else {
+                        blockData.elements.push({
+                            elementType: 'image',
+                            content: element.src
+                        });
+                    }
+                });
+
+                contentData.push(blockData);
+            });
+
+            const response = await axios.post('/view/classUpdate/saveIntroduce', { content: contentData });
+
+            if (response.data.success) {
+                alert('수정이 완료되었습니다!');
+                window.location.href = '/view/class/main';
+            } else {
+                throw new Error('저장 실패');
+            }
+
+        } catch (error) {
+            console.error('저장 중 오류:', error);
+            alert('저장 도중 오류가 발생했습니다.');
+        } finally {
+            const saveButton = document.querySelector('.save-button');
+            saveButton.innerHTML = '<i class="fas fa-save"></i> 저장하기';
+            saveButton.disabled = false;
+        }
+    }
+</script>
+
 </body>
 </html>

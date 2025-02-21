@@ -38,4 +38,6 @@ public interface UpdateClassService {
     public List<LessonDTO> getLessonInfoByLessonId(Long lessonId);
 
 
+    public List<IntroduceDTO> getIntroduceInfo(int classId);
+
 }

@@ -379,10 +379,32 @@ public class UpdateClassController {
     }
 
     @RequestMapping("/last")
-    public String last(){
-        System.out.println("라스트 들어왔따 씨빨!!!!!!!!!!!!");
+    public String last(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        int classId = (Integer) session.getAttribute("classId");
+
+
+        List<IntroduceDTO> introduceInfoList = updateClassService.getIntroduceInfo(classId);
+
+
+        for (IntroduceDTO dto : introduceInfoList) {
+            for (IntroduceDTO.BlockData block : dto.getContent()) {
+                System.out.println("[Block] ID = " + block.getBlockId()
+                        + ", Type = " + block.getBlockType());
+                for (IntroduceDTO.ElementData element : block.getElements()) {
+                    System.out.println("  [Element] ID = " + element.getElementId()
+                            + ", Type = " + element.getElementType()
+                            + ", Content = " + element.getContent());
+                }
+            }
+        }
+
+        model.addAttribute("introduceInfoList", introduceInfoList);
+
+
         return "joontaek/class/ClassUpdateLast";
     }
+
 
 
 }

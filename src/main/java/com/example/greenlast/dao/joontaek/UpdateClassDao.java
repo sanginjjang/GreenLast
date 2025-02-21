@@ -47,6 +47,8 @@ public interface UpdateClassDao {
     public List<LessonDTO> getLessonInfoByLessonId(Long lessonId);
 
 
+    public List<IntroduceDTO> getIntroduceInfo(int classId);
+
 
 
 

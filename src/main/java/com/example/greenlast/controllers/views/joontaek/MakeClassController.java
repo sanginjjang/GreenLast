@@ -201,19 +201,6 @@ public class MakeClassController {
             List<MultipartFile> videos = (List<MultipartFile>) session.getAttribute("videos");
 
 
-            System.out.println("강의 정보");
-            System.out.println(classInfo);
-
-            System.out.println("섹션 정보");
-            System.out.println(sectionInfo);
-
-            System.out.println("수업 정보");
-            System.out.println(lessonInfo);
-
-            System.out.println("비디오 정보");
-            System.out.println(videos);
-
-
             int classId = makeClassDao.getMaxClassId();
 
 
@@ -229,7 +216,7 @@ public class MakeClassController {
 
                         // 파일 이름 생성
                         String fileName = "image_" + System.currentTimeMillis() + ".jpg";
-                        String filePath = "C:/classInfoImg/" + fileName;
+                        String filePath = "/uploads/classInfoImg/" + fileName;
 
                         // Base64를 파일로 저장
                         byte[] imageBytes = Base64.getDecoder().decode(base64Image);

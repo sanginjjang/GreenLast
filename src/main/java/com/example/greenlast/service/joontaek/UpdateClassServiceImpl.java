@@ -124,6 +124,12 @@ public class UpdateClassServiceImpl implements UpdateClassService {
         return lessonInfos;
     }
 
+    @Override
+    public List<IntroduceDTO> getIntroduceInfo(int classId) {
+        List<IntroduceDTO> introduceInfoList = dao.getIntroduceInfo(classId);
+        return introduceInfoList;
+    }
+
 }
 
 

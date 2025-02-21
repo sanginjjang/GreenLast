@@ -1,0 +1,33 @@
+package com.example.greenlast.dto;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class IntroduceDTO {
+    private List<BlockData> content;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class BlockData {
+        private int blockId;
+        private String blockType; // "single" or "double"
+        private List<ElementData> elements;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class ElementData {
+        private int elementId;
+        private String elementType; // "text" or "image"
+        private String content;
+    }
+}
