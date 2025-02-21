@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.greenlast.dao.joontaek.UpdateClassDao">
+
+    <select id="getClassInfo" parameterType="int" resultType="com.example.greenlast.dto.ClassDTO">
+        SELECT * FROM class WHERE class_id = #{classId}
+    </select>
+
+    <select id="getThumbnailImg" resultType="com.example.greenlast.dto.FileDTO">
+        SELECT * FROM file WHERE file_no = #{fileNo}
+    </select>
+
+    <update id="updateClassInfo">
+        UPDATE class SET class_title = #{classTitle} , description = #{description}, class_price = #{classPrice}, class_category = #{classCategory} ,
+        class_create_date = NOW(),  class_permit = #{classPermit} , class_recom = #{classRecom} , class_level = #{classLevel} , file_no = #{fileNo}
+        WHERE class_id = #{classId}
+    </update>
+
+    <select id="getSectionByClassId" resultType="com.example.greenlast.dto.ClassSectionDTO">
+        SELECT
+        section_id AS sectionId,
+        class_id As classId,
+        section_title AS title,
+        class_permit AS classPermit
+        FROM class_section
+        WHERE class_id = #{classId}
+    </select>
+
+    <select id="getLessonsBySectionId" resultType="com.example.greenlast.dto.ClassLessonDTO">
+        SELECT
+        cl.lesson_id AS lessonId,
+        cl.section_id AS sectionId,
+        cl.lesson_title AS lessonTitle,
+        cl.file_no, f.file_url
+        FROM class_lesson cl
+        LEFT JOIN file f ON cl.file_no = f.file_no
+        WHERE cl.section_id = #{sectionId}
+        ORDER BY cl.lesson_id;
+    </select>
+
+
+    <!-- GPT@@@@@@@@@@@@@@@@@@@@@@@@@@@ !-->
+    <!-- GPT@@@@@@@@@@@@@@@@@@@@@@@@@@@ !-->
+    <!-- GPT@@@@@@@@@@@@@@@@@@@@@@@@@@@ !-->
+    <!-- GPT@@@@@@@@@@@@@@@@@@@@@@@@@@@ !-->
+
+    <resultMap id="SectionResultMap" type="com.example.greenlast.dto.SectionDTO">
+        <!-- SectionDTO -->
+        <id property="sectionId" column="section_id"/>
+        <result property="title" column="section_title"/>
+
+        <!-- lessons: collection(1:N) -->
+        <collection property="lessons" ofType="com.example.greenlast.dto.SectionDTO$Lesson">
+            <id property="lessonId" column="lesson_id"/>
+            <result property="title" column="lesson_title"/>
+
+            <!-- video: association(1:1) -->
+            <association property="video" javaType="com.example.greenlast.dto.SectionDTO$Lesson$Video">
+                <result property="fileNo" column="file_no"/>
+                <result property="fileName" column="file_name"/>
+                <result property="fileUrl" column="file_url"/>
+                <result property="fileSize" column="file_size"/>
+                <!-- hasVideo → CASE WHEN or TypeHandler 등으로 DB -> boolean 변환 -->
+                <result property="hasVideo" column="has_video"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="getSections" resultMap="SectionResultMap">
+        SELECT
+        cs.section_id,
+        cs.section_title,
+        cl.lesson_id,
+        cl.lesson_title,
+        f.file_no,
+        f.file_old_name AS file_name,
+        f.file_url,
+        f.file_size,
+        CASE WHEN f.file_no IS NOT NULL THEN 1 ELSE 0 END AS has_video
+        FROM class_section cs
+        LEFT JOIN class_lesson cl ON cs.section_id = cl.section_id
+        LEFT JOIN file f ON f.file_no = cl.file_no
+        WHERE cs.class_id = #{classId}
+        ORDER BY cs.section_id, cl.lesson_id
+    </select>
+
+    <select id="getOriSectionId" resultType="java.lang.Long">
+        SELECT section_id FROM class_section
+    </select>
+
+    <select id="getOriLessonId" resultType="java.lang.Long">
+        SELECT lesson_id FROM class_lesson
+    </select>
+
+
+    <select id="getSectionIdByClassId" resultType="java.lang.Long">
+        SELECT section_id FROM class_section WHERE class_id = #{classId}
+    </select>
+
+    <delete id="deleteAllSectionsByClassId">
+        DELETE FROM class_section WHERE class_id = #{classId}
+    </delete>
+
+    <delete id="deleteAllLessonsBySectionId">
+        DELETE FROM class_lesson WHERE section_id = #{sectionId}
+    </delete>
+
+
+    <insert id="insertOriSection">
+        INSERT INTO class_section (section_id, class_id, section_title, class_permit) VALUES
+        (#{sectionId} , #{classId}, #{sectionTitle}, 'N')
+    </insert>
+
+    <insert id="insertNewSection">
+        INSERT INTO class_section (section_id, class_id, section_title, class_permit) VALUES
+        (null , #{classId}, #{sectionTitle}, 'N')
+    </insert>
+
+    <select id="getMaxSectionId" resultType="java.lang.Long">
+        SELECT MAX(section_id) FROM class_section
+    </select>
+
+    <insert id="insertLesson">
+        INSERT INTO class_lesson (lesson_id, section_id, lesson_title,file_no) VALUES
+        (#{lessonId} , #{sectionId}, #{lessonTitle} , #{fileNo})
+    </insert>
+
+
+
+    <select id="getLessonInfoByLessonId" resultType="com.example.greenlast.dto.LessonDTO">
+        SELECT * FROM class_lesson WHERE lesson_id = #{lessonId}
+    </select>
+
+    <select id="getMaxFileNo" resultType="_int">
+        SELECT MAX(file_no) FROM file;
+    </select>
+
+    <insert id="insertNewLesson">
+        INSERT INTO class_lesson (lesson_id,section_id,lesson_title,file_no) VALUES
+        (null,#{sectionId},#{lessonTitle},#{fileNo})
+    </insert>
+
+</mapper>

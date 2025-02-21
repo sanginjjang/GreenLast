@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 커리큘럼 수정</title>
+    <link rel="stylesheet" href="/css/joontaek/ClassUpdateSecond.css">
+</head>
+<body>
+<div layout:fragment="content" class="content-container">
+    <h2>강의 커리큘럼 수정</h2>
+
+
+    <div id="sections-container">
+<!--        <div th:each="section, sectionIndex : ${sections}" class="section" th:id="'section-' + ${section.sectionId}">-->
+<!--            <div class="section-header">-->
+<!--                <input type="text" class="section-title" th:value="${section.title}"/>-->
+<!--                <button class="delete-btn" onclick="deleteSection(this)">삭제</button>-->
+<!--            </div>-->
+
+<!--            <div class="lesson-list">-->
+<!--                <div th:each="lesson, lessonIndex : ${section.lessons}" class="lesson-item"-->
+<!--                     th:id="'lesson-' + ${lesson.lessonId}"-->
+<!--                     th:data-file-no="${lesson.video != null ? lesson.video.fileNo : 0}"-->
+<!--                     th:data-file-name="${lesson.video != null ? lesson.video.fileName : ''}"-->
+<!--                     th:data-file-size="${lesson.video != null ? lesson.video.fileSize : ''}">-->
+
+<!--                    &lt;!&ndash; 수업 제목 &ndash;&gt;-->
+<!--                    <div class="lesson-title" onclick="openContentModal(this.parentElement)"-->
+<!--                         th:text="${lesson.title}"></div>-->
+
+<!--                    &lt;!&ndash; 영상 정보 &ndash;&gt;-->
+<!--                    <div class="badge-container">-->
+<!--                    <span th:if="${lesson.video != null && lesson.video.hasVideo}" class="video-badge">-->
+<!--                        📹 영상 있음-->
+<!--                        <span class="file-details">-->
+<!--                            (<span th:text="${lesson.video.fileName}"></span> - <span-->
+<!--                                th:text="${lesson.video.fileSize}"></span>)-->
+<!--                        </span>-->
+<!--                    </span>-->
+<!--                        <span th:unless="${lesson.video != null && lesson.video.hasVideo}" class="video-badge"-->
+<!--                              style="background-color: #ffebee; color: #c62828;">-->
+<!--                        🚫 영상 없음-->
+<!--                    </span>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; 레슨 삭제 버튼 &ndash;&gt;-->
+<!--                    <button class="delete-btn" onclick="deleteLesson(this)">삭제</button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; 섹션 안에 "새 레슨 추가" 버튼 추가 &ndash;&gt;-->
+<!--            <button class="add-lesson-btn" onclick="addLesson(this)">새 레슨 추가</button>-->
+<!--        </div>-->
+        <div th:each="section, sectionIndex : ${sections}"
+             class="section"
+             th:id="'section-' + ${section.sectionId}"
+             th:data-section-id="${section.sectionId}"> <!-- ✅ 섹션 ID 유지 -->
+
+            <div class="section-header">
+                <input type="text" class="section-title" th:value="${section.title}"/>
+                <button class="delete-btn" onclick="deleteSection(this)">삭제</button>
+            </div>
+
+            <div class="lesson-list">
+                <div th:each="lesson, lessonIndex : ${section.lessons}"  class="lesson-item"
+                     th:id="'lesson-' + ${lesson.lessonId}"
+                     th:data-lesson-id="${lesson.lessonId}"
+                th:data-file-no="${lesson.video != null ? lesson.video.fileNo : ''}"
+                th:data-file-name="${lesson.video != null ? lesson.video.fileName : ''}"
+                th:data-file-size="${lesson.video != null ? lesson.video.fileSize : ''}">
+
+                <div class="lesson-title" onclick="openContentModal(this.parentElement)"
+                     th:text="${lesson.title}"></div>
+
+                <div class="badge-container">
+                <span th:if="${lesson.video != null && lesson.video.hasVideo}" class="video-badge">
+                    📹 영상 있음
+                    <span class="file-details">
+                        (<span th:text="${lesson.video.fileName}"></span> - <span th:text="${lesson.video.fileSize}"></span>)
+                    </span>
+                </span>
+                    <span th:unless="${lesson.video != null && lesson.video.hasVideo}" class="video-badge"
+                          style="background-color: #ffebee; color: #c62828;">
+                    🚫 영상 없음
+                </span>
+                </div>
+
+                <button class="delete-btn" onclick="deleteLesson(this)">삭제</button>
+            </div>
+        </div>
+
+        <button class="add-lesson-btn" onclick="addLesson(this)">새 레슨 추가</button>
+    </div>
+
+</div>
+
+
+    <div id="content-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>수업 편집</h2>
+                <button class="close-btn" onclick="closeModal('content-modal')">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>수업 제목</label>
+                    <input type="text" id="content-title-input" placeholder="수업 제목을 입력하세요">
+                </div>
+
+                <div class="upload-section">
+                    <div class="upload-header">
+                        <span>영상 업로드</span>
+                        <button class="upload-btn" onclick="triggerFileUpload()">신규 업로드</button>
+                        <!-- 숨겨진 파일 입력 필드 추가 -->
+                        <input type="file" id="video-upload"
+                               accept=".mp4,.mkv,.m4v,.mov"
+                               style="display: none;"
+                               onchange="handleFileSelect(this)">
+                    </div>
+                    <div class="file-info">
+                        최대 5GB (.mp4, .mkv, .m4v, .mov 만 가능), 최소 720p 이상
+                    </div>
+                    <div class="upload-area" id="upload-area">
+                        <p id="upload-text">아직 업로드된 영상이 없어요</p>
+                        <p class="upload-desc">수업과 연관된 참고 영상을 업로드해주세요.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('content-modal')">취소</button>
+                <button class="btn-save" onclick="saveContent()">저장</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="button-container">
+        <button class="add-section-btn" onclick="addSection()">새 섹션 추가</button>
+        <button type="button" class="update-curriculum-btn" onclick="updateCurriculum()">수정</button>
+        <form action="/view/classUpdate/last" method="post">
+            <input type="hidden" name="classId" th:value="${sections[0].sectionId}">
+            <button type="submit" class="next-button">다음</button>
+        </form>
+    </div>
+
+</div>
+
+
+
+
+</div>
+
+
+<div layout:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+
+
+        let lessonVideos = new Map();
+
+
+        let selectedLesson = null; // 선택된 레슨 저장용
+
+        function openContentModal(lessonElement) {
+            selectedLesson = lessonElement; // 현재 선택된 레슨 저장
+            const modal = document.getElementById('content-modal');
+            const titleInput = document.getElementById('content-title-input');
+            const uploadArea = document.getElementById('upload-area');
+
+            titleInput.value = lessonElement.querySelector('.lesson-title').textContent;
+
+            // 기존 파일 정보 가져오기
+            const fileNo = lessonElement.getAttribute('data-file-no');
+            const fileName = lessonElement.getAttribute('data-file-name');
+            const fileSize = lessonElement.getAttribute('data-file-size');
+
+            if (fileName && fileName.trim() !== "") {
+                uploadArea.innerHTML = `
+        <div class="file-preview">
+            <p class="file-name">${fileName}</p>
+            <p class="file-size">${fileSize}</p>
+            <button class="delete-file-btn" onclick="removeFile()">삭제</button>
+        </div>`;
+            } else {
+                uploadArea.innerHTML = `<p>🚫 업로드된 영상 없음</p>`;
+            }
+
+            modal.style.display = 'block';
+        }
+
+        // 🔥 새로운 섹션 추가 기능
+        function addSection() {
+            let sections = document.querySelectorAll('.section');
+            let sectionId = sections.length; // 기존 섹션 개수를 ID로 사용
+
+            let newSection = document.createElement('div');
+            newSection.classList.add('section');
+            newSection.setAttribute('id', sectionId);
+            newSection.innerHTML = `
+        <div class="section-header">
+            <input type="text" class="section-title" placeholder="새 섹션 제목 입력" />
+            <button class="delete-btn" onclick="deleteSection(this)">삭제</button>
+        </div>
+        <div class="lesson-list"></div>
+        <button class="add-lesson-btn" onclick="addLesson(this)">새 레슨 추가</button>
+    `;
+            document.getElementById('sections-container').appendChild(newSection);
+        }
+
+
+        // 🔥 새로운 레슨 추가 기능
+        function addLesson(button) {
+            let section = button.closest('.section').querySelector('.lesson-list');
+            let existingLessons = section.querySelectorAll('.lesson-item');
+            let lessonId = existingLessons.length; // 현재 레슨 개수를 ID로 사용
+
+            let newLesson = document.createElement('div');
+            newLesson.classList.add('lesson-item');
+            newLesson.setAttribute('id', lessonId);
+            newLesson.innerHTML = `
+        <div class="lesson-title" onclick="openContentModal(this.parentElement)">새 레슨</div>
+        <div class="badge-container">
+            <span class="video-badge" style="background-color: #ffebee; color: #c62828;">
+                🚫 영상 없음
+            </span>
+        </div>
+        <button class="delete-btn" onclick="deleteLesson(this)">삭제</button>
+    `;
+
+            section.appendChild(newLesson);
+        }
+
+        // 🔥 모달창에서 값만 변경 (DB 저장 X)
+        function saveContent() {
+            if (!selectedLesson) return;
+
+            // 레슨 제목 변경
+            const titleInput = document.getElementById('content-title-input').value;
+            selectedLesson.querySelector('.lesson-title').textContent = titleInput;
+
+            // 비디오 업로드 정보 저장
+            const fileName = selectedLesson.getAttribute('data-file-name');
+            const fileSize = selectedLesson.getAttribute('data-file-size');
+
+            let uploadArea = document.getElementById('upload-area');
+            if (fileName && fileName.trim() !== "") {
+                uploadArea.innerHTML = `
+        <div class="file-preview">
+            <p class="file-name">${fileName}</p>
+            <p class="file-size">${fileSize}</p>
+            <button class="delete-file-btn" onclick="removeFile()">삭제</button>
+        </div>`;
+            } else {
+                uploadArea.innerHTML = `<p>🚫 업로드된 영상 없음</p>`;
+            }
+
+            closeModal('content-modal');
+        }
+
+        //
+        // function updateCurriculum() {
+        //     let formData = new FormData();
+        //     let sections = [];
+        //     let hasVideo = false;
+        //
+        //     document.querySelectorAll('.section').forEach(sectionElement => {
+        //         let sectionId = sectionElement.getAttribute('id').replace('section-', '');
+        //         let sectionTitle = sectionElement.querySelector('.section-title').value;
+        //
+        //         let lessons = [];
+        //         sectionElement.querySelectorAll('.lesson-item').forEach(lessonElement => {
+        //             let lessonId = lessonElement.getAttribute('id').replace('lesson-', '');
+        //             let lessonTitle = lessonElement.querySelector('.lesson-title').textContent;
+        //
+        //             let fileNo = lessonElement.getAttribute('data-file-no') || 0; // ✅ fileNo 추가
+        //             let fileName = lessonElement.getAttribute('data-file-name') || null;
+        //             let fileSize = lessonElement.getAttribute('data-file-size') || null;
+        //
+        //             let video = fileName ? {
+        //                 fileNo: parseInt(fileNo), // ✅ fileNo 값 유지
+        //                 fileName: fileName,
+        //                 fileSize: fileSize,
+        //                 hasVideo: true
+        //             } : null;
+        //
+        //             lessons.push({
+        //                 lessonId: lessonId,
+        //                 title: lessonTitle,
+        //                 video: video
+        //             });
+        //
+        //             // ✅ 기존 동영상 정보 FormData에 추가
+        //             if (fileName) {
+        //                 formData.append("existingVideoFileNos", fileNo); // ✅ fileNo 추가
+        //                 formData.append("existingVideoFileNames", fileName);
+        //                 formData.append("existingVideoFileSizes", fileSize);
+        //             }
+        //
+        //             // ✅ 새로운 동영상 업로드된 경우
+        //             if (lessonVideos.has(lessonElement.getAttribute('id'))) {
+        //                 formData.append("videos", lessonVideos.get(lessonElement.getAttribute('id')));
+        //                 hasVideo = true;
+        //             }
+        //         });
+        //
+        //         sections.push({
+        //             sectionId: sectionId,
+        //             title: sectionTitle,
+        //             lessons: lessons
+        //         });
+        //     });
+        //
+        //     formData.append("curriculumData", JSON.stringify(sections));
+        //
+        //     // ✅ 기존 영상만 있는 경우에도 FormData에 추가 (null 방지)
+        //     if (!hasVideo) {
+        //         formData.append("videos", new Blob(), "empty.txt");
+        //     }
+        //
+        //     // ✅ Axios 요청
+        //     axios.post('/view/classUpdate/third', formData, {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data'
+        //         }
+        //     })
+        //         .then(response => {
+        //             alert("강의 수정이 완료되었습니다! ✅");
+        //         })
+        //         .catch(error => {
+        //             console.error("오류 발생:", error);
+        //             alert("수정 중 오류 발생 ❌");
+        //         });
+        // }
+        function updateCurriculum() {
+            let formData = new FormData();
+            let sections = [];
+            let hasVideo = false;
+
+            document.querySelectorAll('.section').forEach(sectionElement => {
+                let sectionId = sectionElement.getAttribute('data-section-id') || null; // ✅ 기존 ID 유지, 없으면 null
+                let sectionTitle = sectionElement.querySelector('.section-title').value;
+
+                let lessons = [];
+                sectionElement.querySelectorAll('.lesson-item').forEach(lessonElement => {
+                    let lessonId = lessonElement.getAttribute('data-lesson-id') || null; // ✅ 기존 ID 유지, 없으면 null
+                    let lessonTitle = lessonElement.querySelector('.lesson-title').textContent;
+
+                    let fileNo = lessonElement.getAttribute('data-file-no') || null; // ✅ 기존 ID 유지, 없으면 null
+                    let fileName = lessonElement.getAttribute('data-file-name') || null;
+                    let fileSize = lessonElement.getAttribute('data-file-size') || null;
+
+                    let video = fileName ? {
+                        fileNo: fileNo ? parseInt(fileNo) : null, // ✅ fileNo 값 유지, 없으면 null
+                        fileName: fileName,
+                        fileSize: fileSize,
+                        hasVideo: true
+                    } : null;
+
+                    lessons.push({
+                        lessonId: lessonId ? parseInt(lessonId) : null, // ✅ 기존 ID 유지, 없으면 null
+                        title: lessonTitle,
+                        video: video
+                    });
+
+                    // ✅ 기존 동영상 정보 FormData에 추가
+                    if (fileName) {
+                        formData.append("existingVideoFileNos", fileNo || "");
+                        formData.append("existingVideoFileNames", fileName);
+                        formData.append("existingVideoFileSizes", fileSize);
+                    }
+
+                    // ✅ 새로운 동영상 업로드된 경우
+                    if (lessonVideos.has(lessonElement.getAttribute('id'))) {
+                        formData.append("videos", lessonVideos.get(lessonElement.getAttribute('id')));
+                        hasVideo = true;
+                    }
+                });
+
+                sections.push({
+                    sectionId: sectionId ? parseInt(sectionId) : null, // ✅ 기존 ID 유지, 없으면 null
+                    title: sectionTitle,
+                    lessons: lessons
+                });
+            });
+
+            formData.append("curriculumData", JSON.stringify(sections));
+
+            // ✅ 기존 영상만 있는 경우에도 FormData에 추가 (null 방지)
+            if (!hasVideo) {
+                formData.append("videos", new Blob(), "empty.txt");
+            }
+
+            // ✅ Axios 요청
+            axios.post('/view/classUpdate/third', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    alert("강의 수정이 완료되었습니다! ✅");
+                })
+                .catch(error => {
+                    console.error("오류 발생:", error);
+                    alert("수정 중 오류 발생 ❌");
+                });
+        }
+
+
+
+
+
+        // 🔥 섹션 삭제 기능
+        function deleteSection(button) {
+            if (confirm("이 섹션을 삭제하면 안의 모든 레슨과 비디오가 삭제됩니다. 계속하시겠습니까?")) {
+                button.closest('.section').remove();
+            }
+        }
+
+        // 🔥 레슨 삭제 기능
+        function deleteLesson(button) {
+            if (confirm("이 레슨을 삭제하면 해당 비디오도 삭제됩니다. 계속하시겠습니까?")) {
+                button.closest('.lesson-item').remove();
+            }
+        }
+
+        // 🔥 동영상 업로드 기능
+        function handleFileSelect(input) {
+            if (input.files.length > 0 && selectedLesson) {
+                const file = input.files[0];
+
+                // 파일 정보 저장
+                selectedLesson.setAttribute('data-file-name', file.name);
+                selectedLesson.setAttribute('data-file-size', (file.size / 1024 / 1024).toFixed(2) + " MB");
+
+                // 🔥 기존 레슨도 lessonVideos에 저장!
+                lessonVideos.set(selectedLesson.getAttribute('id'), file);
+
+                // 업로드 영역 업데이트
+                document.getElementById('upload-area').innerHTML = `
+            <div class="file-preview">
+                <p class="file-name">${file.name}</p>
+                <p class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                <button class="delete-file-btn" onclick="removeFile()">삭제</button>
+            </div>`;
+
+                // 🚀 화면에 "📹 영상 있음"으로 변경
+                let videoBadge = selectedLesson.querySelector('.video-badge');
+                if (videoBadge) {
+                    videoBadge.innerHTML = `📹 영상 있음 <span class="file-details">(${file.name} - ${(file.size / 1024 / 1024).toFixed(2)} MB)</span>`;
+                    videoBadge.style.backgroundColor = "#e3f2fd";
+                    videoBadge.style.color = "#1976d2";
+                }
+            }
+        }
+
+
+        // 🔥 동영상 삭제 기능
+        function removeFile() {
+            if (selectedLesson) {
+                selectedLesson.setAttribute('data-file-name', '');
+                selectedLesson.setAttribute('data-file-size', '');
+
+                document.getElementById('upload-area').innerHTML = `<p>🚫 업로드된 영상 없음</p>`;
+
+                // 🚀 화면에서 "🚫 영상 없음"으로 변경
+                let videoBadge = selectedLesson.querySelector('.video-badge');
+                if (videoBadge) {
+                    videoBadge.innerHTML = "🚫 영상 없음";
+                    videoBadge.style.backgroundColor = "#ffebee";
+                    videoBadge.style.color = "#c62828";
+                }
+            }
+        }
+
+        // 🔥 동영상 업로드 버튼 클릭
+        function triggerFileUpload() {
+            document.getElementById('video-upload').click();
+        }
+
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // ESC 키로 모달 닫기
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+        });
+
+        //=======================================
+        function saveContent() {
+            if (!selectedLesson) return;
+
+            // 레슨 제목 변경
+            const titleInput = document.getElementById('content-title-input').value;
+            selectedLesson.querySelector('.lesson-title').textContent = titleInput;
+
+            // 비디오 업로드 정보 저장
+            const fileName = selectedLesson.getAttribute('data-file-name');
+            const fileSize = selectedLesson.getAttribute('data-file-size');
+
+            let uploadArea = document.getElementById('upload-area');
+            if (fileName && fileName.trim() !== "") {
+                uploadArea.innerHTML = `
+        <div class="file-preview">
+            <p class="file-name">${fileName}</p>
+            <p class="file-size">${fileSize}</p>
+            <button class="delete-file-btn" onclick="removeFile()">삭제</button>
+        </div>`;
+            } else {
+                uploadArea.innerHTML = `<p>🚫 업로드된 영상 없음</p>`;
+            }
+
+            closeModal('content-modal');
+        }
+
+    </script>
+</div>
+</body>
+</html>
