@@ -60,14 +60,17 @@ public class SecurityConfig {
                                 "/images/**",
                                 "/js/**",
                                 "/api/file/upload"
+                                "/api/file/upload"
                                 //"/**" //나중에 이거 주석 처리 하시오
                         ).permitAll()
 
+                        // 🔹 **ADMIN 전용 경로 ("/admin/**")**
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
                         // 🔹 PICLE 접근 차단 (USER, ADMIN만 허용)
                         .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
+
                         .anyRequest().authenticated()
-                        //admin은 admin만
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
                 .formLogin(form -> form
                         .loginPage("/view/loginForm")

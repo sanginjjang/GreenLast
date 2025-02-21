@@ -13,6 +13,7 @@
         SELECT
         uph.payment_id AS paymentId,
         uph.user_id AS userId,
+        u.name AS teacherName,
         uph.class_id AS classId,
         c.class_title AS classTitle,
         uph.price,
@@ -24,12 +25,15 @@
         user_payment_history uph
         JOIN
         class c ON uph.class_id = c.class_id
+        JOIN
+        user u ON uph.user_id = u.user_id  -- ✅ user 테이블과 INNER JOIN 추가
         LEFT JOIN
         file f ON f.file_no = c.file_no
         WHERE
         uph.user_id = #{userId}
         ORDER BY
         uph.payment_date DESC;
+
     </select>
 
     <select id="getPaymentById" resultType="com.example.greenlast.dto.UserPaymentHistoryDTO">
