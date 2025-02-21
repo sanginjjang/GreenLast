@@ -2,7 +2,6 @@ package com.example.greenlast.controllers.api.joontaek;
 
 import com.example.greenlast.dao.joontaek.ScheduleDao;
 import com.example.greenlast.dto.ScheduleDTO;
-import com.example.greenlast.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,7 @@ public class ScheduleController {
     public ResponseEntity<?> saveEvent(@RequestBody ScheduleDTO schedule) {
 
         //임시로 유저아이디 저장^^
-        String userId = SecurityUtil.getCurrentUserId();
-        schedule.setUserId(userId);
+        schedule.setUserId("박준택");
 
         scheduleDao.insertSchedule(schedule);
         return ResponseEntity.ok(Map.of("success", true));
@@ -33,7 +31,7 @@ public class ScheduleController {
     public ResponseEntity<List<ScheduleDTO>> getSchedules() {
 
 
-        String userId = SecurityUtil.getCurrentUserId();
+        String userId = "박준택";
         List<ScheduleDTO> schedules = scheduleDao.getSchedule(userId);
 
 

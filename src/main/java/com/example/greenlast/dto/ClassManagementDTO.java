@@ -9,7 +9,7 @@ public class ClassManagementDTO {
 
 
     private int classId;
-    private String thumbnail;
+    private MultipartFile thumbnail;
     private String classTitle;
     private double rating;
     private int allCntStudent;

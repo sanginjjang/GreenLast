@@ -59,6 +59,10 @@ public class FileService {
         FileEntity savedFile = fileRepository.save(fileEntity);
         int refNo = savedFile.getFileNo();
 
+        System.out.println("상인@@");
+        System.out.println("fileId : " + refNo);
+        System.out.println("classId : " + id);
+        System.out.println("준택@@");
         fileRepository.save(savedFile);
 
         // ✅ Upsert 처리 (Update 실패 시 Insert 수행)
