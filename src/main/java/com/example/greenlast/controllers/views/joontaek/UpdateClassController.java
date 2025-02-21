@@ -388,14 +388,17 @@ public class UpdateClassController {
         HttpSession session = request.getSession();
         int classId = (Integer) session.getAttribute("classId");
 
-        List<IntroduceBlockDto> blocks = permitClassService.getBlocksByClassId(classId);
 
-        for (IntroduceBlockDto block : blocks) {
-            List<BlockElementDto> elements = permitClassService.getElementsByBlockId(block.getBlockId());
-            block.setElements(elements);
-        }
+        List<IntroduceDTO> introduceInfoList = updateClassService.getIntroduceInfo(classId);
 
-        model.addAttribute("blocks", blocks);
+//        List<IntroduceBlockDto> blocks = permitClassService.getBlocksByClassId(classId);
+//
+//        for (IntroduceBlockDto block : blocks) {
+//            List<BlockElementDto> elements = permitClassService.getElementsByBlockId(block.getBlockId());
+//            block.setElements(elements);
+//        }
+
+        model.addAttribute("introduceList", introduceInfoList);
         return "joontaek/class/ClassUpdateLast";
     }
 
