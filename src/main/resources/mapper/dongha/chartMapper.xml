@@ -53,7 +53,7 @@
         u.name AS name
         FROM class c
         LEFT JOIN user u ON c.user_id = u.user_id
-        WHERE c.class_permit = 'W'
+        WHERE c.class_permit = 'N'
     </select>
 
     <update id="updateClassPermit">
@@ -61,6 +61,6 @@
     </update>
 
     <update id="updateClassRejection">
-        UPDATE class SET class_permit = 'N', reject_message = #{rejectMessage} WHERE class_id = #{classId}
+        UPDATE class SET class_permit = 'W', reject_message = #{rejectMessage} WHERE class_id = #{classId}
     </update>
 </mapper>
