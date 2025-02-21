@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 html {
     scrollbar-gutter: stable;
     overflow-y: scroll;
@@ -87,6 +88,7 @@ header {
     background-color: #f6f6f6;
     color: #3e3e3e;
 }
+
 #header_center > input {
     font-family: 'Arial', sans-serif !important;
 }
@@ -119,7 +121,8 @@ header {
     color: #000000;
     font-size: 22px
 }
-.header_icon{
+
+.header_icon {
     color: #000000;
 }
 
@@ -251,6 +254,7 @@ footer {
     display: none;
     z-index: 1000;
 }
+
 header_profile_detail i {
     line-height: 0;
 }
@@ -301,10 +305,20 @@ header_profile_detail i {
 }
 
 
-
 /*(관현)header bell 여기가 알림영역이에요 형님~~ */
 #header_bell {
     position: relative;
+}
+
+#header_bell_count {
+    position: absolute;
+    top: 30px;
+    right: 290px;
+    font-size: 12px;
+    background-color: red;
+    color: white;
+    border-radius: 100%;
+    padding: 0px 4px;
 }
 
 #header_bell_detail {
@@ -317,6 +331,7 @@ header_profile_detail i {
     border-radius: 15px;
     background-color: white;
     display: none;
+    overflow: hidden;
     z-index: 1000;
 }
 
@@ -351,12 +366,8 @@ header_profile_detail i {
 }
 
 
-
-
-
-
 /* ✅ 공통 스크롤바 디자인 - content100 & content */
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
     width: 20px; /* ✅ 두꺼운 스크롤바 */
 }
 
@@ -374,7 +385,7 @@ body::-webkit-scrollbar-track {
 }
 
 /* ✅ 마우스 올렸을 때 */
-body::-webkit-scrollbar-thumb:hover{
+body::-webkit-scrollbar-thumb:hover {
     background: #909090; /* ✅ 더 진한 회색 */
     border: 3px solid #d0d0d0;
 }

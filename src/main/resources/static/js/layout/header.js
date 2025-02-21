@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (user.fileUrl) {
                 headerProfileImg.src = user.fileUrl;
             }
+            loadAlarms(user.userId);
         })
         .catch(error => {
             console.error('유저 정보 불러오기 실패:', error);
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // 관현 25.02.19 알람 관련 함수 추가(알람 불러오기, 알람 클릭 시 처리, 알람 읽음처리)
 async function loadAlarms(userId) {
     let alarmTotalCountSection = document.getElementById("alarmTotalCount");
+    let alarmBellCount = document.getElementById("header_bell_count");
 
     try {
         let response, countResponse
@@ -69,6 +71,7 @@ async function loadAlarms(userId) {
         const alarmCount = countResponse.data;
 
         alarmTotalCountSection.innerHTML = `<strong>${alarmCount}개의 알림이 있습니다.</strong>`;
+        alarmBellCount.innerHTML = `<strong>${alarmCount}</strong>`;
 
         updateAlarmList(alarmList, userId);
 
