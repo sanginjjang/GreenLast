@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface UserDao_dong {
+    String getUserRole(@Param("userId") String userId);
     int updateUserRole(@Param("userId") String userId, @Param("newRole") String newRole);
     int deleteUser(String userId);
 }

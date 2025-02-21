@@ -36,7 +36,7 @@
     </update>
 
     <update id="rejectClass">
-        UPDATE class SET class_permit = 'N' WHERE class_id = #{classId}
+        UPDATE class SET class_permit = 'W' WHERE class_id = #{classId}
     </update>
 
     <select id="getSectionByClassId" resultType="com.example.greenlast.dto.ClassSectionDTO">
@@ -98,6 +98,6 @@
         u.name AS name
         FROM class c
         LEFT JOIN user u ON c.user_id = u.user_id
-        WHERE c.class_permit = 'W'
+        WHERE c.class_permit = 'N'
     </select>
 </mapper>

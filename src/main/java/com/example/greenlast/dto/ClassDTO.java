@@ -22,5 +22,6 @@ public class ClassDTO {
     private String classLevel;
     private int fileNo;
     private MultipartFile thumbnail;
-
+    private String name;
+    private String fileUrl;
 }

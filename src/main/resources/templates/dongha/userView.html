@@ -5,26 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>User View</title>
-    <style>
-        .user-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 16px;
-            text-align: center;
-            border-radius: 15px;
-        }
-
-        .user-table thead {
-            background-color: #0092ff;
-            color: #ffffff;
-        }
-
-        .user-table th, .user-table td {
-            padding: 12px 20px;
-            border: 1px solid #ddd;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/dongha/userView.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -66,10 +47,12 @@
             <td th:text="${user.gender}"></td>
             <td th:text="${user.createdAt}"></td>
             <td>
-                <select class="status-select" th:data-user-id="${user.userId}" onchange="updateUserStatus(this)">
-                    <option value="Y" th:selected="${user.role eq 'ROLE_USER'}">활성화</option>
-                    <option value="N" th:selected="${user.role eq 'ROLE_PICLE'}">비활성화</option>
-                </select>
+                <span th:if="${user.role eq 'ROLE_USER'}">활성화</span>
+                <span th:if="${user.role eq 'ROLE_ADMIN'}">활성화</span>
+                <span th:if="${user.role eq 'ROLE_PICLE'}" style="color: red;">비활성화</span><br>
+                <button class="role-change-btn" th:data-user-id="${user.userId}" onclick="changeUserRole(this)">
+                    역할 변경
+                </button>
             </td>
             <td>
                 <i class="fas fa-times delete-icon" onclick="deleteUser(this)" th:data-user-id="${user.userId}"></i>
@@ -83,28 +66,6 @@
 <!--이거밖에서 스크립트 작성하면 안돌아갑니다...-->
 <div layout:fragment="scripts">
     <script>
-        function updateUserStatus(selectElement) {
-            let userId = selectElement.getAttribute("data-user-id");
-            let newStatus = selectElement.value;
-
-            axios.post('/admin-api/updateUserStatus', {
-                userId: userId,
-                role: newStatus === "Y" ? "ROLE_USER" : "ROLE_PICLE"
-            })
-                .then(response => {
-                    if (response.data.success) {
-                        alert("사용자 상태가 변경되었습니다!");
-                    } else {
-                        alert("변경에 실패했습니다. 다시 시도해주세요.");
-                        location.reload();
-                    }
-                })
-                .catch(error => {
-                    console.error("에러 발생:", error);
-                    alert("서버 오류가 발생했습니다.");
-                });
-        }
-
         function deleteUser(iconElement) {
             let userId = iconElement.getAttribute("data-user-id");
 
@@ -119,6 +80,28 @@
                         location.reload(); // 페이지 새로고침
                     } else {
                         alert("삭제에 실패했습니다. 다시 시도해주세요.");
+                    }
+                })
+                .catch(error => {
+                    console.error("에러 발생:", error);
+                    alert("서버 오류가 발생했습니다.");
+                });
+        }
+
+        function changeUserRole(buttonElement) {
+            let userId = buttonElement.getAttribute("data-user-id");
+
+            if (!confirm("이 사용자의 역할을 변경하시겠습니까?")) {
+                return;
+            }
+
+            axios.post('/admin-api/changeUserRole', { userId: userId })
+                .then(response => {
+                    if (response.data.success) {
+                        alert("사용자 역할이 변경되었습니다!");
+                        location.reload(); // 변경 후 새로고침
+                    } else {
+                        alert("변경에 실패했습니다. 다시 시도해주세요.");
                     }
                 })
                 .catch(error => {

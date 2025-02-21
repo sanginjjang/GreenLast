@@ -20,7 +20,18 @@ import org.springframework.stereotype.Service;
 public class UserService_dong {
     private final UserDao_dong userDao;
 
-    public boolean updateUserRole(String userId, String newRole) {
+    public boolean toggleUserRole(String userId) {
+        String currentRole = userDao.getUserRole(userId);
+
+        String newRole;
+        if (currentRole.equals("ROLE_USER")) {
+            newRole = "ROLE_PICLE";
+        } else if (currentRole.equals("ROLE_PICLE")) {
+            newRole = "ROLE_USER";
+        } else {
+            return false; // ROLE_ADMIN은 변경 불가능
+        }
+
         int updatedRows = userDao.updateUserRole(userId, newRole);
         return updatedRows > 0;
     }

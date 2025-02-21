@@ -37,7 +37,7 @@ public class SecurityConfig {
                         // 🔹 업로드된 파일들 (`/uploads/**`) 최우선 허용
                         .requestMatchers(
                                 "/uploads/**",
-                                "/C:/upload-dir/uploads"
+                                "/C:/upload-dir/uploads" // 만약 윈도우 경로 그대로 써야 한다면 허용
                         ).permitAll()
 
                         // 🔹 인증 없이 접근 가능한 경로들
@@ -60,6 +60,7 @@ public class SecurityConfig {
                                 "/images/**",
                                 "/js/**",
                                 "/api/file/upload"
+                                //"/**" //나중에 이거 주석 처리 하시오
                         ).permitAll()
 
                         // 🔹 **ADMIN 전용 경로 ("/admin/**")**
@@ -91,7 +92,6 @@ public class SecurityConfig {
                 )
                 .build();
     }
-
 
 
     @Bean

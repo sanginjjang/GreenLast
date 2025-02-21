@@ -72,15 +72,14 @@ public class AdminController {
         return ResponseEntity.ok(Map.of("message", "강의가 반려되었습니다."));
     }
 
-    @PostMapping("/updateUserStatus")
-    public ResponseEntity<Map<String, Object>> updateUserStatus(@RequestBody Map<String, String> requestData) {
+    @PostMapping("/changeUserRole")
+    public ResponseEntity<Map<String, Object>> changeUserRole(@RequestBody Map<String, String> requestData) {
         String userId = requestData.get("userId");
-        String newRole = requestData.get("role");
 
-        boolean isUpdated = userService.updateUserRole(userId, newRole);
+        boolean isChanged = userService.toggleUserRole(userId);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("success", isUpdated);
+        response.put("success", isChanged);
 
         return ResponseEntity.ok(response);
     }
