@@ -190,11 +190,12 @@
         <input type="hidden" id="search" th:value="${search}">
         <input type="hidden" id="keyword" th:value="${keyword}">
         <input type="hidden" id="postId" th:value="${communityPost.postId}">
+        <input type="hidden" id="community-post-userId" th:value="${communityPost.userId}">
 
         <div class="detail-title" th:text="${communityPost.title}">게시글 제목</div>
 
         <div class="detail-meta">
-            작성자: <span th:text="${communityPost.userId}">작성자명</span> |
+            작성자: <span id="postUserName" th:text="${communityPost.userId}">작성자명</span> |
             등록일: <span th:text="${communityPost.createdAt}">작성일자</span> |
             조회수: <span th:text="${communityPost.views}">조회수</span>
         </div>
@@ -227,7 +228,7 @@
         </div>
 
         <div class="comment-container">
-            <div class="comment-register" th:if="${currentUserId != null and currentUserId != ''}">
+            <div class="comment-register" th:if="${currentUserId != null and currentUserId != '' and pageType != 'faq'}">
                 <textarea id="comment-content-textarea" class="comment-content-textarea" placeholder="댓글을 입력하세요"
                           wrap="hard"></textarea>
                 <button class="submit-btn" th:data-post-id="${communityPost.postId}">등록</button>
@@ -284,6 +285,7 @@
 
             let postId = $(this).data("post-id");
             let content = $("#comment-content-textarea").val().trim();
+            let userId = $("#community-post-userId").val();
 
             if (content === "") {
                 alert("댓글 내용을 입력하세요!");
@@ -297,7 +299,8 @@
                 // dataType: "json",
                 data: JSON.stringify({
                     postId: postId,
-                    content: content
+                    content: content,
+                    userId: userId
                 }),
                 success: function (response) {
                     alert("댓글이 성공적으로 등록되었습니다.");

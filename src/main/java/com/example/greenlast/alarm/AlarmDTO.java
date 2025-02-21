@@ -14,7 +14,7 @@ public class AlarmDTO {
     private String userId; // 알림 수신자 id
     private String alarmContent;
     private String relatedUrl;
-    private String relatedId; // 게시글 id 등 참조할 id
+    private int relatedId; // 게시글 id 등 참조할 id
     private String alarmType;
     private int readStatus;
     private String alarmDate;

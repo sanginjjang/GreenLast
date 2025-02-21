@@ -339,7 +339,18 @@ header_profile_detail i {
     text-decoration: underline;
 }
 
+.unread-alarm {
+    font-weight: bold;
+    text-decoration: underline;
+    color: black;
+}
+
+.read-alarm {
+    font-weight: normal;
+    text-decoration: none;
+    color: gray;
+}
+
 #myPageAsideModalSection {
     display: none;
 }
-
