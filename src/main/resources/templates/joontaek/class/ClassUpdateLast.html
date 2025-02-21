@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 소개글 수정</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        #blocks-container {
+            min-height: 50px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content-block {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .content-block.two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .save-button-wrapper {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .save-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="aside">
+</th:block>
+
+<div layout:fragment="content">
+    <div class="container">
+        <h1>강의 소개 수정</h1>
+        <div id="content-container">
+            <div id="blocks-container">
+                <div th:each="block : ${blocks}" class="content-block" th:classappend="${block.blockType == 'double' ? 'two-column' : ''}">
+                    <div th:each="element : ${block.elements}">
+                        <textarea class="text-input" th:if="${element.elementType == 'text'}" th:text="${element.elementContent}"></textarea>
+                        <div class="image-preview" th:if="${element.elementType == 'image'}">
+                            <img th:src="@{${element.elementContent}}" alt="사진들">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="save-button-wrapper">
+            <button type="button" class="save-button" onclick="saveContent()">
+                <i class="fas fa-save"></i> 저장하기
+            </button>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+    <script>
+        async function saveContent() {
+            try {
+                const saveButton = document.querySelector('.save-button');
+                saveButton.innerHTML = '<div class="loading-spinner"></div> 저장 중...';
+                saveButton.disabled = true;
+
+                const blocks = document.querySelectorAll('.content-block');
+                const contentData = [];
+
+                blocks.forEach(block => {
+                    const isDoubleColumn = block.classList.contains('two-column');
+                    const elements = block.querySelectorAll('.text-input, .image-preview img');
+
+                    const blockData = {
+                        type: isDoubleColumn ? 'double' : 'single',
+                        elements: []
+                    };
+
+                    elements.forEach(element => {
+                        if (element.tagName === 'TEXTAREA') {
+                            blockData.elements.push({
+                                type: 'text',
+                                content: element.value
+                            });
+                        } else if (element.tagName === 'IMG') {
+                            blockData.elements.push({
+                                type: 'image',
+                                content: element.src
+                            });
+                        }
+                    });
+
+                    contentData.push(blockData);
+                });
+
+                console.log("보내는 데이터:", JSON.stringify(contentData, null, 2));
+
+                // 백엔드에 전송
+                const response = await axios.post('/view/makeClass/last', {
+                    content: contentData
+                });
+
+                if (response.data.success) {
+                    showToast('성공적으로 저장되었습니다!', 'success');
+                } else {
+                    throw new Error('저장에 실패했습니다.');
+                }
+
+            } catch (error) {
+                console.error('저장 중 오류 발생:', error);
+                showToast('저장 중 오류가 발생했습니다.', 'error');
+            } finally {
+                const saveButton = document.querySelector('.save-button');
+                saveButton.innerHTML = '<i class="fas fa-save"></i> 저장하기';
+                saveButton.disabled = false;
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                    window.location.href = '/view/class/main';
+                }, 200);
+            }, 2000);
+        }
+
+        const toastStyle = document.createElement('style');
+        toastStyle.textContent = `
+        .toast {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s ease-in-out;
+            z-index: 10000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+        .toast.toast-success {
+            background-color: #4CAF50;
+        }
+        .toast.toast-error {
+            background-color: #f44336;
+        }`;
+        document.head.appendChild(toastStyle);
+    </script>
+</div>
+</body>
+</html>

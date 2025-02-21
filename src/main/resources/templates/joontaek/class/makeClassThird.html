@@ -8,7 +8,6 @@
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-
         #blocks-container {
             min-height: 50px; /* 블록이 없을 때도 최소 높이 유지 */
         }
@@ -450,50 +449,81 @@
         }
 
         // 토스트 메시지 표시 함수
+        // function showToast(message, type = 'success') {
+        //     const toast = document.createElement('div');
+        //     toast.className = `toast toast-${type}`;
+        //     toast.innerHTML = message;
+        //     document.body.appendChild(toast);
+        //
+        //     setTimeout(() => {
+        //         toast.classList.add('show');
+        //     }, 100);
+        //
+        //     setTimeout(() => {
+        //         window.location.href = '/view/class/main';
+        //         toast.classList.remove('show');
+        //         setTimeout(() => {
+        //             toast.remove();
+        //         }, 300);
+        //     }, 3000);
+        // }
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
             toast.innerHTML = message;
             document.body.appendChild(toast);
 
+            // 화면 중앙 배치 스타일 적용
+            toast.style.top = '50%';
+            toast.style.left = '50%';
+            toast.style.transform = 'translate(-50%, -50%)';
+            toast.style.position = 'fixed';
+
             setTimeout(() => {
                 toast.classList.add('show');
             }, 100);
 
             setTimeout(() => {
-                window.location.href = '/view/makeClass/thirdd';
                 toast.classList.remove('show');
                 setTimeout(() => {
                     toast.remove();
-                }, 300);
-            }, 3000);
+                    // 화면 전환 (2초 후 이동)
+                    window.location.href = '/view/class/main';
+                }, 200);
+            }, 2000);
         }
 
         // 토스트 메시지 스타일
+        // 토스트 메시지 스타일
         const toastStyle = document.createElement('style');
         toastStyle.textContent = `
-            .toast {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                padding: 12px 24px;
-                border-radius: 4px;
-                color: white;
-                opacity: 0;
-                transition: opacity 0.3s;
-                z-index: 1000;
-            }
-            .toast.show {
-                opacity: 1;
-            }
-            .toast-success {
-                background-color: #4CAF50;
-            }
-            .toast-error {
-                background-color: #f44336;
-            }
-        `;
+    .toast {
+        position: fixed;
+        top: 40%;  /* ✅ 정중앙보다 위쪽으로 조정 */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 15px 30px;
+        border-radius: 6px;
+        color: white;
+        font-size: 16px;
+        opacity: 0;
+        transition: opacity 0.3s, transform 0.3s ease-in-out;
+        z-index: 10000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .toast.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+    .toast.toast-success {
+        background-color: #4CAF50; /* ✅ 성공 메시지 색상 */
+    }
+    .toast.toast-error {
+        background-color: #f44336; /* ✅ 에러 메시지 색상 */
+    }
+`;
         document.head.appendChild(toastStyle);
+
 
     </script>
 </div>

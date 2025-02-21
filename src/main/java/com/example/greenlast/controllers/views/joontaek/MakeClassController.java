@@ -61,10 +61,8 @@ public class MakeClassController {
 
 
 
-
-
         String userId = SecurityUtil.getCurrentUserId();
-        classInfo.setUserId("박준택");
+        classInfo.setUserId(userId);
         makeClassService.saveClassInfo(classInfo);
         Integer classId = makeClassDao.getMaxClassId();
 //        makeClassService.saveClassInfo(classInfo);
@@ -197,23 +195,6 @@ public class MakeClassController {
 
             HttpSession session = sessionRequest.getSession();
 
-            List<Map<String, Object>> sectionInfo = (List<Map<String, Object>>) session.getAttribute("sectionInfo");
-            ClassDTO classInfo = (ClassDTO) session.getAttribute("classInfo");
-            List<Map<String, Object>> lessonInfo = (List<Map<String, Object>>) session.getAttribute("lesson");
-            List<MultipartFile> videos = (List<MultipartFile>) session.getAttribute("videos");
-
-
-            System.out.println("강의 정보");
-            System.out.println(classInfo);
-
-            System.out.println("섹션 정보");
-            System.out.println(sectionInfo);
-
-            System.out.println("수업 정보");
-            System.out.println(lessonInfo);
-
-            System.out.println("비디오 정보");
-            System.out.println(videos);
 
 
             int classId = makeClassDao.getMaxClassId();
@@ -231,7 +212,7 @@ public class MakeClassController {
 
                         // 파일 이름 생성
                         String fileName = "image_" + System.currentTimeMillis() + ".jpg";
-                        String filePath = "C:/classInfoImg/" + fileName;
+                        String filePath = "/uploads/classInfoImg/" + fileName;
 
                         // Base64를 파일로 저장
                         byte[] imageBytes = Base64.getDecoder().decode(base64Image);
