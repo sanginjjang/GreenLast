@@ -4,6 +4,7 @@ package com.example.greenlast.controllers.views.joontaek;
 import com.example.greenlast.dto.*;
 import com.example.greenlast.file.FileEntity;
 import com.example.greenlast.file.FileService;
+import com.example.greenlast.service.dongha.PermitClassService;
 import com.example.greenlast.service.joontaek.UpdateClassService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,10 @@ public class UpdateClassController {
     UpdateClassService updateClassService;
     @Autowired
     FileService fileService;
+
+    //동하형 로직
+    @Autowired
+    PermitClassService permitClassService;
 
 
     @RequestMapping("/first")
@@ -383,27 +388,20 @@ public class UpdateClassController {
         HttpSession session = request.getSession();
         int classId = (Integer) session.getAttribute("classId");
 
+        List<IntroduceBlockDto> blocks = permitClassService.getBlocksByClassId(classId);
 
-        List<IntroduceDTO> introduceInfoList = updateClassService.getIntroduceInfo(classId);
-
-
-        for (IntroduceDTO dto : introduceInfoList) {
-            for (IntroduceDTO.BlockData block : dto.getContent()) {
-                System.out.println("[Block] ID = " + block.getBlockId()
-                        + ", Type = " + block.getBlockType());
-                for (IntroduceDTO.ElementData element : block.getElements()) {
-                    System.out.println("  [Element] ID = " + element.getElementId()
-                            + ", Type = " + element.getElementType()
-                            + ", Content = " + element.getContent());
-                }
-            }
+        for (IntroduceBlockDto block : blocks) {
+            List<BlockElementDto> elements = permitClassService.getElementsByBlockId(block.getBlockId());
+            block.setElements(elements);
         }
 
-        model.addAttribute("introduceInfoList", introduceInfoList);
-
-
+        model.addAttribute("blocks", blocks);
         return "joontaek/class/ClassUpdateLast";
     }
+
+
+
+
 
 
 

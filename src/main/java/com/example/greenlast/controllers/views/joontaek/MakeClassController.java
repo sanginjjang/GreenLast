@@ -61,10 +61,8 @@ public class MakeClassController {
 
 
 
-
-
         String userId = SecurityUtil.getCurrentUserId();
-        classInfo.setUserId("박준택");
+        classInfo.setUserId(userId);
         makeClassService.saveClassInfo(classInfo);
         Integer classId = makeClassDao.getMaxClassId();
 //        makeClassService.saveClassInfo(classInfo);
@@ -197,10 +195,6 @@ public class MakeClassController {
 
             HttpSession session = sessionRequest.getSession();
 
-            List<Map<String, Object>> sectionInfo = (List<Map<String, Object>>) session.getAttribute("sectionInfo");
-            ClassDTO classInfo = (ClassDTO) session.getAttribute("classInfo");
-            List<Map<String, Object>> lessonInfo = (List<Map<String, Object>>) session.getAttribute("lesson");
-            List<MultipartFile> videos = (List<MultipartFile>) session.getAttribute("videos");
 
 
             int classId = makeClassDao.getMaxClassId();
