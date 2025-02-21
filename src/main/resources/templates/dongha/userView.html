@@ -5,26 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>User View</title>
-    <style>
-        .user-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 16px;
-            text-align: center;
-            border-radius: 15px;
-        }
-
-        .user-table thead {
-            background-color: #0092ff;
-            color: #ffffff;
-        }
-
-        .user-table th, .user-table td {
-            padding: 12px 20px;
-            border: 1px solid #ddd;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/dongha/userView.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -66,8 +47,8 @@
             <td th:text="${user.gender}"></td>
             <td th:text="${user.createdAt}"></td>
             <td>
-                <span th:if="${user.role eq 'ROLE_USER'}" style="color: green;">활성화</span>
-                <span th:if="${user.role eq 'ROLE_ADMIN'}" style="color: green;">활성화</span>
+                <span th:if="${user.role eq 'ROLE_USER'}">활성화</span>
+                <span th:if="${user.role eq 'ROLE_ADMIN'}">활성화</span>
                 <span th:if="${user.role eq 'ROLE_PICLE'}" style="color: red;">비활성화</span><br>
                 <button class="role-change-btn" th:data-user-id="${user.userId}" onclick="changeUserRole(this)">
                     역할 변경

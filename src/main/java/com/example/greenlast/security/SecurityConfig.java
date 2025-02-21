@@ -66,6 +66,8 @@ public class SecurityConfig {
                         // 🔹 PICLE 접근 차단 (USER, ADMIN만 허용)
                         .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
+                        //admin은 admin만
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
                 .formLogin(form -> form
                         .loginPage("/view/loginForm")
