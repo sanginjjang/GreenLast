@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const headerProfileIcon = document.getElementById("header_profile_icon");
     const headerProfileDetail = document.getElementById("header_profile_detail");
     const headerBell = document.getElementById("header_bell");
@@ -111,9 +111,30 @@ function markAsRead(alarmId) {
         .catch(error => console.error("읽음 처리 실패", error));
 }
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-document.getElementById("toggle-dark-mode").addEventListener("click", () => {
-    document.documentElement.classList.toggle("dark-mode");
-});
+    document.getElementById("toggle-dark-mode").addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark-mode");
+    });
 })
+
+document.addEventListener("DOMContentLoaded", function () {
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    const loginMessage = getCookie("loginMessage");
+    const logoutMessage = getCookie("logoutMessage");
+
+    if (loginMessage) {
+        alert(loginMessage);
+        document.cookie = "loginMessage=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    if (logoutMessage) {
+        alert(logoutMessage);
+        document.cookie = "logoutMessage=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+});

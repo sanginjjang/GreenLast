@@ -24,6 +24,12 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
             }
         }
 
+        // ✅ 로그아웃 성공 메시지 쿠키 추가
+        Cookie logoutCookie = new Cookie("logoutMessage", "로그아웃했습니다!");
+        logoutCookie.setPath("/");
+        logoutCookie.setMaxAge(5); // 5초 후 자동 삭제
+        response.addCookie(logoutCookie);
+
         response.setStatus(HttpServletResponse.SC_OK);
 
         try {
