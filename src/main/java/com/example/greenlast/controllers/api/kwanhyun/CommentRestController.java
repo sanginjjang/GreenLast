@@ -3,7 +3,6 @@ package com.example.greenlast.controllers.api.kwanhyun;
 import com.example.greenlast.alarm.AlarmDTO;
 import com.example.greenlast.alarm.AlarmService;
 import com.example.greenlast.dto.CommunityCommentDTO;
-import com.example.greenlast.dto.CommunityPostDTO;
 import com.example.greenlast.security.SecurityUtil;
 import com.example.greenlast.service.kwanhyun.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -47,16 +46,6 @@ public class CommentRestController {
             alarmDTO.setUserId(communityCommentDto.getUserId());
             alarmDTO.setAlarmType("COMMENT");
             alarmDTO.setRelatedId(communityCommentDto.getPostId());
-
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
-            System.out.println(communityCommentDto.getUserId());
 
             WebClient.create()
                     .post()

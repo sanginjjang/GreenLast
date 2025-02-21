@@ -43,6 +43,7 @@ public class SecurityConfig {
                         // 🔹 인증 없이 접근 가능한 경로들
                         .requestMatchers(
                                 "/",
+                                "/api/alarm/**",
                                 "/view/loginForm",
                                 "/view/registUserForm",
                                 "/view/findIdByPhoneForm",

@@ -41,10 +41,13 @@ public class AlarmController {
 
     @PostMapping("/alarm")
     public String createAlarm(@RequestBody AlarmDTO alarmdto) {
-        alarmdto.setAlarmContent(setContentByAlarmType(alarmdto));
-
-        alarmService.createAlarm(alarmdto);
-        return "알림 발송된 아이디 : " + alarmdto.getUserId() + "알림 내용 :" + alarmdto.getAlarmContent();
+        try {
+            alarmdto.setAlarmContent(setContentByAlarmType(alarmdto));
+            alarmService.createAlarm(alarmdto);
+        } catch (Exception e) {
+            return "알람 생성 실패: " + e.getMessage();
+        }
+        return "알림 발송된 아이디 : " + alarmdto.getUserId() + " 알림 내용 :" + alarmdto.getAlarmContent();
     }
 
     @GetMapping("/alarms")
