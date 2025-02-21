@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <a href="/home/detail/${history.classId}">
                                     ${history.classTitle}
                                 </a>
+                                <div class="pur_center_teacherName">
+                                강사 : ${history.teacherName}
+                                </div>
                             </div>
                         </div>
                         <div class="pur_box_right">
