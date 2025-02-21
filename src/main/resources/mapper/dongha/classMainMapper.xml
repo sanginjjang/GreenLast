@@ -48,11 +48,18 @@
         c.description AS description,
         c.class_category AS classCategory,
         c.class_recom AS classRecom,
-        c.class_level AS classLevel
+        c.class_level AS classLevel,
+        COALESCE(up.user_count, 0) AS studentCount
         FROM class c
         LEFT JOIN file f ON c.file_no = f.file_no
         INNER JOIN user u ON c.user_id = u.user_id
-        WHERE c.class_id = #{id}
+        LEFT JOIN (
+        SELECT class_id, COUNT(DISTINCT user_id) AS user_count
+        FROM user_payment_history
+        GROUP BY class_id
+        ) up ON c.class_id = up.class_id
+        WHERE c.class_id = #{id};
+
     </select>
 
     <select id="getClassTitleById" resultType="String">

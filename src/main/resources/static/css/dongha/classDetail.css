@@ -142,7 +142,7 @@
     object-fit: contain;
     margin-left: 240px;
     border-radius: 10px;
-    background-color: white;
+    background-color: #ededed;
     border: 1px #150404 solid;
     overflow: hidden;
 }
@@ -297,13 +297,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
 }
 
 .intro-double {
     display: flex;
     gap: 20px;
-    margin-bottom: 20px;
 }
 
 .intro-element {
@@ -312,6 +310,10 @@
     align-items: center;
     justify-content: center;
 }
+.intro-block{
+    margin-bottom: 40px;
+}
+
 
 
 #detail-container-box4 {
