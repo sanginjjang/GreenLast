@@ -130,7 +130,7 @@ function loadComments(postId, currentUserId) {
                 commentHTML += `
                     <div class="community-comment">
                         <div class="community-comment-header">
-                            <span class="community-comment-writer">${comment.username}</span>
+                            <span class="community-comment-writer">${comment.userName}</span>
                             <span class="community-comment-createdAt">${comment.createdAt}</span>
                         </div>
                         <div class="community-comment-content" id="comment-content-${comment.commentId}">

@@ -16,7 +16,6 @@
         WHEN cs.class_permit = 'N' THEN '승인 안됨'
         WHEN c.class_permit = 'N' THEN '승인 안됨'
         WHEN c.class_permit = 'Y' THEN '승인 완료'
-        WHEN c.class_permit = 'W' THEN '반려'
         END AS 'classPermit'
         FROM class c
         LEFT JOIN file f ON f.file_no = c.file_no

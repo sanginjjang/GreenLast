@@ -19,18 +19,16 @@ public class SectionDTO {
     @AllArgsConstructor
     public static class Lesson {
         private Long lessonId;     // 수업 ID
-        private String title;// 수업 제목
+        private String title;      // 수업 제목
         private Video video;       // 비디오 정보
 
         @Data
         @NoArgsConstructor
         @AllArgsConstructor
         public static class Video {
-            private int fileNo;
-            private String fileName;
-            private String fileUrl;
-            private String fileSize;
-            private boolean hasVideo;
+            private String fileName;    // 파일 이름
+            private String fileSize;    // 파일 크기
+            private boolean hasVideo;   // 비디오 존재 여부
         }
     }
 }
