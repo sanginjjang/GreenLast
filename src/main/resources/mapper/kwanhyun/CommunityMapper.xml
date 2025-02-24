@@ -12,7 +12,9 @@
     </insert>
 
     <select id="getCommunityPost" resultType="com.example.greenlast.dto.CommunityPostDTO">
-        SELECT * FROM community_post
+        SELECT cp.post_id, cp.class_id, u.name as userName, cp.title, cp.content, DATE(cp.created_at) as createdAt, cp.category, cp.views
+        FROM community_post cp JOIN user u
+        ON cp.user_id = u.user_id
         WHERE post_id = #{postId}
     </select>
 
