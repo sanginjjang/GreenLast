@@ -102,6 +102,13 @@ public class CommunityController {
         model.addAttribute("commentList", commentList);
         model.addAttribute("postImageList", postImageList);
 
+        System.out.println("로그인한 아이디" + currentUserId);
+        System.out.println("로그인한 아이디" + currentUserId);
+        System.out.println("로그인한 아이디" + currentUserId);
+        System.out.println("작성자 아이디" + post.getUserId());
+        System.out.println("작성자 아이디" + post.getUserId());
+        System.out.println("작성자 아이디" + post.getUserId());
+
         return "kwanhyun/CommunityDetail";
     }
 

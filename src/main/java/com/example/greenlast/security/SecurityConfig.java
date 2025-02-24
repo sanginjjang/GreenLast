@@ -60,7 +60,9 @@ public class SecurityConfig {
                                 "/fonts/**",
                                 "/images/**",
                                 "/js/**",
-                                "/api/file/upload"
+                                "/api/file/upload",
+                                "/kwanhyun/community/CommunityMain",
+                                "/kwanhyun/community/CommunityDetail"
                                 //"/**" //나중에 이거 주석 처리 하시오
                         ).permitAll()
 
